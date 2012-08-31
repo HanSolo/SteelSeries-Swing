@@ -9,7 +9,7 @@
 
   <groupId>eu.hansolo</groupId>
   <artifactId>SteelSeries</artifactId>
-  <version>3.9.27</version>
+  <version>3.9.28-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>SteelSeries</name>
@@ -60,7 +60,7 @@ sailboats.
     <connection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</connection>
     <developerConnection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</developerConnection>
     <url>https://github.com/HanSolo/SteelSeries-Swing</url>
-    <tag>SteelSeries-3.9.27</tag>
+    <tag>HEAD</tag>
   </scm>
   <build>
     <plugins>
