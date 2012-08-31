@@ -6,19 +6,19 @@
     <artifactId>oss-parent</artifactId>
     <version>6</version>
   </parent>
- 
+
   <groupId>eu.hansolo</groupId>
   <artifactId>SteelSeries</artifactId>
-  <version>3.9.27</version>
+  <version>3.9.27-SNAPSHOT</version>
   <packaging>jar</packaging>
- 
+
   <name>SteelSeries</name>
   <url>http://www.harmonic-code.org</url>
- 
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
- 
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -57,9 +57,9 @@ sailboats.
   </licenses>
   <scm>
     <!-- settings for trunk - should match when checking out from trunk! -->
-    <developerConnection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</developerConnection>
     <connection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</connection>
-    <url>https://github.com/HanSolo/SteelSeries-Swing.git</url>
+    <developerConnection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</developerConnection>
+    <url>https://github.com/HanSolo/SteelSeries-Swing</url>
   </scm>
   <build>
     <plugins>
@@ -75,7 +75,7 @@ sailboats.
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3.2</version>
         <configuration>
           <!-- gpg may hang when requesting passphrase otherwise -->
           <mavenExecutorId>forked-path</mavenExecutorId>
@@ -151,7 +151,7 @@ sailboats.
       </plugin>
     </plugins>
   </build>
- 
+
   <profiles>
   <profile>
     <id>release-sign-artifacts</id>
