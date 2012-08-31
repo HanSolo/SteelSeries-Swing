@@ -1,0 +1,88 @@
+Manifest-Version: 1.0
+
+Name: eu/hansolo/steelseries/gauges/Radial.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/RadialBargraph.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/Linear.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/LinearBargraph.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/Radial1Vertical.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/Radial2Top.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/DigitalRadial.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/DisplayCircular.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/DisplayRectangular.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/DisplaySingle.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/DisplayMulti.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/Radial1Square.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/RadialCounter.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/gauges/SparkLine.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/AirCompass.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Altimeter.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Clock.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Compass.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Horizon.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Indicator.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Led.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Level.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Radar.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/WindDirection.class 
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/Battery.class
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/StopWatch.class
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/LightBulb.class
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/TrafficLight.class
+Java-Bean: True
+
+Name: eu/hansolo/steelseries/extras/TrafficLight2.class
+Java-Bean: True

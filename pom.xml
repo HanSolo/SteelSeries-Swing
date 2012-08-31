@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- inherit some settings -->
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>6</version>
+  </parent>
+
+  <groupId>eu.hansolo</groupId>
+  <artifactId>SteelSeries</artifactId>
+  <version>3.9.27-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>SteelSeries</name>
+  <url>http://www.harmonic-code.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.insubstantial</groupId>
+      <artifactId>trident</artifactId>
+      <version>6.3</version>
+    </dependency>
+  </dependencies>
+  <description>The SteelSeries is a javabeans component library that contains gauges.
+You will find linear and radial gauges. In addition you will also find
+digital displays, indicators from cars and some instruments from airplanes and
+sailboats.
+  </description>
+  <developers>
+      <developer>
+         <name>Gerrit Grunwald</name>
+         <email>han [DOT] solo [AT] muenster [DOT] de</email>
+         <timezone>GMT +0100</timezone>
+         <url>http://www.harmonic-code.org</url>
+         <roles>
+            <role>project leader</role>
+         </roles>
+      </developer>
+   </developers>
+  <licenses>
+    <license>
+      <name>New BSD license</name>
+      <url>http://www.opensource.org/licenses/bsd-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <!-- settings for trunk - should match when checking out from trunk! -->
+    <developerConnection>scm:git@github.com:HanSolo/SteelSeries-Swing.git</developerConnection>
+    <connection>scm:git@github.com:HanSolo/SteelSeries-Swing.git</connection>
+    <url>https://github.com/HanSolo/SteelSeries-Swing.git</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <debug>false</debug>
+                </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <!-- gpg may hang when requesting passphrase otherwise -->
+          <mavenExecutorId>forked-path</mavenExecutorId>
+          <connectionType>connection</connectionType>
+          <!--
+            During release:perform, enable the "release" profile
+           -->
+          <releaseProfiles>release</releaseProfiles>
+          <preparationGoals>clean install</preparationGoals>
+          <!-- normally you really want that and avoid uploading all the shit again! -->
+          <remoteTagging>false</remoteTagging>
+        </configuration>
+      </plugin>
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
+		  <executions>
+		    <execution>
+			  <id>attach-sources</id>
+			    <goals>
+				  <goal>jar</goal>
+				</goals>
+			</execution>
+		  </executions>
+	  </plugin>
+	  <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	  	<artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+	  	  <executions>
+		    <execution>
+	  		  <id>attach-javadocs</id>
+			    <goals>
+				  <goal>jar</goal>
+				</goals>
+			</execution>
+		  </executions>
+		</plugin>
+      <!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.0-beta-4</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>false</doCheck>
+          <doUpdate>true</doUpdate>
+        </configuration>
+      </plugin>
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <archive>
+            <compress>true</compress>
+              <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+              <index>true</index>
+              <manifestEntries>
+                <SCM-Revision>${buildNumber}</SCM-Revision>
+              </manifestEntries>
+            </archive>
+          </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+  <profile>
+    <id>release-sign-artifacts</id>
+    <activation>
+      <property>
+        <name>performRelease</name>
+        <value>true</value>
+      </property>
+    </activation>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.1</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
+</profiles>
+</project>
