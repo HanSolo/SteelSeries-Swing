@@ -57,8 +57,8 @@ sailboats.
   </licenses>
   <scm>
     <!-- settings for trunk - should match when checking out from trunk! -->
-    <developerConnection>scm:git@github.com:HanSolo/SteelSeries-Swing.git</developerConnection>
-    <connection>scm:git@github.com:HanSolo/SteelSeries-Swing.git</connection>
+    <developerConnection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</developerConnection>
+    <connection>scm:git:git@github.com:HanSolo/SteelSeries-Swing.git</connection>
     <url>https://github.com/HanSolo/SteelSeries-Swing.git</url>
   </scm>
   <build>
