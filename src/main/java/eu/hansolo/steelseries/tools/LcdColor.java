@@ -188,12 +188,12 @@ public enum LcdColor {
         new Color(0xb2b2b2),
         new Color(0x000000)),
     CUSTOM(
-    null,
-    null,
-    null,
-    null,
-    null,
-    null);
+    new Color(0xb2b2b2),
+        new Color(0xffffff),
+        new Color(0xc4c4c4),
+        new Color(0xc4c4c4),
+        new Color(0xb2b2b2),
+        new Color(0x000000));
     public final Color GRADIENT_START_COLOR;
     public final Color GRADIENT_FRACTION1_COLOR;
     public final Color GRADIENT_FRACTION2_COLOR;
