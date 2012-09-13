@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 
 /**
@@ -38,40 +39,40 @@ import javax.swing.border.Border;
  */
 public class Led extends JComponent implements ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Variable declaration">
-    private static final Util UTIL = Util.INSTANCE;
-    private final java.awt.Rectangle INNER_BOUNDS;
-    private LedColor ledColor;
-    private CustomLedColor customLedColor;
-    private BufferedImage ledImageOff;
-    private BufferedImage ledImageOn;
-    private BufferedImage currentLedImage;
-    private final javax.swing.Timer LED_BLINKING_TIMER;
-    private boolean ledBlinking;
-    private boolean ledOn;
-    private LedType ledType;
-    private boolean initialized;
-    private final transient ComponentListener COMPONENT_LISTENER;
-    private static final Map<String, BufferedImage> CACHE = new HashMap<String, BufferedImage>();
+    private static final    Util                       UTIL  = Util.INSTANCE;
+    private static final    Map<String, BufferedImage> CACHE = new HashMap<String, BufferedImage>();
+    private final           Rectangle                  INNER_BOUNDS;
+    private final           Timer                      LED_BLINKING_TIMER;
+    private final transient ComponentListener          COMPONENT_LISTENER;
+    private                 LedColor                   ledColor;
+    private                 CustomLedColor             customLedColor;
+    private                 BufferedImage              ledImageOff;
+    private                 BufferedImage              ledImageOn;
+    private                 BufferedImage              currentLedImage;
+    private                 boolean                    ledBlinking;
+    private                 boolean                    ledOn;
+    private                 LedType                    ledType;
+    private                 boolean                    initialized;
     // Alignment related
-    private int horizontalAlignment;
-    private int verticalAlignment;
+    private                 int horizontalAlignment;
+    private                 int verticalAlignment;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Led() {
         super();
-        INNER_BOUNDS = new Rectangle(16, 16);
-        ledColor = LedColor.RED_LED;
-        customLedColor = new CustomLedColor(Color.RED);
-        ledImageOff = create_LED_Image(16, 0, ledColor, LedType.ROUND);
-        ledImageOn = create_LED_Image(16, 1, ledColor, LedType.ROUND);
-        currentLedImage = ledImageOff;
-        LED_BLINKING_TIMER = new javax.swing.Timer(500, this);
-        ledBlinking = false;
-        ledOn = false;
-        ledType = LedType.ROUND;
-        initialized = false;
-        COMPONENT_LISTENER = new ComponentAdapter() {
+        INNER_BOUNDS        = new Rectangle(16, 16);
+        ledColor            = LedColor.RED_LED;
+        customLedColor      = new CustomLedColor(Color.RED);
+        ledImageOff         = create_LED_Image(16, 0, ledColor, LedType.ROUND);
+        ledImageOn          = create_LED_Image(16, 1, ledColor, LedType.ROUND);
+        currentLedImage     = ledImageOff;
+        LED_BLINKING_TIMER  = new javax.swing.Timer(500, this);
+        ledBlinking         = false;
+        ledOn               = false;
+        ledType             = LedType.ROUND;
+        initialized         = false;
+        COMPONENT_LISTENER  = new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent event) {
                 final int SIZE = getWidth() <= getHeight() ? getWidth() : getHeight();
@@ -99,7 +100,7 @@ public class Led extends JComponent implements ActionListener {
             }
         };
         horizontalAlignment = SwingConstants.CENTER;
-		verticalAlignment = SwingConstants.CENTER;
+		verticalAlignment   = SwingConstants.CENTER;
         init(INNER_BOUNDS.width);
         addComponentListener(COMPONENT_LISTENER);
     }
@@ -158,7 +159,7 @@ public class Led extends JComponent implements ActionListener {
      * @return the type of LED. Possible values are ROUND, RECT_VERTICAL and RECT_HORIZONTAL
      */
     public LedType getLedType() {
-        return this.ledType;
+        return ledType;
     }
 
     /**
@@ -166,9 +167,11 @@ public class Led extends JComponent implements ActionListener {
      * @param LED_TYPE Possible values are ROUND, RECT_VERTICAL and RECT_HORIZONTAL
      */
     public void setLedType(final LedType LED_TYPE) {
-        this.ledType = LED_TYPE;
-        final boolean LED_WAS_ON = currentLedImage.equals(ledImageOn) ? true : false;
+        if (ledType == LED_TYPE) {return;}
 
+        ledType = LED_TYPE;
+        final boolean LED_WAS_ON = currentLedImage.equals(ledImageOn) ? true : false;
+        flushImages();
         ledImageOff = create_LED_Image(getWidth(), 0, ledColor, ledType);
         ledImageOn = create_LED_Image(getWidth(), 1, ledColor, ledType);
 
@@ -184,7 +187,7 @@ public class Led extends JComponent implements ActionListener {
      * @return the selected the color for the led
      */
     public LedColor getLedColor() {
-        return this.ledColor;
+        return ledColor;
     }
 
     /**
@@ -194,15 +197,17 @@ public class Led extends JComponent implements ActionListener {
      * @param LED_COLOR
      */
     public void setLedColor(final LedColor LED_COLOR) {
+        if (ledColor == LED_COLOR) {return;}
+
         if (LED_COLOR == null) {
-            this.ledColor = LedColor.RED_LED;
+            ledColor = LedColor.RED_LED;
         } else {
-            this.ledColor = LED_COLOR;
+            ledColor = LED_COLOR;
         }
         final boolean LED_WAS_ON = currentLedImage.equals(ledImageOn) ? true : false;
-
+        flushImages();
         ledImageOff = create_LED_Image(getWidth(), 0, LED_COLOR, ledType);
-        ledImageOn = create_LED_Image(getWidth(), 1, LED_COLOR, ledType);
+        ledImageOn  = create_LED_Image(getWidth(), 1, LED_COLOR, ledType);
 
         currentLedImage = LED_WAS_ON == true ? ledImageOn : ledImageOff;
 
@@ -214,7 +219,7 @@ public class Led extends JComponent implements ActionListener {
      * @return the color that will be used to calculate the custom led color
      */
     public Color getCustomLedColor() {
-        return this.customLedColor.COLOR;
+        return customLedColor.COLOR;
     }
 
     /**
@@ -222,11 +227,14 @@ public class Led extends JComponent implements ActionListener {
      * @param COLOR
      */
     public void setCustomLedColor(final Color COLOR) {
-        this.customLedColor = new CustomLedColor(COLOR);
+        if (customLedColor.COLOR.equals(COLOR)) {return;}
+
+        customLedColor = new CustomLedColor(COLOR);
         final boolean LED_WAS_ON = currentLedImage.equals(ledImageOn) ? true : false;
+        flushImages();
 
         ledImageOff = create_LED_Image(getWidth(), 0, ledColor, ledType);
-        ledImageOn = create_LED_Image(getWidth(), 1, ledColor, ledType);
+        ledImageOn  = create_LED_Image(getWidth(), 1, ledColor, ledType);
 
         currentLedImage = LED_WAS_ON == true ? ledImageOn : ledImageOff;
 
@@ -238,7 +246,7 @@ public class Led extends JComponent implements ActionListener {
      * @return the object that represents the custom led color
      */
     public CustomLedColor getCustomLedColorObject() {
-        return this.customLedColor;
+        return customLedColor;
     }
 
     /**
@@ -246,7 +254,7 @@ public class Led extends JComponent implements ActionListener {
      * @return true if the led is on
      */
     public boolean isLedOn() {
-        return this.ledOn;
+        return ledOn;
     }
 
     /**
@@ -254,7 +262,8 @@ public class Led extends JComponent implements ActionListener {
      * @param LED_ON
      */
     public void setLedOn(final boolean LED_ON) {
-        this.ledOn = LED_ON;
+        if (ledOn == LED_ON) {return;}
+        ledOn = LED_ON;
         init(getWidth());
         repaint();
     }
@@ -267,7 +276,7 @@ public class Led extends JComponent implements ActionListener {
      * @return true if the led is blinking
      */
     public boolean isLedBlinking() {
-        return this.ledBlinking;
+        return ledBlinking;
     }
 
     /**
@@ -278,7 +287,8 @@ public class Led extends JComponent implements ActionListener {
      * @param LED_BLINKING
      */
     public void setLedBlinking(final boolean LED_BLINKING) {
-        this.ledBlinking = LED_BLINKING;
+        if (ledBlinking == LED_BLINKING) {return;}
+        ledBlinking = LED_BLINKING;
         if (LED_BLINKING) {
             LED_BLINKING_TIMER.start();
         } else {
@@ -304,6 +314,11 @@ public class Led extends JComponent implements ActionListener {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Image related">
+    private void flushImages() {
+        ledImageOff.flush();
+        ledImageOn.flush();
+    }
+
     /**
      * Returns the image of the switched on threshold led
      * with the currently active ledcolor.
@@ -311,7 +326,7 @@ public class Led extends JComponent implements ActionListener {
      * and the selected led color
      */
     private BufferedImage getLedImageOn() {
-        return this.ledImageOn;
+        return ledImageOn;
     }
 
     /**
@@ -321,7 +336,7 @@ public class Led extends JComponent implements ActionListener {
      * and the selected led color
      */
     private BufferedImage getLedImageOff() {
-        return this.ledImageOff;
+        return ledImageOff;
     }
 
     /**
@@ -329,7 +344,7 @@ public class Led extends JComponent implements ActionListener {
      * @return the led image at the moment (depends on blinking)
      */
     private BufferedImage getCurrentLedImage() {
-        return this.currentLedImage;
+        return currentLedImage;
     }
 
     /**
@@ -337,7 +352,7 @@ public class Led extends JComponent implements ActionListener {
      * @param CURRENT_LED_IMAGE
      */
     private void setCurrentLedImage(final BufferedImage CURRENT_LED_IMAGE) {
-        this.currentLedImage = CURRENT_LED_IMAGE;
+        currentLedImage = CURRENT_LED_IMAGE;
         repaint(INNER_BOUNDS);
     }
 
@@ -348,9 +363,9 @@ public class Led extends JComponent implements ActionListener {
      * @param LED_COLOR
      * @return a buffered image that represents a led with the given size, state and color
      */
-    public BufferedImage create_LED_Image(final int SIZE, final int STATE,
-                                                          final LedColor LED_COLOR,
-                                                          final LedType LED_TYPE) {
+    public final BufferedImage create_LED_Image(final int SIZE, final int STATE,
+                                                final LedColor LED_COLOR,
+                                                final LedType LED_TYPE) {
         if (SIZE <= 0) {
             return UTIL.createImage(1, 1, Transparency.TRANSLUCENT);
         }
@@ -855,8 +870,7 @@ public class Led extends JComponent implements ActionListener {
     }
     // </editor-fold>
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "LED";
     }
 }
