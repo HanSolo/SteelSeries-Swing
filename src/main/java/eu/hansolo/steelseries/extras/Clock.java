@@ -6,6 +6,7 @@ import eu.hansolo.steelseries.tools.ColorDef;
 import eu.hansolo.steelseries.tools.PointerType;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,6 +15,7 @@ import java.awt.LinearGradientPaint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -1043,12 +1045,10 @@ public final class Clock extends AbstractRadial implements java.awt.event.Action
     @Override
     public void setPreferredSize(final Dimension DIM) {
         final int SIZE = DIM.width <= DIM.height ? DIM.width : DIM.height;
-        super.setPreferredSize(new Dimension(SIZE, SIZE));
+        super.setSize(new Dimension(SIZE, SIZE));
         calcInnerBounds();
         init(getGaugeBounds().width, getGaugeBounds().height);
         setInitialized(true);
-        invalidate();
-        repaint();
     }
 
     @Override
@@ -1237,19 +1237,43 @@ public final class Clock extends AbstractRadial implements java.awt.event.Action
 
     // <editor-fold defaultstate="collapsed" desc="ComponentListener">
     @Override
-    public void componentResized(java.awt.event.ComponentEvent event) {
-        final int SIZE = getWidth() < getHeight() ? getWidth() : getHeight();
-        setPreferredSize(new java.awt.Dimension(SIZE, SIZE));
-
-        if (SIZE < getMinimumSize().width || SIZE < getMinimumSize().height) {
-            setPreferredSize(getMinimumSize());
+    public void componentResized(ComponentEvent event) {
+        final int SIZE = getWidth() <= getHeight() ? getWidth() : getHeight();
+        final Container PARENT = getParent();
+        if ((PARENT != null) && (PARENT.getLayout() == null)) {
+            if (SIZE < getMinimumSize().width || SIZE < getMinimumSize().height) {
+                setSize(getMinimumSize());
+            } else {
+                setSize(SIZE, SIZE);
+            }
+        } else {
+            if (SIZE < getMinimumSize().width || SIZE < getMinimumSize().height) {
+                setSize(getMinimumSize());
+                setPreferredSize(getMinimumSize());
+            } else {
+                setSize(new Dimension(SIZE, SIZE));
+                setPreferredSize(new Dimension(SIZE, SIZE));
+            }
         }
+
         calcInnerBounds();
 
-        init(getInnerBounds().width, getInnerBounds().height);
+        recreateLedImages();
+        if (isLedOn()) {
+            setCurrentLedImage(getLedImageOn());
+        } else {
+            setCurrentLedImage(getLedImageOff());
+        }
 
-        //revalidate();
-        //repaint();
+        recreateUserLedImages();
+        if (isUserLedOn()) {
+            setCurrentUserLedImage(getUserLedImageOn());
+        } else {
+            setCurrentUserLedImage(getUserLedImageOff());
+        }
+
+        getModel().setSize(getLocation().x, getLocation().y, SIZE, SIZE);
+        init(getInnerBounds().width, getInnerBounds().height);
     }
     // </editor-fold>
 
