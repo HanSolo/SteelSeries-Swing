@@ -527,7 +527,44 @@ public enum PointerImageFactory {
                 G2.fill(POINTER);
 
                 break;
-
+            case TYPE15:
+                POINTER = new GeneralPath();
+                POINTER.setWindingRule(Path2D.WIND_EVEN_ODD);
+                POINTER.moveTo(0.48 * IMAGE_WIDTH, 0.505 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.48 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.46 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.495 * IMAGE_WIDTH, 0.15 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.53 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.515 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.515 * IMAGE_WIDTH, 0.505 * IMAGE_HEIGHT);
+                POINTER.closePath();
+                POINTER_START = new Point2D.Double(0.46 * IMAGE_WIDTH, 0.26 * IMAGE_HEIGHT);
+                POINTER_STOP  = new Point2D.Double(0.53 * IMAGE_WIDTH, 0.26 * IMAGE_HEIGHT);
+                POINTER_FRACTIONS = new float[]{
+                    0.0f,
+                    0.5f,
+                    1.0f
+                };
+                if (POINTER_COLOR != ColorDef.CUSTOM) {
+                    POINTER_COLORS = new Color[]{
+                        POINTER_COLOR.VERY_DARK,
+                        POINTER_COLOR.MEDIUM,
+                        POINTER_COLOR.VERY_DARK
+                    };
+                } else {
+                    POINTER_COLORS = new Color[]{
+                        CUSTOM_POINTER_COLOR.VERY_DARK,
+                        CUSTOM_POINTER_COLOR.MEDIUM,
+                        CUSTOM_POINTER_COLOR.VERY_DARK
+                    };
+                }
+                POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
+                G2.setPaint(POINTER_GRADIENT);
+                G2.fill(POINTER);
+                //G2.setColor(POINTER_COLOR.LIGHT);
+                //G2.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+                //G2.draw(POINTER);
+                break;
             case TYPE1:
 
             default:
@@ -831,7 +868,19 @@ public enum PointerImageFactory {
                 G2.setColor(SHADOW_COLOR);
                 G2.fill(POINTER);
                 break;
-
+            case TYPE15:
+                POINTER = new GeneralPath();
+                POINTER.setWindingRule(Path2D.WIND_EVEN_ODD);
+                POINTER.moveTo(0.48 * IMAGE_WIDTH, 0.505 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.48 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.46 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.495 * IMAGE_WIDTH, 0.15 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.53 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.515 * IMAGE_WIDTH, 0.275 * IMAGE_HEIGHT);
+                POINTER.lineTo(0.515 * IMAGE_WIDTH, 0.505 * IMAGE_HEIGHT);
+                POINTER.closePath();
+                G2.setColor(SHADOW_COLOR);
+                G2.fill(POINTER);
             default:
 
                 break;

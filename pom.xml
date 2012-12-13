@@ -40,7 +40,7 @@ sailboats.
   <developers>
       <developer>
          <name>Gerrit Grunwald</name>
-         <email>han [DOT] solo [AT] muenster [DOT] de</email>
+         <email>han [DOT] solo [DOT] gg [AT] gmail [DOT] com</email>
          <timezone>GMT +0100</timezone>
          <url>http://www.harmonic-code.org</url>
          <roles>
@@ -50,8 +50,8 @@ sailboats.
    </developers>
   <licenses>
     <license>
-      <name>New BSD license</name>
-      <url>http://www.opensource.org/licenses/bsd-license.php</url>
+      <name>BSD license</name>
+      <url>LICENSE.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>

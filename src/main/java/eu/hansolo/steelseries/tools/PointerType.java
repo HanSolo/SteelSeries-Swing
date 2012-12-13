@@ -19,5 +19,6 @@ public enum PointerType {
     TYPE11,
     TYPE12,
     TYPE13,
-    TYPE14
+    TYPE14,
+    TYPE15
 }
