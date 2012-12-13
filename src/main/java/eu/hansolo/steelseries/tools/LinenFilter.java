@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.tools;
 
 import java.awt.RenderingHints;
@@ -17,12 +44,12 @@ public class LinenFilter implements BufferedImageOp {
     private float amount = 0.6f;
     private float shine = 0.3f;
     private Orientation orientation = Orientation.HORIZONTAL;
-    private int color = 0xff686868;    
+    private int color = 0xff686868;
     private java.util.Random randomNumbers;
 
     public LinenFilter() {
     }
- 
+
     @Override
     public BufferedImage filter(final BufferedImage SOURCE, BufferedImage destination) {
         final int WIDTH = SOURCE.getWidth();
@@ -36,7 +63,7 @@ public class LinenFilter implements BufferedImageOp {
         final int[] OUT_PIXELS_HOR = new int[WIDTH];
 
         randomNumbers = new java.util.Random(0);
-        final int ALPHA = color & 0xFF000000;        
+        final int ALPHA = color & 0xFF000000;
         final int RED = (color >> 16) & 0xff;
         final int GREEN = (color >> 8) & 0xff;
         final int BLUE = color & 0xff;
@@ -57,7 +84,7 @@ public class LinenFilter implements BufferedImageOp {
                             tb += f;
                         }
                         int n = (int) (255 * (2 * randomNumbers.nextFloat() - 1) * amount);
-                        IN_PIXELS_VER[y] = ALPHA | (clamp(tr + n) << 16) | (clamp(tg + n) << 8) | clamp(tb + n);                
+                        IN_PIXELS_VER[y] = ALPHA | (clamp(tr + n) << 16) | (clamp(tg + n) << 8) | clamp(tb + n);
                     }
 
                     if (radius != 0) {
@@ -68,9 +95,9 @@ public class LinenFilter implements BufferedImageOp {
                     }
                 }
                 break;
-                
+
             case HORIZONTAL:
-                
+
             default:
                 for (int y = 0; y < HEIGHT; y++) {
                     for (int x = 0; x < WIDTH; x++) {
@@ -84,7 +111,7 @@ public class LinenFilter implements BufferedImageOp {
                             tb += f;
                         }
                         int n = (int) (255 * (2 * randomNumbers.nextFloat() - 1) * amount);
-                        IN_PIXELS_HOR[x] = ALPHA | (clamp(tr + n) << 16) | (clamp(tg + n) << 8) | clamp(tb + n);                
+                        IN_PIXELS_HOR[x] = ALPHA | (clamp(tr + n) << 16) | (clamp(tg + n) << 8) | clamp(tb + n);
                     }
 
                     if (radius != 0) {
@@ -92,17 +119,17 @@ public class LinenFilter implements BufferedImageOp {
                         setRGB(destination, 0, y, WIDTH, 1, OUT_PIXELS_HOR);
                     } else {
                         setRGB(destination, 0, y, WIDTH, 1, IN_PIXELS_HOR);
-                    }            
+                    }
                 }
                 break;
-                
-        }                                        
-                
+
+        }
+
         return destination;
     }
 
     private int random(int x) {
-        x += (int) (255 * (2 * randomNumbers.nextFloat() - 1) * amount);                
+        x += (int) (255 * (2 * randomNumbers.nextFloat() - 1) * amount);
         if (x < 0) {
             x = 0;
         } else if (x > 0xff) {
@@ -112,7 +139,7 @@ public class LinenFilter implements BufferedImageOp {
     }
 
     private static int clamp(final int C) {
-        
+
         int ret = C < 0 ? 0 : (C > 255 ? 255 : C);
         return ret;
         /*
@@ -124,7 +151,7 @@ public class LinenFilter implements BufferedImageOp {
             ret = 255;
         }
         return ret;
-        */         
+        */
     }
 
     /**
@@ -140,7 +167,7 @@ public class LinenFilter implements BufferedImageOp {
         if (a < 0) {
             return a + B;
         }
-        return a;                
+        return a;
     }
 
     public void blurHorizontal(final int[] IN, final int[] OUT, final int WIDTH, final int RADIUS) {
@@ -206,7 +233,7 @@ public class LinenFilter implements BufferedImageOp {
             tb += (rgb1 & 0xff) - (rgb2 & 0xff);
         }
     }
-    
+
     public void setRadius(final int RADIUS) {
         this.radius = RADIUS;
     }
@@ -222,7 +249,7 @@ public class LinenFilter implements BufferedImageOp {
     public float getAmount() {
         return amount;
     }
-        
+
     public void setColor(final int COLOR) {
         this.color = COLOR;
     }
@@ -230,7 +257,7 @@ public class LinenFilter implements BufferedImageOp {
     public int getColor() {
         return color;
     }
-        
+
     public void setShine(final float SHINE) {
         this.shine = SHINE;
     }
@@ -238,15 +265,15 @@ public class LinenFilter implements BufferedImageOp {
     public float getShine() {
         return shine;
     }
-    
+
     public void setOrientation(final Orientation ORIENTATION) {
         orientation = ORIENTATION;
     }
-    
+
     public Orientation getOrientation() {
         return orientation;
     }
-    
+
     @Override
     public BufferedImage createCompatibleDestImage(final BufferedImage SOURCE, ColorModel dstCM) {
         if (dstCM == null) {
@@ -282,7 +309,7 @@ public class LinenFilter implements BufferedImageOp {
      * @param Y
      * @param WIDTH
      * @param HEIGHT
-     * @param PIXELS  
+     * @param PIXELS
      */
     public void setRGB(final BufferedImage IMAGE, final int X, final int Y, final int WIDTH, final int HEIGHT, final int[] PIXELS) {
         int type = IMAGE.getType();

@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.extras;
 
 import eu.hansolo.steelseries.gauges.AbstractGauge;
@@ -63,26 +90,26 @@ public class Horizon extends AbstractRadial {
         roll = 0;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Initialization">
     @Override
     public final AbstractGauge init(final int WIDTH, final int HEIGHT) {
         final int GAUGE_WIDTH = isFrameVisible() ? WIDTH : getGaugeBounds().width;
         final int GAUGE_HEIGHT = isFrameVisible() ? HEIGHT : getGaugeBounds().height;
-        
+
         if (GAUGE_WIDTH <= 1 || GAUGE_HEIGHT <= 1) {
             return this;
         }
 
         if (!isFrameVisible()) {
-            setFramelessOffset(-getGaugeBounds().width * 0.0841121495, -getGaugeBounds().width * 0.0841121495);            
+            setFramelessOffset(-getGaugeBounds().width * 0.0841121495, -getGaugeBounds().width * 0.0841121495);
         } else {
             setFramelessOffset(getGaugeBounds().x, getGaugeBounds().y);
         }
-        
-        // Calculate clip area        
+
+        // Calculate clip area
         CLIP.setFrame(GAUGE_WIDTH * 0.08411215245723724, GAUGE_WIDTH * 0.08411215245723724, GAUGE_WIDTH * 0.8317756652832031, GAUGE_WIDTH * 0.8317756652832031);
-        
+
         pitchPixel = (int) (Math.PI * GAUGE_WIDTH) / 360.0;
 
         // Create Background Image
@@ -145,7 +172,7 @@ public class Horizon extends AbstractRadial {
         return this;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Visualization">
     @Override
     protected void paintComponent(java.awt.Graphics g) {
@@ -174,10 +201,10 @@ public class Horizon extends AbstractRadial {
         // Rotate around roll
         G2.rotate(-Math.toRadians(roll), CENTER.getX(), CENTER.getY());
 
-        // Translate about dive             
+        // Translate about dive
         G2.translate(0, -(pitch * pitchPixel) - getFramelessOffset().getY());
 
-        // Draw horizon          
+        // Draw horizon
         G2.drawImage(horizonImage, 0, (int) ((getHeight() - horizonImage.getHeight()) / 2.0), null);
 
         // Draw the scale and angle indicator
@@ -200,7 +227,7 @@ public class Horizon extends AbstractRadial {
         G2.dispose();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Returns the value of the roll axis (0 - 360¬∞)
@@ -212,7 +239,7 @@ public class Horizon extends AbstractRadial {
 
     /**
      * Sets the value of the roll axis (0 - 360¬∞)
-     * @param ROLL 
+     * @param ROLL
      */
     public void setRoll(final double ROLL) {
         this.roll = ROLL % 360;
@@ -244,7 +271,7 @@ public class Horizon extends AbstractRadial {
 
     /**
      * Sets the value of the current pitch
-     * @param PITCH 
+     * @param PITCH
      */
     public void setPitch(final double PITCH) {
         this.pitch = PITCH % 180;
@@ -292,7 +319,7 @@ public class Horizon extends AbstractRadial {
 
     /**
      * Enables / disables the usage of custom colors for visualization
-     * @param CUSTOM_COLORS 
+     * @param CUSTOM_COLORS
      */
     public void setCustomColors(final boolean CUSTOM_COLORS) {
         customColors = CUSTOM_COLORS;
@@ -312,7 +339,7 @@ public class Horizon extends AbstractRadial {
 
     /**
      * Sets the custom color that will be used for visualization of the sky
-     * @param CUSTOM_SKY_COLOR 
+     * @param CUSTOM_SKY_COLOR
      */
     public void setCustomSkyColor(final Color CUSTOM_SKY_COLOR) {
         customSkyColor = CUSTOM_SKY_COLOR;
@@ -330,7 +357,7 @@ public class Horizon extends AbstractRadial {
 
     /**
      * Sets the custom color that will be used for visualization of the ground
-     * @param CUSTOM_GROUND_COLOR 
+     * @param CUSTOM_GROUND_COLOR
      */
     public void setCustomGroundColor(final Color CUSTOM_GROUND_COLOR) {
         customGroundColor = CUSTOM_GROUND_COLOR;
@@ -352,13 +379,13 @@ public class Horizon extends AbstractRadial {
     public Rectangle2D getBounds2D() {
         return new Rectangle2D.Double(bImage.getMinX(), bImage.getMinY(), bImage.getWidth(), bImage.getHeight());
     }
-    
+
     @Override
     public Rectangle getLcdBounds() {
         return new Rectangle();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Image related">
     private BufferedImage create_HORIZON_Image(final int WIDTH) {
         if (WIDTH <= 0) {
@@ -405,7 +432,7 @@ public class Horizon extends AbstractRadial {
         G2.setPaint(HORIZON_GRADIENT);
         G2.fill(HORIZON);
 
-        // Draw horizontal lines                
+        // Draw horizontal lines
         G2.setColor(UTIL.setBrightness(HORIZON_COLORS[0], 0.5f));
         final Line2D LINE = new Line2D.Double();
         final double STEPSIZE_Y = HORIZON_HEIGHT / 360.0 * 5.0;
@@ -554,7 +581,7 @@ public class Horizon extends AbstractRadial {
         final int IMAGE_WIDTH = IMAGE.getWidth();
         final int IMAGE_HEIGHT = IMAGE.getHeight();
 
-        // Draw angle indicator        
+        // Draw angle indicator
         final GeneralPath TRIANGLE = new GeneralPath();
         TRIANGLE.setWindingRule(Path2D.WIND_EVEN_ODD);
         TRIANGLE.moveTo(IMAGE_WIDTH * 0.5, 0);
@@ -571,7 +598,7 @@ public class Horizon extends AbstractRadial {
         return IMAGE;
     }
     // </editor-fold>
-    
+
     @Override
     public String toString() {
         return "Horizon";

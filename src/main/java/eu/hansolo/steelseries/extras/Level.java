@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.extras;
 
 import eu.hansolo.steelseries.gauges.AbstractGauge;
@@ -62,19 +89,19 @@ public final class Level extends AbstractRadial {
         init(getInnerBounds().width, getInnerBounds().height);
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Initialization">
     @Override
     public AbstractGauge init(final int WIDTH, final int HEIGHT) {
         final int GAUGE_WIDTH = isFrameVisible() ? WIDTH : getGaugeBounds().width;
         final int GAUGE_HEIGHT = isFrameVisible() ? HEIGHT : getGaugeBounds().height;
-        
+
         if (isFrameVisible()) {
             setFramelessOffset(0, 0);
         } else {
             setFramelessOffset(getGaugeBounds().width * 0.0841121495, getGaugeBounds().width * 0.0841121495);
         }
-        
+
         if (GAUGE_WIDTH <= 1 || GAUGE_HEIGHT <= 1) {
             return this;
         }
@@ -145,7 +172,7 @@ public final class Level extends AbstractRadial {
         return this;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Visualization">
     @Override
     protected void paintComponent(java.awt.Graphics g) {
@@ -170,7 +197,7 @@ public final class Level extends AbstractRadial {
         // Draw combined background image
         G2.drawImage(bImage, 0, 0, null);
 
-        // Draw text if textorientation is fixed        
+        // Draw text if textorientation is fixed
         if (textOrientationFixed) {
             G2.translate(getFramelessOffset().getX(), getFramelessOffset().getY());
             G2.setColor(super.getBackgroundColor().LABEL_COLOR);
@@ -228,11 +255,11 @@ public final class Level extends AbstractRadial {
         G2.dispose();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Sets the current level value in degrees (0 - 360¬¨¬®‚Äö√†√ª)
-     * @param VALUE 
+     * @param VALUE
      */
     @Override
     public void setValue(final double VALUE) {
@@ -325,7 +352,7 @@ public final class Level extends AbstractRadial {
 
     /**
      * Enables / disables the rotation of the text in the center of the component
-     * @param TEXT_ORIENTATION_FIXED 
+     * @param TEXT_ORIENTATION_FIXED
      */
     public void setTextOrientationFixed(final boolean TEXT_ORIENTATION_FIXED) {
         this.textOrientationFixed = TEXT_ORIENTATION_FIXED;
@@ -342,7 +369,7 @@ public final class Level extends AbstractRadial {
 
     /**
      * Enables / disables the visibility of the decimals on the degree value
-     * @param DECIMAL_VISIBLE 
+     * @param DECIMAL_VISIBLE
      */
     public void setDecimalVisible(final boolean DECIMAL_VISIBLE) {
         if (DECIMAL_VISIBLE) {
@@ -375,13 +402,13 @@ public final class Level extends AbstractRadial {
     public Rectangle2D getBounds2D() {
         return new java.awt.geom.Rectangle2D.Double(bImage.getMinX(), bImage.getMinY(), bImage.getWidth(), bImage.getHeight());
     }
-    
+
     @Override
     public Rectangle getLcdBounds() {
         return new Rectangle();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Image related">
     private BufferedImage create_TICKMARKS_Image(final int WIDTH, final double FREE_AREA_ANGLE,
                                                                 final double OFFSET, final double MIN_VALUE,
@@ -581,7 +608,7 @@ public final class Level extends AbstractRadial {
         FRAMELEFT.lineTo(IMAGE_WIDTH * 0.16355140186915887, IMAGE_HEIGHT * 0.43457943925233644);
         FRAMELEFT.lineTo(IMAGE_WIDTH * 0.16355140186915887, IMAGE_HEIGHT * 0.5607476635514018);
         FRAMELEFT.lineTo(IMAGE_WIDTH * 0.20093457943925233, IMAGE_HEIGHT * 0.5607476635514018);
-        G2.setColor(super.getBackgroundColor().LABEL_COLOR);        
+        G2.setColor(super.getBackgroundColor().LABEL_COLOR);
         G2.draw(FRAMELEFT);
 
         final GeneralPath TRIANGLELEFT = new GeneralPath();
@@ -688,7 +715,7 @@ public final class Level extends AbstractRadial {
         return IMAGE;
     }
     // </editor-fold>
-    
+
     @Override
     public String toString() {
         return "Level";

@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.tools;
 
 import java.awt.Color;
@@ -67,7 +94,7 @@ public enum ForegroundImageFactory {
      * a new image.
      * @param WIDTH
      * @param WITH_CENTER_KNOB
-     * @param TYPE 
+     * @param TYPE
      * @return a buffered image that contains the foreground image of a radial gauge
      */
     public BufferedImage createRadialForeground(final int WIDTH, final boolean WITH_CENTER_KNOB, final ForegroundType TYPE) {
@@ -82,8 +109,8 @@ public enum ForegroundImageFactory {
      * a new image.
      * @param WIDTH
      * @param WITH_CENTER_KNOB
-     * @param TYPE 
-     * @param FOREGROUND_IMAGE 
+     * @param TYPE
+     * @param FOREGROUND_IMAGE
      * @return a buffered image that contains the foreground image of a radial gauge
      */
     public BufferedImage createRadialForeground(final int WIDTH, final boolean WITH_CENTER_KNOB, final ForegroundType TYPE, final BufferedImage FOREGROUND_IMAGE) {
@@ -351,7 +378,7 @@ public enum ForegroundImageFactory {
      * @param WIDTH
      * @param HEIGHT
      * @param WITH_CENTER_KNOB
-     * @param FOREGROUND_IMAGE 
+     * @param FOREGROUND_IMAGE
      * @return a buffered image that contains the foreground image of a linear gauge
      */
     public BufferedImage createLinearForeground(final int WIDTH, final int HEIGHT, final boolean WITH_CENTER_KNOB, final BufferedImage FOREGROUND_IMAGE) {

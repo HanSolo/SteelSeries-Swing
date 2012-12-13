@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.tools;
 
 import java.awt.Shape;
@@ -13,7 +40,7 @@ import java.util.ArrayList;
 public enum Scaler {
 
     INSTANCE;
-    
+
     /**
      * Returns a double that represents the area of the given point array of a polygon
      * @param POLYGON
@@ -73,7 +100,7 @@ public enum Scaler {
      * @param SHAPE
      * @return an array of all points of the given shape
      */
-    public Point2D[] getPointArrayOfShape(final Shape SHAPE) {       
+    public Point2D[] getPointArrayOfShape(final Shape SHAPE) {
         ArrayList<Point2D> pointList = new ArrayList<Point2D>(32);
         final PathIterator PATH_ITERATOR = SHAPE.getPathIterator(null);
         int lastMoveToIndex = -1;
@@ -107,13 +134,13 @@ public enum Scaler {
         final Point2D[] POINT_ARRAY = new Point2D[pointList.size()];
         return POINT_ARRAY;
     }
-    
+
     /**
      * Returns a Point2D object that represents the center of mass of the given shape.
      * @param SHAPE
      * @return a Point2D object that represents the center of mass of the given shape
      */
-    public Point2D getCentroid(final Shape SHAPE) {        
+    public Point2D getCentroid(final Shape SHAPE) {
         ArrayList<Point2D> pointList = new ArrayList<Point2D>(32);
         final PathIterator PATH_ITERATOR = SHAPE.getPathIterator(null);
         int lastMoveToIndex = -1;
@@ -148,7 +175,7 @@ public enum Scaler {
         pointList.toArray(POINT_ARRAY);
         return (calcCenterOfMass(POINT_ARRAY));
     }
-        
+
     /**
      * Returns a Point2D object that represents the center of mass of the given point array
      * @param POINT_ARRAY
@@ -157,7 +184,7 @@ public enum Scaler {
     public Point2D getCentroid(final Point2D[] POINT_ARRAY) {
         return calcCenterOfMass(POINT_ARRAY);
     }
-    
+
     /**
      * Returns a scaled version of the given convex shape, calculated by the given scale factor.
      * The scaling will be calculated around the centroid of the shape.
@@ -184,5 +211,5 @@ public enum Scaler {
         final AffineTransform TRANSFORM = AffineTransform.getTranslateInstance((1.0 - SCALE_FACTOR) * SCALE_CENTER.getX(), (1.0 - SCALE_FACTOR) * SCALE_CENTER.getY());
         TRANSFORM.scale(SCALE_FACTOR, SCALE_FACTOR);
         return TRANSFORM.createTransformedShape(SHAPE);
-    }    
+    }
 }

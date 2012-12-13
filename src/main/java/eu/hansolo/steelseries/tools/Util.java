@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.tools;
 
 import java.awt.AlphaComposite;
@@ -988,6 +1015,44 @@ public enum Util {
             colorShades.add(new HsbColor.Builder(COLOR).brightness(HSB[2] - i * BRIGHTNESS_STEPSIZE).build().getColor());
         }
         return colorShades;
+    }
+
+    public String valueToScientificText(final String UNIT, final int PRECISION, final double VALUE) {
+        int          precision = PRECISION < 0 ? 0 : PRECISION;
+        String       format    = "%." + precision + "f";
+        String       formatAlt = "%." + precision + "e";
+        double       divisor[] = { 100, 10, 1000, 100, 10 }; // (-2 -- +2)
+        final String PREFIX[]  = { " y", " y", " y", " z", " z", " z", " a",
+                                   " a", " a", " t", "  t", " t", " f", " f", " f", " n", " n",
+                                   " n", " µ", " µ", " µ", " m", " m", " m", " ", " ", " ", " k",
+                                   " k", " k", " M", " M", " M", " G", " G", " G", " T", " T",
+                                   " T", " P", " P", " P", " E", " E", " E", " Z", " Z", " Z",
+                                   " Y", " Y", " Y" };
+        int    deca;
+        int    decade;
+        double m;
+        double y;
+        double mantisse;
+        String formatedResult;
+
+        if (VALUE != 0) {
+            if (VALUE < 0) { y = Math.log10(-VALUE); } else { y = Math.log10(VALUE); }
+            decade = (int) Math.round(y);
+            m = y - decade;
+            mantisse = 1000 * Math.pow(10, m);
+            deca = decade % 3 + 2;
+            mantisse /= divisor[deca];
+            if (decade >= -24 && decade <= 24) {
+                formatedResult = String.format(format, mantisse) + PREFIX[decade + 24] + UNIT;
+            } else {
+                formatedResult = String.format(formatAlt, mantisse);
+            }
+        } else {
+            formatedResult = "0" + UNIT;
+        }
+        if (VALUE < 0) { formatedResult = '-' + formatedResult; }
+
+        return formatedResult;
     }
     // </editor-fold>
 }

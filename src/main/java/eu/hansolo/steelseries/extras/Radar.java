@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2012, Gerrit Grunwald
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * The names of its contributors may not be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package eu.hansolo.steelseries.extras;
 
 import eu.hansolo.steelseries.gauges.AbstractGauge;
@@ -51,20 +78,20 @@ public final class Radar extends AbstractRadial implements ActionListener {
     private double rotationAngle = 0;
     private Timeline timeline = new Timeline(this);
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Radar() {
         super();
         init(getInnerBounds().width, getInnerBounds().height);
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Initialization">
     @Override
     public final AbstractGauge init(final int WIDTH, final int HEIGHT) {
         final int GAUGE_WIDTH = isFrameVisible() ? WIDTH : getGaugeBounds().width;
         final int GAUGE_HEIGHT = isFrameVisible() ? HEIGHT : getGaugeBounds().height;
-        
+
         if (GAUGE_WIDTH <= 1 || GAUGE_HEIGHT <= 1) {
             return this;
         }
@@ -73,13 +100,13 @@ public final class Radar extends AbstractRadial implements ActionListener {
         pixelScaleY = this.range / (0.4 * GAUGE_WIDTH) / 1000;
 
         CENTER.setLocation(getGaugeBounds().getCenterX(), getGaugeBounds().getCenterY());
-        
+
         if (!isFrameVisible()) {
             setFramelessOffset(-getGaugeBounds().width * 0.0841121495, -getGaugeBounds().width * 0.0841121495);
         } else {
             setFramelessOffset(getGaugeBounds().x, getGaugeBounds().y);
         }
-        
+
         // Create Background Image
         if (bImage != null) {
             bImage.flush();
@@ -121,7 +148,7 @@ public final class Radar extends AbstractRadial implements ActionListener {
         return this;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Visualization">
     @Override
     protected void paintComponent(Graphics g) {
@@ -130,7 +157,7 @@ public final class Radar extends AbstractRadial implements ActionListener {
         }
 
         final Graphics2D G2 = (Graphics2D) g.create();
-        
+
         G2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         G2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         G2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
@@ -171,7 +198,7 @@ public final class Radar extends AbstractRadial implements ActionListener {
         G2.dispose();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Returns the rotation angle of the radar beam
@@ -357,13 +384,13 @@ public final class Radar extends AbstractRadial implements ActionListener {
     public Rectangle2D getBounds2D() {
         return new Rectangle2D.Double(bImage.getMinX(), bImage.getMinY(), bImage.getWidth(), bImage.getHeight());
     }
-    
+
     @Override
     public Rectangle getLcdBounds() {
         return new Rectangle();
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Image related">
     private BufferedImage create_BACKGROUND_Image(final int WIDTH, BufferedImage image) {
         if (WIDTH <= 0) {
@@ -533,7 +560,7 @@ public final class Radar extends AbstractRadial implements ActionListener {
                 tickCounter90 = 0;
             }
 
-            // Draw text            
+            // Draw text
             G2.setFont(SMALL_FONT);
             G2.setColor(TEXT_COLOR);
             textPoint = new Point2D.Double(TICKMARKS_CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, TICKMARKS_CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
@@ -551,7 +578,7 @@ public final class Radar extends AbstractRadial implements ActionListener {
             counter++;
         }
 
-        // Draw distance rings        
+        // Draw distance rings
         final double RADIUS_STEP = RADIUS / 5.0;
         for (int i = 1; i < 6; i++) {
             G2.setColor(TICK_30_COLOR);
@@ -607,13 +634,13 @@ public final class Radar extends AbstractRadial implements ActionListener {
         return IMAGE;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ActionListener">
     @Override
     public void actionPerformed(ActionEvent event) {
     }
     // </editor-fold>
-    
+
     @Override
     public String toString() {
         return "Radar";
