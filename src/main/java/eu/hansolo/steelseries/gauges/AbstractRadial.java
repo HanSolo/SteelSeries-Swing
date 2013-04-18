@@ -957,10 +957,10 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
         }
         repaint(getInnerBounds());
     }
-
+/*
     @Override
     public abstract Rectangle getLcdBounds();
-
+*/
     @Override
     public void toggleDesign() {
         if (getActiveDesign().equals(getDesign1())) {
