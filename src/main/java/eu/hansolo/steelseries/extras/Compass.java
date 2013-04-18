@@ -109,9 +109,9 @@ public final class Compass extends AbstractRadial {
 
         if (isFrameVisible()) {
             switch (getFrameType()) {
-                case ROUND:
+                /*case ROUND:
                     FRAME_FACTORY.createRadialFrame(GAUGE_WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), bImage);
-                    break;
+                    break;*/
                 case SQUARE:
                     FRAME_FACTORY.createLinearFrame(GAUGE_WIDTH, GAUGE_WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), bImage);
                     break;

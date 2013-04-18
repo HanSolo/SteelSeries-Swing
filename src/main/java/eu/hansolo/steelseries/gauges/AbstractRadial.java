@@ -957,10 +957,10 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
         }
         repaint(getInnerBounds());
     }
-
+/*
     @Override
     public abstract Rectangle getLcdBounds();
-
+*/
     @Override
     public void toggleDesign() {
         if (getActiveDesign().equals(getDesign1())) {
@@ -1581,11 +1581,11 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
             case TYPE3:
                 lineWidth = (float) Math.toDegrees(1.5 * Math.PI - FREE_AREA_ANGLE) * 0.00167f * WIDTH * 0.0067f;
                 break;
-
+/*
             case TYPE4:
                 lineWidth = (float) Math.toDegrees(2.0 * Math.PI - FREE_AREA_ANGLE) * 0.00167f * WIDTH * 0.0067f;
                 break;
-
+*/
             default:
                 lineWidth = (float) Math.toDegrees(2.0 * Math.PI - FREE_AREA_ANGLE) * 0.00167f * WIDTH * 0.0067f;
                 break;
