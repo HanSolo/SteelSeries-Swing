@@ -537,12 +537,20 @@ public class Linear extends AbstractLinear {
             MAX_POS_OF_BAR = HEIGHT * 0.12864077669902912; // position of max value
             MIN_POS_OF_BAR = HEIGHT * 0.8567961165048543; // position of min value
             FULL_SIZE = MIN_POS_OF_BAR - MAX_POS_OF_BAR;
-            if (isStartingFromZero()) {
-                VALUE_SIZE = FULL_SIZE * Math.abs(getValue()) / (getMaxValue() - getMinValue());
-                if (getValue() < 0) {
-                    START_OF_VALUE = -getMinValue() * PIXEL_SCALE + MIN_POS_OF_BAR + getValue() * PIXEL_SCALE;
+            
+            if (isStartingFromZero() && getMinValue() < 0) {
+                //Calculate the sizes of the positive and negative sections of the scale
+              	 double POSITIVE_SIZE = FULL_SIZE * getMaxValue() / (getMaxValue() - getMinValue());
+              	 double NEGATIVE_SIZE = FULL_SIZE * Math.abs(getMinValue()) / (getMaxValue() - getMinValue());
+              	 if (getValue() < 0) {
+              		 //The size is proportional to the negative value compared to the negative part only
+                      VALUE_SIZE = NEGATIVE_SIZE * Math.abs(getValue()) / Math.abs(getMinValue()); 
+                      //Start from the zero position, at the bottom of the positive part
+                	  START_OF_VALUE = MAX_POS_OF_BAR + POSITIVE_SIZE;
                 } else {
-                    START_OF_VALUE = -getMinValue() * PIXEL_SCALE + MIN_POS_OF_BAR;
+             		 //The size is proportional to the value compared to the positive part only
+                     VALUE_SIZE = POSITIVE_SIZE * Math.abs(getValue()) / getMaxValue();
+                     START_OF_VALUE = MAX_POS_OF_BAR + POSITIVE_SIZE - VALUE_SIZE;
                 }
 
                 //if (getValue() < 0) {
@@ -567,12 +575,19 @@ public class Linear extends AbstractLinear {
             MAX_POS_OF_BAR = WIDTH * 0.8567961165048543; // position of max value
             MIN_POS_OF_BAR = WIDTH * 0.14285714285714285; // position of min value
             FULL_SIZE = MAX_POS_OF_BAR - WIDTH * 0.12864077669902912;
-            if (isStartingFromZero()) {
-                VALUE_SIZE = FULL_SIZE * Math.abs(getValue()) / (getMaxValue() - getMinValue());
-                if (getValue() < 0 ) {
-                    START_OF_VALUE = -getMinValue() * PIXEL_SCALE + MIN_POS_OF_BAR + getValue() * PIXEL_SCALE;
+            if (isStartingFromZero() && getMinValue() < 0) {
+                //Calculate the sizes of the positive and negative sections of the scale
+             	 double POSITIVE_SIZE = FULL_SIZE * getMaxValue() / (getMaxValue() - getMinValue());
+             	 double NEGATIVE_SIZE = FULL_SIZE * Math.abs(getMinValue()) / (getMaxValue() - getMinValue());
+             	 if (getValue() < 0) {
+              		 //The size is proportional to the negative value compared to the negative part only
+                      VALUE_SIZE = NEGATIVE_SIZE * Math.abs(getValue()) / Math.abs(getMinValue()); 
+                	  START_OF_VALUE = MIN_POS_OF_BAR + NEGATIVE_SIZE - VALUE_SIZE;
                 } else {
-                    START_OF_VALUE = -getMinValue() * PIXEL_SCALE + MIN_POS_OF_BAR;
+             		 //The size is proportional to the value compared to the positive part only
+                     VALUE_SIZE = POSITIVE_SIZE * Math.abs(getValue()) / getMaxValue();
+                     //Start from the end of the negative part
+                     START_OF_VALUE = MIN_POS_OF_BAR + NEGATIVE_SIZE;
                 }
                 //if (getValue() < 0) {
                 //    START_OF_VALUE = MIN_POS_OF_BAR + (FULL_SIZE - VALUE_SIZE) - (FULL_SIZE * Math.abs(getMinValue()) / (getMaxValue() - getMinValue()));
