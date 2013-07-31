@@ -109,9 +109,9 @@ public final class Compass extends AbstractRadial {
 
         if (isFrameVisible()) {
             switch (getFrameType()) {
-                case ROUND:
+                /*case ROUND:
                     FRAME_FACTORY.createRadialFrame(GAUGE_WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), bImage);
-                    break;
+                    break;*/
                 case SQUARE:
                     FRAME_FACTORY.createLinearFrame(GAUGE_WIDTH, GAUGE_WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), bImage);
                     break;
@@ -237,22 +237,23 @@ public final class Compass extends AbstractRadial {
     }
 
     @Override
-    public void setValueAnimated(double newValue) {
-        if (isEnabled()) {
-            // Needle should always take the shortest way to it's new position
-            if (360 - newValue + value < newValue - value) {
-                newValue = 360 - newValue;
-            }
-
-            if (timeline.getState() == Timeline.TimelineState.PLAYING_FORWARD || timeline.getState() == Timeline.TimelineState.PLAYING_REVERSE) {
+    public void setValueAnimated(double newValue)
+    {
+        if (isEnabled())
+        {
+            if (Math.abs(value - newValue) > 180d)//Needle should always take the shortest way to its new position
+                if (value > newValue)
+                    newValue += 360d;
+                else
+                    value += 360d;
+            if (timeline.getState() == Timeline.TimelineState.PLAYING_FORWARD || timeline.getState() == Timeline.TimelineState.PLAYING_REVERSE)
                 timeline.abort();
-            }
             timeline = new Timeline(this);
             timeline.addPropertyToInterpolate("value", value, newValue);
             timeline.setEase(EASE);
-
-            timeline.setDuration((long) 250);
+            timeline.setDuration(this.getStdTimeToValue());
             timeline.play();
+            value = newValue;
         }
     }
 
