@@ -50,26 +50,37 @@ public class GradientWrapper implements Paint {
     private Color[] colors;
 
     public GradientWrapper(float startX, float startY, float endX, float endY, float[] fractions, Color[] colors) {
+        endY += Util.INSTANCE.pointsEqual(startX, startY, endX, endY) ? 1 : 0;
         GRADIENT = new LinearGradientPaint(new Point2D.Float(startX, startY), new Point2D.Float(endX, endY), fractions, colors, java.awt.MultipleGradientPaint.CycleMethod.NO_CYCLE);
         copyArrays(fractions, colors);
     }
 
     public GradientWrapper(float startX, float startY, float endX, float endY, float[] fractions, Color[] colors, MultipleGradientPaint.CycleMethod cycleMethod) {
+        endY += Util.INSTANCE.pointsEqual(startX, startY, endX, endY) ? 1 : 0;
         GRADIENT = new LinearGradientPaint(new Point2D.Float(startX, startY), new Point2D.Float(endX, endY), fractions, colors, cycleMethod);
         copyArrays(fractions, colors);
     }
 
     public GradientWrapper(Point2D start, Point2D end, float[] fractions, Color[] colors) {
+        if (Util.INSTANCE.pointsEqual(start, end)) {
+            end.setLocation(end.getX(), end.getY() + 1);
+        }
         GRADIENT = new LinearGradientPaint(start, end, fractions, colors, java.awt.MultipleGradientPaint.CycleMethod.NO_CYCLE);
         copyArrays(fractions, colors);
     }
 
     public GradientWrapper(Point2D start, Point2D end, float[] fractions, Color[] colors, MultipleGradientPaint.CycleMethod cycleMethod) {
+        if (Util.INSTANCE.pointsEqual(start, end)) {
+            end.setLocation(end.getX(), end.getY() + 1);
+        }
         GRADIENT = new LinearGradientPaint(start, end, fractions, colors, cycleMethod, java.awt.MultipleGradientPaint.ColorSpaceType.SRGB, new AffineTransform());
         copyArrays(fractions, colors);
     }
 
     public GradientWrapper(Point2D start, Point2D end, float[] fractions, Color[] colors, MultipleGradientPaint.CycleMethod cycleMethod, MultipleGradientPaint.ColorSpaceType colorSpace, AffineTransform gradientTransform) {
+        if (Util.INSTANCE.pointsEqual(start, end)) {
+            end.setLocation(end.getX(), end.getY() + 1);
+        }
         GRADIENT = new LinearGradientPaint(start, end, fractions, colors, cycleMethod, colorSpace, gradientTransform);
         copyArrays(fractions, colors);
     }

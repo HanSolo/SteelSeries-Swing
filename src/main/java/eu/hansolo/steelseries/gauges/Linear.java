@@ -33,6 +33,8 @@ import eu.hansolo.steelseries.tools.Model;
 import eu.hansolo.steelseries.tools.NumberSystem;
 import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.Section;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -599,6 +601,7 @@ public class Linear extends AbstractLinear {
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.1490196078f),
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.0470588235f)
         };
+        Util.INSTANCE.validateGradientPoints(VALUE_BACKGROUND_START, VALUE_BACKGROUND_STOP);
         final LinearGradientPaint VALUE_BACKGROUND_TRACK_GRADIENT = new LinearGradientPaint(VALUE_BACKGROUND_START, VALUE_BACKGROUND_STOP, VALUE_BACKGROUND_TRACK_FRACTIONS, VALUE_BACKGROUND_TRACK_COLORS);
         G2.setPaint(VALUE_BACKGROUND_TRACK_GRADIENT);
         G2.fill(VALUE_BACKGROUND_TRACK);
@@ -622,6 +625,7 @@ public class Linear extends AbstractLinear {
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.6980392157f),
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.4f)
         };
+        Util.INSTANCE.validateGradientPoints(VALUE_BORDER_START, VALUE_BORDER_STOP);
         final LinearGradientPaint VALUE_BORDER_GRADIENT = new LinearGradientPaint(VALUE_BORDER_START, VALUE_BORDER_STOP, VALUE_BORDER_FRACTIONS, VALUE_BORDER_COLORS);
         G2.setPaint(VALUE_BORDER_GRADIENT);
         G2.fill(VALUE_LEFT_BORDER);
@@ -673,6 +677,7 @@ public class Linear extends AbstractLinear {
                 }
             }
         }
+        Util.INSTANCE.validateGradientPoints(VALUE_START, VALUE_STOP);
         final LinearGradientPaint VALUE_BACKGROUND_GRADIENT = new LinearGradientPaint(VALUE_START, VALUE_STOP, VALUE_BACKGROUND_FRACTIONS, valueBackgroundColors);
         G2.setPaint(VALUE_BACKGROUND_GRADIENT);
         G2.fill(VALUE_BACKGROUND);
@@ -689,6 +694,7 @@ public class Linear extends AbstractLinear {
             VALUE_FOREGROUND_START.setLocation(0, VALUE_FOREGROUND.getBounds2D().getMinY());
             VALUE_FOREGROUND_STOP.setLocation(0, VALUE_FOREGROUND.getBounds2D().getMaxY());
         }
+        Util.INSTANCE.validateGradientPoints(VALUE_FOREGROUND_START, VALUE_FOREGROUND_STOP);
         final LinearGradientPaint VALUE_FOREGROUND_GRADIENT = new LinearGradientPaint(VALUE_FOREGROUND_START, VALUE_FOREGROUND_STOP, VALUE_FOREGROUND_FRACTIONS, VALUE_FOREGROUND_COLORS);
         G2.setPaint(VALUE_FOREGROUND_GRADIENT);
         if (VALUE_FOREGROUND.getWidth() > 0 && VALUE_FOREGROUND.getHeight() > 0) {
@@ -762,7 +768,7 @@ public class Linear extends AbstractLinear {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 

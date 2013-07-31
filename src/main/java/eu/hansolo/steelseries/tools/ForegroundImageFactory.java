@@ -152,6 +152,7 @@ public enum ForegroundImageFactory {
                 new Color(63, 63, 63, 255),
                 new Color(40, 40, 40, 255)
             };
+            Util.INSTANCE.validateGradientPoints(E_CENTER_KNOB_FRAME_START, E_CENTER_KNOB_FRAME_STOP);
             final LinearGradientPaint E_CENTER_KNOB_FRAME_GRADIENT = new LinearGradientPaint(E_CENTER_KNOB_FRAME_START, E_CENTER_KNOB_FRAME_STOP, E_CENTER_KNOB_FRAME_FRACTIONS, E_CENTER_KNOB_FRAME_COLORS);
             G2.setPaint(E_CENTER_KNOB_FRAME_GRADIENT);
             G2.fill(E_CENTER_KNOB_FRAME);
@@ -167,6 +168,7 @@ public enum ForegroundImageFactory {
                 new Color(217, 217, 217, 255),
                 new Color(191, 191, 191, 255)
             };
+            Util.INSTANCE.validateGradientPoints(E_CENTER_KNOB_MAIN_START, E_CENTER_KNOB_MAIN_STOP);
             final LinearGradientPaint E_CENTER_KNOB_MAIN_GRADIENT = new LinearGradientPaint(E_CENTER_KNOB_MAIN_START, E_CENTER_KNOB_MAIN_STOP, E_CENTER_KNOB_MAIN_FRACTIONS, E_CENTER_KNOB_MAIN_COLORS);
             G2.setPaint(E_CENTER_KNOB_MAIN_GRADIENT);
             G2.fill(E_CENTER_KNOB_MAIN);
@@ -216,6 +218,7 @@ public enum ForegroundImageFactory {
                 HIGHLIGHT.closePath();
                 HIGHLIGHT_START.setLocation(0, HIGHLIGHT.getBounds2D().getMinY());
                 HIGHLIGHT_STOP.setLocation(0, HIGHLIGHT.getBounds2D().getMaxY());
+                Util.INSTANCE.validateGradientPoints(HIGHLIGHT_START, HIGHLIGHT_STOP);
                 HIGHLIGHT_GRADIENT = new LinearGradientPaint(HIGHLIGHT_START, HIGHLIGHT_STOP, HIGHLIGHT_FRACTIONS, HIGHLIGHT_COLORS);
                 G2.setPaint(HIGHLIGHT_GRADIENT);
                 G2.fill(HIGHLIGHT);
@@ -231,6 +234,7 @@ public enum ForegroundImageFactory {
                 HIGHLIGHT.closePath();
                 HIGHLIGHT_START.setLocation((0.3130841121495327 * IMAGE_WIDTH), (0.13551401869158877 * IMAGE_HEIGHT));
                 HIGHLIGHT_STOP.setLocation(((0.3130841121495327 + 0.1824447802691637) * IMAGE_WIDTH), ((0.13551401869158877 + 0.3580680424308394) * IMAGE_HEIGHT));
+                Util.INSTANCE.validateGradientPoints(HIGHLIGHT_START, HIGHLIGHT_STOP);
                 HIGHLIGHT_GRADIENT = new LinearGradientPaint(HIGHLIGHT_START, HIGHLIGHT_STOP, HIGHLIGHT_FRACTIONS, HIGHLIGHT_COLORS);
                 G2.setPaint(HIGHLIGHT_GRADIENT);
                 G2.fill(HIGHLIGHT);
@@ -246,6 +250,7 @@ public enum ForegroundImageFactory {
                 HIGHLIGHT.closePath();
                 HIGHLIGHT_START.setLocation(0, HIGHLIGHT.getBounds2D().getMinY());
                 HIGHLIGHT_STOP.setLocation(0, HIGHLIGHT.getBounds2D().getMaxY());
+                Util.INSTANCE.validateGradientPoints(HIGHLIGHT_START, HIGHLIGHT_STOP);
                 HIGHLIGHT_GRADIENT = new LinearGradientPaint(HIGHLIGHT_START, HIGHLIGHT_STOP, HIGHLIGHT_FRACTIONS, HIGHLIGHT_COLORS);
                 G2.setPaint(HIGHLIGHT_GRADIENT);
                 G2.fill(HIGHLIGHT);
@@ -302,6 +307,7 @@ public enum ForegroundImageFactory {
                     new Color(255, 255, 255, 51),
                     new Color(255, 255, 255, 0)
                 };
+                Util.INSTANCE.validateGradientPoints(HIGHLIGHT_4_START, HIGHLIGHT_4_STOP);
                 final LinearGradientPaint HIGHLIGHT_GRADIENT_4_2 = new LinearGradientPaint(HIGHLIGHT_4_START, HIGHLIGHT_4_STOP, HIGHLIGHT_FRACTIONS4_2, HIGHLIGHT_FRACTIONS_4_2);
                 G2.setPaint(HIGHLIGHT_GRADIENT_4_2);
                 G2.fill(HIGHLIGHT_4);
@@ -319,6 +325,7 @@ public enum ForegroundImageFactory {
                 HIGHLIGHT.closePath();
                 HIGHLIGHT_START.setLocation(0, HIGHLIGHT.getBounds2D().getMinY());
                 HIGHLIGHT_STOP.setLocation(0, HIGHLIGHT.getBounds2D().getMaxY());
+                Util.INSTANCE.validateGradientPoints(HIGHLIGHT_START, HIGHLIGHT_STOP);
                 HIGHLIGHT_GRADIENT = new LinearGradientPaint(HIGHLIGHT_START, HIGHLIGHT_STOP, HIGHLIGHT_FRACTIONS, HIGHLIGHT_COLORS);
                 G2.setPaint(HIGHLIGHT_GRADIENT);
                 G2.fill(HIGHLIGHT);

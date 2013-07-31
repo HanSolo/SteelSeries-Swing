@@ -29,6 +29,8 @@ package eu.hansolo.steelseries.gauges;
 
 import eu.hansolo.steelseries.tools.LcdColor;
 import eu.hansolo.steelseries.tools.NumberSystem;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -355,7 +357,7 @@ public final class DisplayCircular extends AbstractRadial {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 

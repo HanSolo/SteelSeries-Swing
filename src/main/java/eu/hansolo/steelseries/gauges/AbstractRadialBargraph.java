@@ -29,6 +29,8 @@ package eu.hansolo.steelseries.gauges;
 
 import eu.hansolo.steelseries.tools.ColorDef;
 import eu.hansolo.steelseries.tools.CustomColorDef;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -202,6 +204,7 @@ public abstract class AbstractRadialBargraph extends AbstractRadial {
             new Color(51, 51, 51, 255),
             new Color(100, 100, 100, 255)
         };
+        Util.INSTANCE.validateGradientPoints(LED_TRACK_FRAME_START, LED_TRACK_FRAME_STOP);
         final LinearGradientPaint LED_TRACK_FRAME_GRADIENT = new LinearGradientPaint(LED_TRACK_FRAME_START, LED_TRACK_FRAME_STOP, LED_TRACK_FRAME_FRACTIONS, LED_TRACK_FRAME_COLORS);
         G2.setPaint(LED_TRACK_FRAME_GRADIENT);
         G2.fill(LED_TRACK_FRAME);
@@ -226,6 +229,7 @@ public abstract class AbstractRadialBargraph extends AbstractRadial {
             new Color(17, 17, 17, 255),
             new Color(51, 51, 51, 255)
         };
+        Util.INSTANCE.validateGradientPoints(LED_TRACK_MAIN_START, LED_TRACK_MAIN_STOP);
         final LinearGradientPaint LED_TRACK_MAIN_GRADIENT = new LinearGradientPaint(LED_TRACK_MAIN_START, LED_TRACK_MAIN_STOP, LED_TRACK_MAIN_FRACTIONS, LED_TRACK_MAIN_COLORS);
         G2.setPaint(LED_TRACK_MAIN_GRADIENT);
         G2.fill(LED_TRACK_MAIN);

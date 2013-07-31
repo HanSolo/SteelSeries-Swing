@@ -30,6 +30,8 @@ package eu.hansolo.steelseries.gauges;
 import eu.hansolo.steelseries.tools.LcdColor;
 import eu.hansolo.steelseries.tools.LedColor;
 import eu.hansolo.steelseries.tools.NumberSystem;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -381,7 +383,7 @@ public class DigitalRadial extends AbstractRadial {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 
@@ -424,6 +426,7 @@ public class DigitalRadial extends AbstractRadial {
             new Color(0, 0, 0, 229),
             new Color(153, 153, 153, 255)
         };
+        Util.INSTANCE.validateGradientPoints(E_LED1_BG_START, E_LED1_BG_STOP);
         final LinearGradientPaint E_LED1_BG_GRADIENT = new LinearGradientPaint(E_LED1_BG_START, E_LED1_BG_STOP, E_LED1_BG_FRACTIONS, E_LED1_BG_COLORS);
         G2.setPaint(E_LED1_BG_GRADIENT);
         G2.fill(E_LED1_BG);
@@ -510,6 +513,7 @@ public class DigitalRadial extends AbstractRadial {
             new Color(255, 255, 255, 102),
             new Color(255, 255, 255, 0)
         };
+        Util.INSTANCE.validateGradientPoints(E_LED1_HL_START, E_LED1_HL_STOP);
         final LinearGradientPaint E_LED1_HL_GRADIENT = new LinearGradientPaint(E_LED1_HL_START, E_LED1_HL_STOP, E_LED1_HL_FRACTIONS, E_LED1_HL_COLORS);
         G2.setPaint(E_LED1_HL_GRADIENT);
         G2.fill(E_LED1_HL);
@@ -541,6 +545,7 @@ public class DigitalRadial extends AbstractRadial {
             new Color(0, 0, 0, 229),
             new Color(153, 153, 153, 255)
         };
+        Util.INSTANCE.validateGradientPoints(E_LED1_BG_START, E_LED1_BG_STOP);
         final LinearGradientPaint E_LED1_BG_GRADIENT = new LinearGradientPaint(E_LED1_BG_START, E_LED1_BG_STOP, E_LED1_BG_FRACTIONS, E_LED1_BG_COLORS);
         G2.setPaint(E_LED1_BG_GRADIENT);
         G2.fill(E_LED1_BG);
@@ -699,6 +704,7 @@ public class DigitalRadial extends AbstractRadial {
             new Color(255, 255, 255, 102),
             new Color(255, 255, 255, 0)
         };
+        Util.INSTANCE.validateGradientPoints(E_LED1_HL_START, E_LED1_HL_STOP);
         final LinearGradientPaint E_LED1_HL_GRADIENT = new LinearGradientPaint(E_LED1_HL_START, E_LED1_HL_STOP, E_LED1_HL_FRACTIONS, E_LED1_HL_COLORS);
         G2.setPaint(E_LED1_HL_GRADIENT);
         G2.fill(E_LED1_HL);

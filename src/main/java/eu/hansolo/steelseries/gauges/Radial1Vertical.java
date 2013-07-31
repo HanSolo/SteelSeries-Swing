@@ -35,6 +35,8 @@ import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.PointerType;
 import eu.hansolo.steelseries.tools.PostPosition;
 import eu.hansolo.steelseries.tools.Section;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -771,6 +773,7 @@ public final class Radial1Vertical extends AbstractRadial {
             new Color(252, 29, 0, 255),
             new Color(82, 0, 0, 255)
         };
+        Util.INSTANCE.validateGradientPoints(THRESHOLD_START, THRESHOLD_STOP);
         final LinearGradientPaint THRESHOLD_GRADIENT = new LinearGradientPaint(THRESHOLD_START, THRESHOLD_STOP, THRESHOLD_FRACTIONS, THRESHOLD_COLORS);
         G2.setPaint(THRESHOLD_GRADIENT);
         G2.fill(THRESHOLD);
@@ -889,6 +892,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         CUSTOM_POINTER_COLOR.LIGHT
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -939,6 +943,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         CUSTOM_POINTER_COLOR.LIGHT
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -976,6 +981,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         getCustomPointerColorObject().MEDIUM
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -1030,6 +1036,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         getCustomPointerColorObject().LIGHT
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -1068,6 +1075,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         getCustomPointerColorObject().MEDIUM
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -1105,6 +1113,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         getCustomPointerColorObject().MEDIUM
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -1149,6 +1158,7 @@ public final class Radial1Vertical extends AbstractRadial {
                     new Color(102, 102, 102, 255),
                     new Color(50, 50, 50, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -1191,6 +1201,7 @@ public final class Radial1Vertical extends AbstractRadial {
                     getPointerColor().MEDIUM,
                     getPointerColor().MEDIUM
                 };
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -1297,6 +1308,7 @@ public final class Radial1Vertical extends AbstractRadial {
                         CUSTOM_POINTER_COLOR.DARK
                     };
                 }
+                Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);

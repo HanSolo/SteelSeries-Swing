@@ -38,6 +38,7 @@ import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.Scaler;
 import eu.hansolo.steelseries.tools.Section;
 import eu.hansolo.steelseries.tools.Shadow;
+import eu.hansolo.steelseries.tools.Util;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -677,7 +678,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(179, 179, 179, 255),
                         new Color(213, 213, 213, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient2 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions2, frameMainColors2);
                     G2.setPaint(frameMainGradient2);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -821,6 +822,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(243, 226, 108, 255),
                         new Color(202, 182, 113, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient5 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions5, frameMainColors5);
                     G2.setPaint(frameMainGradient5);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -847,6 +849,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(194, 204, 203, 255),
                         new Color(189, 201, 199, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient6 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions6, frameMainColors6);
                     G2.setPaint(frameMainGradient6);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -928,6 +931,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(212, 135, 29, 255),
                         new Color(247, 238, 101, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient8 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions8, frameMainColors8);
                     G2.setPaint(frameMainGradient8);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -947,6 +951,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(50, 50, 54, 255),
                         new Color(97, 97, 108, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient9 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions9, frameMainColors9);
                     G2.setPaint(frameMainGradient9);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -974,6 +979,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(255, 255, 255, 255),
                         new Color(102, 102, 102, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient10 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions10, frameMainColors10);
                     G2.setPaint(frameMainGradient10);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -997,6 +1003,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(0, 0, 0, 255),
                         new Color(0, 0, 0, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient11 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions11, frameMainColors11);
                     G2.setPaint(frameMainGradient11);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -1017,7 +1024,7 @@ public final class Radial2Top extends AbstractRadial {
                         new Color(179, 179, 179, 255),
                         new Color(213, 213, 213, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions, frameMainColors);
                     G2.setPaint(frameMainGradient);
                     FRAME_MAIN_AREA.subtract(SUBTRACT);
@@ -1150,6 +1157,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(0, 0, 0, 81),
                     new Color(255, 255, 255, 158)
                 };
+                Util.INSTANCE.validateGradientPoints(EFFECT_BIGINNERFRAME_START, EFFECT_BIGINNERFRAME_STOP);
                 final LinearGradientPaint EFFECT_BIGINNERFRAME_GRADIENT = new LinearGradientPaint(EFFECT_BIGINNERFRAME_START, EFFECT_BIGINNERFRAME_STOP, EFFECT_FRACTIONS, EFFECT_COLORS);
                 G2.setPaint(EFFECT_BIGINNERFRAME_GRADIENT);
                 G2.fill(EFFECT_BIGINNERFRAME);
@@ -1285,8 +1293,10 @@ public final class Radial2Top extends AbstractRadial {
                     UTIL.lighter(getTextureColor(), 0.15f),
                     UTIL.darker(getTextureColor(), 0.15f)
                 };
+                Util.INSTANCE.validateGradientPoints(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP);
                 backgroundPaint = new LinearGradientPaint(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP, FRACTIONS, COLORS);
             } else {
+                Util.INSTANCE.validateGradientPoints(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP);
                 backgroundPaint = new LinearGradientPaint(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP, GAUGE_BACKGROUND_FRACTIONS, GAUGE_BACKGROUND_COLORS);
             }
             G2.setPaint(backgroundPaint);
@@ -1339,7 +1349,12 @@ public final class Radial2Top extends AbstractRadial {
                 new Color(0f, 0f, 0f, 0.0f),
                 new Color(0f, 0f, 0f, 0.6f)
             };
-            final LinearGradientPaint SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getBounds().getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getBounds().getMaxX(), 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            final LinearGradientPaint SHADOW_OVERLAY_GRADIENT;
+            if (Util.INSTANCE.pointsEquals(GAUGE_BACKGROUND.getBounds2D().getMinX(), 0, GAUGE_BACKGROUND.getBounds2D().getMaxX(), 0)) {
+                SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getBounds().getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getBounds().getMaxX() + 1, 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            } else {
+                SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getBounds().getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getBounds().getMaxX(), 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            }
             G2.setPaint(SHADOW_OVERLAY_GRADIENT);
             G2.fill(GAUGE_BACKGROUND);
         }
@@ -1438,6 +1453,7 @@ public final class Radial2Top extends AbstractRadial {
                 new Color(255, 255, 255, 102),
                 new Color(153, 153, 153, 102)
             };
+            Util.INSTANCE.validateGradientPoints(GLOWRING_OFF_START, GLOWRING_OFF_STOP);
             final LinearGradientPaint GLOWRING_OFF_GRADIENT = new LinearGradientPaint(GLOWRING_OFF_START, GLOWRING_OFF_STOP, GLOWRING_OFF_FRACTIONS, GLOWRING_OFF_COLORS);
             G2.setPaint(GLOWRING_OFF_GRADIENT);
             G2.fill(GLOWRING);
@@ -1470,6 +1486,7 @@ public final class Radial2Top extends AbstractRadial {
                 new Color(255, 255, 255, 0),
                 new Color(255, 255, 255, 102)
             };
+            Util.INSTANCE.validateGradientPoints(GLOWRING_HL_START, GLOWRING_HL_STOP);
             final LinearGradientPaint GLOWRING_HL_GRADIENT = new LinearGradientPaint(GLOWRING_HL_START, GLOWRING_HL_STOP, GLOWRING_HL_FRACTIONS, GLOWRING_HL_COLORS);
             G2.setPaint(GLOWRING_HL_GRADIENT);
             G2.fill(GLOWRING);
@@ -1510,6 +1527,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(63, 63, 63, 255),
                     new Color(40, 40, 40, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CENTER_KNOB_FRAME_START, CENTER_KNOB_FRAME_STOP);
                 final LinearGradientPaint CENTER_KNOB_FRAME_GRADIENT = new LinearGradientPaint(CENTER_KNOB_FRAME_START, CENTER_KNOB_FRAME_STOP, CENTER_KNOB_FRAME_FRACTIONS, CENTER_KNOB_FRAME_COLORS);
                 G2.setPaint(CENTER_KNOB_FRAME_GRADIENT);
                 G2.fill(CENTER_KNOB_FRAME);
@@ -1551,6 +1569,7 @@ public final class Radial2Top extends AbstractRadial {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(CENTER_KNOB_MAIN_START, CENTER_KNOB_MAIN_STOP);
                 final LinearGradientPaint CENTER_KNOB_MAIN_GRADIENT = new LinearGradientPaint(CENTER_KNOB_MAIN_START, CENTER_KNOB_MAIN_STOP, CENTER_KNOB_MAIN_FRACTIONS, CENTER_KNOB_MAIN_COLORS);
                 G2.setPaint(CENTER_KNOB_MAIN_GRADIENT);
                 G2.fill(CENTER_KNOB_MAIN);
@@ -1607,6 +1626,7 @@ public final class Radial2Top extends AbstractRadial {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_BACKGROUNDFRAME_START, BIGCENTER_BACKGROUNDFRAME_STOP);
                 final LinearGradientPaint BIGCENTER_BACKGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGCENTER_BACKGROUNDFRAME_START, BIGCENTER_BACKGROUNDFRAME_STOP, BIGCENTER_BACKGROUNDFRAME_FRACTIONS, BIGCENTER_BACKGROUNDFRAME_COLORS);
                 G2.setPaint(BIGCENTER_BACKGROUNDFRAME_GRADIENT);
                 G2.fill(BIGCENTER_BACKGROUNDFRAME);
@@ -1643,6 +1663,7 @@ public final class Radial2Top extends AbstractRadial {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_BACKGROUND_START, BIGCENTER_BACKGROUND_STOP);
                 final LinearGradientPaint BIGCENTER_BACKGROUND_GRADIENT = new LinearGradientPaint(BIGCENTER_BACKGROUND_START, BIGCENTER_BACKGROUND_STOP, BIGCENTER_BACKGROUND_FRACTIONS, BIGCENTER_BACKGROUND_COLORS);
                 G2.setPaint(BIGCENTER_BACKGROUND_GRADIENT);
                 G2.fill(BIGCENTER_BACKGROUND);
@@ -1683,6 +1704,7 @@ public final class Radial2Top extends AbstractRadial {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_FOREGROUNDFRAME_START, BIGCENTER_FOREGROUNDFRAME_STOP);
                 final LinearGradientPaint BIGCENTER_FOREGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGCENTER_FOREGROUNDFRAME_START, BIGCENTER_FOREGROUNDFRAME_STOP, BIGCENTER_FOREGROUNDFRAME_FRACTIONS, BIGCENTER_FOREGROUNDFRAME_COLORS);
                 G2.setPaint(BIGCENTER_FOREGROUNDFRAME_GRADIENT);
                 G2.fill(BIGCENTER_FOREGROUNDFRAME);
@@ -1731,6 +1753,7 @@ public final class Radial2Top extends AbstractRadial {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_FOREGROUND_START, BIGCENTER_FOREGROUND_STOP);
                 final LinearGradientPaint BIGCENTER_FOREGROUND_GRADIENT = new LinearGradientPaint(BIGCENTER_FOREGROUND_START, BIGCENTER_FOREGROUND_STOP, BIGCENTER_FOREGROUND_FRACTIONS, BIGCENTER_FOREGROUND_COLORS);
                 G2.setPaint(BIGCENTER_FOREGROUND_GRADIENT);
                 G2.fill(BIGCENTER_FOREGROUND);
@@ -1748,6 +1771,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(129, 139, 140, 255),
                     new Color(166, 171, 175, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP);
                 final LinearGradientPaint CHROMEKNOB_BACKFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP, CHROMEKNOB_BACKFRAME_FRACTIONS, CHROMEKNOB_BACKFRAME_COLORS);
                 G2.setPaint(CHROMEKNOB_BACKFRAME_GRADIENT);
                 G2.fill(CHROMEKNOB_BACKFRAME);
@@ -1807,6 +1831,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(225, 235, 232, 255),
                     new Color(196, 207, 207, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP);
                 final LinearGradientPaint CHROMEKNOB_FOREFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP, CHROMEKNOB_FOREFRAME_FRACTIONS, CHROMEKNOB_FOREFRAME_COLORS);
                 G2.setPaint(CHROMEKNOB_FOREFRAME_GRADIENT);
                 G2.fill(CHROMEKNOB_FOREFRAME);
@@ -1822,6 +1847,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(237, 239, 237, 255),
                     new Color(148, 161, 161, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP);
                 final LinearGradientPaint CHROMEKNOB_FORE_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP, CHROMEKNOB_FORE_FRACTIONS, CHROMEKNOB_FORE_COLORS);
                 G2.setPaint(CHROMEKNOB_FORE_GRADIENT);
                 G2.fill(CHROMEKNOB_FORE);
@@ -1841,6 +1867,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(46, 49, 53, 255),
                     new Color(22, 23, 26, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(METALKNOB_FRAME_START, METALKNOB_FRAME_STOP);
                 final LinearGradientPaint METALKNOB_FRAME_GRADIENT = new LinearGradientPaint(METALKNOB_FRAME_START, METALKNOB_FRAME_STOP, METALKNOB_FRAME_FRACTIONS, METALKNOB_FRAME_COLORS);
                 G2.setPaint(METALKNOB_FRAME_GRADIENT);
                 G2.fill(METALKNOB_FRAME);
@@ -1877,6 +1904,7 @@ public final class Radial2Top extends AbstractRadial {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(METALKNOB_MAIN_START, METALKNOB_MAIN_STOP);
                 final LinearGradientPaint METALKNOB_MAIN_GRADIENT = new LinearGradientPaint(METALKNOB_MAIN_START, METALKNOB_MAIN_STOP, METALKNOB_MAIN_FRACTIONS, METALKNOB_MAIN_COLORS);
                 G2.setPaint(METALKNOB_MAIN_GRADIENT);
                 G2.fill(METALKNOB_MAIN);
@@ -1934,6 +1962,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(0, 0, 0, 255),
                     new Color(204, 204, 204, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(METALKNOB_INNERFRAME_START, METALKNOB_INNERFRAME_STOP);
                 final LinearGradientPaint METALKNOB_INNERFRAME_GRADIENT = new LinearGradientPaint(METALKNOB_INNERFRAME_START, METALKNOB_INNERFRAME_STOP, METALKNOB_INNERFRAME_FRACTIONS, METALKNOB_INNERFRAME_COLORS);
                 G2.setPaint(METALKNOB_INNERFRAME_GRADIENT);
                 G2.fill(METALKNOB_INNERFRAME);
@@ -1949,6 +1978,7 @@ public final class Radial2Top extends AbstractRadial {
                     new Color(1, 6, 11, 255),
                     new Color(50, 52, 56, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(METALKNOB_INNERBACKGROUND_START, METALKNOB_INNERBACKGROUND_STOP);
                 final LinearGradientPaint METALKNOB_INNERBACKGROUND_GRADIENT = new LinearGradientPaint(METALKNOB_INNERBACKGROUND_START, METALKNOB_INNERBACKGROUND_STOP, METALKNOB_INNERBACKGROUND_FRACTIONS, METALKNOB_INNERBACKGROUND_COLORS);
                 G2.setPaint(METALKNOB_INNERBACKGROUND_GRADIENT);
                 G2.fill(METALKNOB_INNERBACKGROUND);
@@ -1971,6 +2001,7 @@ public final class Radial2Top extends AbstractRadial {
                 new Color(63, 63, 63, 255),
                 new Color(40, 40, 40, 255)
             };
+            Util.INSTANCE.validateGradientPoints(MAX_POST_FRAME_RIGHT_START, MAX_POST_FRAME_RIGHT_STOP);
             final LinearGradientPaint MAX_POST_FRAME_RIGHT_GRADIENT = new LinearGradientPaint(MAX_POST_FRAME_RIGHT_START, MAX_POST_FRAME_RIGHT_STOP, E_MAX_POST_FRAME_RIGHT_FRACTIONS, MAX_POST_FRAME_RIGHT_COLORS);
             G2.setPaint(MAX_POST_FRAME_RIGHT_GRADIENT);
             G2.fill(MAX_POST_FRAME_RIGHT);
@@ -2012,6 +2043,7 @@ public final class Radial2Top extends AbstractRadial {
                     };
                     break;
             }
+            Util.INSTANCE.validateGradientPoints(MAX_POST_MAIN_RIGHT_START, MAX_POST_MAIN_RIGHT_STOP);
             final LinearGradientPaint MAX_POST_MAIN_RIGHT_GRADIENT = new LinearGradientPaint(MAX_POST_MAIN_RIGHT_START, MAX_POST_MAIN_RIGHT_STOP, MAX_POST_MAIN_RIGHT_FRACTIONS, MAX_POST_MAIN_RIGHT_COLORS);
             G2.setPaint(MAX_POST_MAIN_RIGHT_GRADIENT);
             G2.fill(MAX_POST_MAIN_RIGHT);
@@ -2047,6 +2079,7 @@ public final class Radial2Top extends AbstractRadial {
                 new Color(63, 63, 63, 255),
                 new Color(40, 40, 40, 255)
             };
+            Util.INSTANCE.validateGradientPoints(MIN_POST_FRAME_LEFT_START, MIN_POST_FRAME_LEFT_STOP);
             final LinearGradientPaint MIN_POST_FRAME_LEFT_GRADIENT = new LinearGradientPaint(MIN_POST_FRAME_LEFT_START, MIN_POST_FRAME_LEFT_STOP, E_MIN_POST_FRAME_LEFT_FRACTIONS, MIN_POST_FRAME_LEFT_COLORS);
             G2.setPaint(MIN_POST_FRAME_LEFT_GRADIENT);
             G2.fill(MIN_POST_FRAME_LEFT);
@@ -2088,6 +2121,7 @@ public final class Radial2Top extends AbstractRadial {
                     };
                     break;
             }
+            Util.INSTANCE.validateGradientPoints(MIN_POST_MAIN_LEFT_START, MIN_POST_MAIN_LEFT_STOP);
             final LinearGradientPaint MIN_POST_MAIN_LEFT_GRADIENT = new LinearGradientPaint(MIN_POST_MAIN_LEFT_START, MIN_POST_MAIN_LEFT_STOP, MIN_POST_MAIN_LEFT_FRACTIONS, MIN_POST_MAIN_LEFT_COLORS);
             G2.setPaint(MIN_POST_MAIN_LEFT_GRADIENT);
             G2.fill(MIN_POST_MAIN_LEFT);

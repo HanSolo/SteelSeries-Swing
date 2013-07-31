@@ -212,7 +212,7 @@ public enum FrameImageFactory {
                         new Color(179, 179, 179, 255),
                         new Color(213, 213, 213, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint2 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions2, frameMainColors2);
                     G2.setPaint(frameMainPaint2);
                     G2.fill(FRAME_MAIN);
@@ -270,7 +270,11 @@ public enum FrameImageFactory {
                     //final Area FRAME_MAIN_GLOSSY2 = new Area(new Ellipse2D.Double(0.018691588785046728 * IMAGE_WIDTH, 0.018691588785046728 * IMAGE_HEIGHT, 0.9626168224299065 * IMAGE_WIDTH, 0.9626168224299065 * IMAGE_HEIGHT));
                     final Area FRAME_MAIN_GLOSSY2 = new Area(new Ellipse2D.Double(0.0140186916 * IMAGE_WIDTH, 0.0140186916 * IMAGE_HEIGHT, 0.9719626168 * IMAGE_WIDTH, 0.9719626168 * IMAGE_HEIGHT));
                     FRAME_MAIN_GLOSSY2.subtract(SUBTRACT);
-                    G2.setPaint(new LinearGradientPaint(new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY()), new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY()), new float[]{0.0f, 0.23f, 0.36f, 0.59f, 0.76f, 1.0f}, new Color[]{new Color(0.9764705882f, 0.9764705882f, 0.9764705882f, 1f), new Color(0.7843137255f, 0.7647058824f, 0.7490196078f, 1f), Color.WHITE, new Color(0.1137254902f, 0.1137254902f, 0.1137254902f, 1f), new Color(0.7843137255f, 0.7607843137f, 0.7529411765f, 1f), new Color(0.8196078431f, 0.8196078431f, 0.8196078431f, 1f)}));
+                    if (Util.INSTANCE.pointsEquals(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY(), 0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY())) {
+                        G2.setPaint(new LinearGradientPaint(new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY()), new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY() + 1), new float[]{0.0f, 0.23f, 0.36f, 0.59f, 0.76f, 1.0f}, new Color[]{new Color(0.9764705882f, 0.9764705882f, 0.9764705882f, 1f), new Color(0.7843137255f, 0.7647058824f, 0.7490196078f, 1f), Color.WHITE, new Color(0.1137254902f, 0.1137254902f, 0.1137254902f, 1f), new Color(0.7843137255f, 0.7607843137f, 0.7529411765f, 1f), new Color(0.8196078431f, 0.8196078431f, 0.8196078431f, 1f)}));
+                    } else {
+                        G2.setPaint(new LinearGradientPaint(new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY()), new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY()), new float[]{0.0f, 0.23f, 0.36f, 0.59f, 0.76f, 1.0f}, new Color[]{new Color(0.9764705882f, 0.9764705882f, 0.9764705882f, 1f), new Color(0.7843137255f, 0.7647058824f, 0.7490196078f, 1f), Color.WHITE, new Color(0.1137254902f, 0.1137254902f, 0.1137254902f, 1f), new Color(0.7843137255f, 0.7607843137f, 0.7529411765f, 1f), new Color(0.8196078431f, 0.8196078431f, 0.8196078431f, 1f)}));
+                    }
                     G2.fill(FRAME_MAIN_GLOSSY2);
 
                     final Area FRAME_MAIN_GLOSSY3 = new Area(new Ellipse2D.Double(0.06542056074766354 * IMAGE_WIDTH, 0.06542056074766354 * IMAGE_HEIGHT, 0.8691588785046729 * IMAGE_WIDTH, 0.8691588785046729 * IMAGE_HEIGHT));
@@ -304,6 +308,7 @@ public enum FrameImageFactory {
                         new Color(243, 226, 108, 255),
                         new Color(202, 182, 113, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint4 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions4, frameMainColors4);
                     G2.setPaint(frameMainPaint4);
                     G2.fill(FRAME_MAIN);
@@ -329,6 +334,7 @@ public enum FrameImageFactory {
                         new Color(194, 204, 203, 255),
                         new Color(189, 201, 199, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint5 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions5, frameMainColors5);
                     G2.setPaint(frameMainPaint5);
                     G2.fill(FRAME_MAIN);
@@ -408,6 +414,7 @@ public enum FrameImageFactory {
                         new Color(212, 135, 29, 255),
                         new Color(247, 238, 101, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint7 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions7, frameMainColors7);
                     G2.setPaint(frameMainPaint7);
                     G2.fill(FRAME_MAIN);
@@ -426,6 +433,7 @@ public enum FrameImageFactory {
                         new Color(50, 50, 54, 255),
                         new Color(97, 97, 108, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint8 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions8, frameMainColors8);
                     G2.setPaint(frameMainPaint8);
                     G2.fill(FRAME_MAIN);
@@ -452,6 +460,7 @@ public enum FrameImageFactory {
                         new Color(255, 255, 255, 255),
                         new Color(102, 102, 102, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint9 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions9, frameMainColors9);
                     G2.setPaint(frameMainPaint9);
                     G2.fill(FRAME_MAIN);
@@ -474,6 +483,7 @@ public enum FrameImageFactory {
                         new Color(0, 0, 0, 255),
                         new Color(0, 0, 0, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint10 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions10, frameMainColors10);
                     G2.setPaint(frameMainPaint10);
                     G2.fill(FRAME_MAIN);
@@ -493,7 +503,7 @@ public enum FrameImageFactory {
                         new Color(179, 179, 179, 255),
                         new Color(213, 213, 213, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainPaint = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions, frameMainColors);
                     G2.setPaint(frameMainPaint);
                     G2.fill(FRAME_MAIN);
@@ -603,6 +613,7 @@ public enum FrameImageFactory {
                     new Color(0, 0, 0, 81),
                     new Color(255, 255, 255, 158)
                 };
+                Util.INSTANCE.validateGradientPoints(EFFECT_BIGINNERFRAME_START, EFFECT_BIGINNERFRAME_STOP);
                 final LinearGradientPaint EFFECT_BIGINNERFRAME_GRADIENT = new LinearGradientPaint(EFFECT_BIGINNERFRAME_START, EFFECT_BIGINNERFRAME_STOP, EFFECT_FRACTIONS, EFFECT_COLORS);
                 G2.setPaint(EFFECT_BIGINNERFRAME_GRADIENT);
                 G2.fill(EFFECT_BIGINNERFRAME);
@@ -874,7 +885,11 @@ public enum FrameImageFactory {
 
                     final Area FRAME_MAIN_GLOSSY2 = new Area(new RoundRectangle2D.Double(2, 2, IMAGE_WIDTH - 4, IMAGE_HEIGHT - 4, FRAME_MAIN_CORNER_RADIUS, FRAME_MAIN_CORNER_RADIUS));
                     FRAME_MAIN_GLOSSY2.subtract(SUBTRACT);
-                    G2.setPaint(new LinearGradientPaint(new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY()), new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY()), new float[]{0.0f, 0.1f, 0.26f, 0.73f, 1.0f}, new Color[]{new Color(0.9764705882f, 0.9764705882f, 0.9764705882f, 1f), new Color(0.7843137255f, 0.7647058824f, 0.7490196078f, 1f), new Color(1f, 1f, 1f, 1f), new Color(0.1137254902f, 0.1137254902f, 0.1137254902f, 1f), new Color(0.8196078431f, 0.8196078431f, 0.8196078431f, 1f)}));
+                    if (Util.INSTANCE.pointsEquals(0d, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY(), 0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY())) {
+                        G2.setPaint(new LinearGradientPaint(new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY()), new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY() + 1), new float[]{0.0f, 0.1f, 0.26f, 0.73f, 1.0f}, new Color[]{new Color(0.9764705882f, 0.9764705882f, 0.9764705882f, 1f), new Color(0.7843137255f, 0.7647058824f, 0.7490196078f, 1f), new Color(1f, 1f, 1f, 1f), new Color(0.1137254902f, 0.1137254902f, 0.1137254902f, 1f), new Color(0.8196078431f, 0.8196078431f, 0.8196078431f, 1f)}));
+                    } else {
+                        G2.setPaint(new LinearGradientPaint(new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMinY()), new Point2D.Double(0, FRAME_MAIN_GLOSSY2.getBounds2D().getMaxY()), new float[]{0.0f, 0.1f, 0.26f, 0.73f, 1.0f}, new Color[]{new Color(0.9764705882f, 0.9764705882f, 0.9764705882f, 1f), new Color(0.7843137255f, 0.7647058824f, 0.7490196078f, 1f), new Color(1f, 1f, 1f, 1f), new Color(0.1137254902f, 0.1137254902f, 0.1137254902f, 1f), new Color(0.8196078431f, 0.8196078431f, 0.8196078431f, 1f)}));
+                    }
                     G2.fill(FRAME_MAIN_GLOSSY2);
 
                     final Area FRAME_MAIN_GLOSSY3 = new Area(new RoundRectangle2D.Double(15, 15, IMAGE_WIDTH - 30, IMAGE_HEIGHT - 30, SUBTRACT_CORNER_RADIUS, SUBTRACT_CORNER_RADIUS));
@@ -908,6 +923,7 @@ public enum FrameImageFactory {
                         new Color(243, 226, 108, 255),
                         new Color(202, 182, 113, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient5 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions5, frameMainColors5);
                     G2.setPaint(frameMainGradient5);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -934,6 +950,7 @@ public enum FrameImageFactory {
                         new Color(194, 204, 203, 255),
                         new Color(189, 201, 199, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient6 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions6, frameMainColors6);
                     G2.setPaint(frameMainGradient6);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -1015,6 +1032,7 @@ public enum FrameImageFactory {
                         new Color(212, 135, 29, 255),
                         new Color(247, 238, 101, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient8 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions8, frameMainColors8);
                     G2.setPaint(frameMainGradient8);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -1035,7 +1053,7 @@ public enum FrameImageFactory {
                         new Color(50, 50, 54, 255),
                         new Color(97, 97, 108, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient9 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions9, frameMainColors9);
                     G2.setPaint(frameMainGradient9);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -1063,6 +1081,7 @@ public enum FrameImageFactory {
                         new Color(255, 255, 255, 255),
                         new Color(102, 102, 102, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient10 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions10, frameMainColors10);
                     G2.setPaint(frameMainGradient10);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -1084,6 +1103,7 @@ public enum FrameImageFactory {
                         new Color(102, 102, 102, 255),
                         new Color(0, 0, 0, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient11 = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions11, frameMainColors11);
                     G2.setPaint(frameMainGradient11);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -1104,7 +1124,7 @@ public enum FrameImageFactory {
                         new Color(179, 179, 179, 255),
                         new Color(213, 213, 213, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(FRAME_MAIN_START, FRAME_MAIN_STOP);
                     Paint frameMainGradient = new LinearGradientPaint(FRAME_MAIN_START, FRAME_MAIN_STOP, frameMainFractions, frameMainColors);
                     G2.setPaint(frameMainGradient);
                     FRAME_MAIN.subtract(SUBTRACT);
@@ -1245,6 +1265,7 @@ public enum FrameImageFactory {
                     new Color(0, 0, 0, 80),
                     new Color(255, 255, 255, 158)
                 };
+                Util.INSTANCE.validateGradientPoints(EFFECT_BIGINNERFRAME_START, EFFECT_BIGINNERFRAME_STOP);
                 final LinearGradientPaint EFFECT_BIGINNERFRAME_GRADIENT = new LinearGradientPaint(EFFECT_BIGINNERFRAME_START, EFFECT_BIGINNERFRAME_STOP, EFFECT_BIGINNERFRAME_FRACTIONS, EFFECT_BIGINNERFRAME_COLORS);
                 G2.setPaint(EFFECT_BIGINNERFRAME_GRADIENT);
                 G2.fill(EFFECT_BIGINNERFRAME);

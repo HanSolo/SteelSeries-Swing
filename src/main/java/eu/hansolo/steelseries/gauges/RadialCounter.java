@@ -29,6 +29,7 @@ package eu.hansolo.steelseries.gauges;
 
 import eu.hansolo.steelseries.tools.ColorDef;
 import eu.hansolo.steelseries.tools.LcdColor;
+import eu.hansolo.steelseries.tools.Util;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -350,7 +351,7 @@ public final class RadialCounter extends AbstractRadial {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 
@@ -500,6 +501,7 @@ public final class RadialCounter extends AbstractRadial {
             new Color(63, 63, 63, 255),
             new Color(40, 40, 40, 255)
         };
+        Util.INSTANCE.validateGradientPoints(OVERLAY_FRAME_START, OVERLAY_FRAME_STOP);
         final LinearGradientPaint OVERLAY_FRAME_GRADIENT = new LinearGradientPaint(OVERLAY_FRAME_START, OVERLAY_FRAME_STOP, OVERLAY_FRAME_FRACTIONS, OVERLAY_FRAME_COLORS);
         G2.setPaint(OVERLAY_FRAME_GRADIENT);
         G2.fill(OVERLAY_FRAME);
@@ -518,6 +520,7 @@ public final class RadialCounter extends AbstractRadial {
             getBackgroundColor().GRADIENT_FRACTION_COLOR,
             getBackgroundColor().GRADIENT_STOP_COLOR
         };
+        Util.INSTANCE.validateGradientPoints(OVERLAY_MAIN_START, OVERLAY_MAIN_STOP);
         final LinearGradientPaint OVERLAY_MAIN_GRADIENT = new LinearGradientPaint(OVERLAY_MAIN_START, OVERLAY_MAIN_STOP, OVERLAY_MAIN_FRACTIONS, OVERLAY_MAIN_COLORS);
         G2.setPaint(OVERLAY_MAIN_GRADIENT);
         G2.fill(OVERLAY_MAIN);
@@ -607,6 +610,7 @@ public final class RadialCounter extends AbstractRadial {
                 getCustomPointerColorObject().DARK
             };
         }
+        Util.INSTANCE.validateGradientPoints(POINTER_START, POINTER_STOP);
         final LinearGradientPaint POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
 
         // PointerShadow

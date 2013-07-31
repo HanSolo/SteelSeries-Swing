@@ -28,6 +28,8 @@
 package eu.hansolo.steelseries.gauges;
 
 import eu.hansolo.steelseries.tools.LcdColor;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -260,7 +262,7 @@ public final class DisplayRectangular extends AbstractLinear {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 

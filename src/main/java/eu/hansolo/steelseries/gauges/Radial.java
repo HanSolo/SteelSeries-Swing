@@ -34,6 +34,8 @@ import eu.hansolo.steelseries.tools.NumberSystem;
 import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.PostPosition;
 import eu.hansolo.steelseries.tools.Section;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -602,7 +604,7 @@ public class Radial extends AbstractRadial {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 

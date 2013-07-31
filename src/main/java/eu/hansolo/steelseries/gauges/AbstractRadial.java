@@ -42,6 +42,17 @@ import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.PointerType;
 import eu.hansolo.steelseries.tools.PostPosition;
 import eu.hansolo.steelseries.tools.TicklabelOrientation;
+import eu.hansolo.steelseries.tools.Util;
+import org.pushingpixels.trident.Timeline;
+import org.pushingpixels.trident.TimelineScenario;
+import org.pushingpixels.trident.callback.TimelineCallback;
+import org.pushingpixels.trident.ease.Sine;
+import org.pushingpixels.trident.ease.Spline;
+import org.pushingpixels.trident.ease.TimelineEase;
+
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.border.Border;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Container;
@@ -69,15 +80,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.border.Border;
-import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.TimelineScenario;
-import org.pushingpixels.trident.callback.TimelineCallback;
-import org.pushingpixels.trident.ease.Sine;
-import org.pushingpixels.trident.ease.Spline;
-import org.pushingpixels.trident.ease.TimelineEase;
 
 
 /**
@@ -1757,7 +1759,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(63, 63, 63, 255),
                         new Color(40, 40, 40, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(CENTER_KNOB_FRAME_START, CENTER_KNOB_FRAME_STOP);
                     final LinearGradientPaint CENTER_KNOB_FRAME_GRADIENT = new LinearGradientPaint(CENTER_KNOB_FRAME_START, CENTER_KNOB_FRAME_STOP, CENTER_KNOB_FRAME_FRACTIONS, CENTER_KNOB_FRAME_COLORS);
                     G2.setPaint(CENTER_KNOB_FRAME_GRADIENT);
                     G2.fill(CENTER_KNOB_FRAME);
@@ -1799,7 +1801,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
-
+                    Util.INSTANCE.validateGradientPoints(CENTER_KNOB_MAIN_START, CENTER_KNOB_MAIN_STOP);
                     final LinearGradientPaint CENTER_KNOB_MAIN_GRADIENT = new LinearGradientPaint(CENTER_KNOB_MAIN_START, CENTER_KNOB_MAIN_STOP, CENTER_KNOB_MAIN_FRACTIONS, CENTER_KNOB_MAIN_COLORS);
                     G2.setPaint(CENTER_KNOB_MAIN_GRADIENT);
                     G2.fill(CENTER_KNOB_MAIN);
@@ -1858,7 +1860,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
-
+                    Util.INSTANCE.validateGradientPoints(BIGCENTER_BACKGROUNDFRAME_START, BIGCENTER_BACKGROUNDFRAME_STOP);
                     final LinearGradientPaint BIGCENTER_BACKGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGCENTER_BACKGROUNDFRAME_START, BIGCENTER_BACKGROUNDFRAME_STOP, BIGCENTER_BACKGROUNDFRAME_FRACTIONS, BIGCENTER_BACKGROUNDFRAME_COLORS);
                     G2.setPaint(BIGCENTER_BACKGROUNDFRAME_GRADIENT);
                     G2.fill(BIGCENTER_BACKGROUNDFRAME);
@@ -1896,7 +1898,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
-
+                    Util.INSTANCE.validateGradientPoints(BIGCENTER_BACKGROUND_START, BIGCENTER_BACKGROUND_STOP);
                     final LinearGradientPaint BIGCENTER_BACKGROUND_GRADIENT = new LinearGradientPaint(BIGCENTER_BACKGROUND_START, BIGCENTER_BACKGROUND_STOP, BIGCENTER_BACKGROUND_FRACTIONS, BIGCENTER_BACKGROUND_COLORS);
                     G2.setPaint(BIGCENTER_BACKGROUND_GRADIENT);
                     G2.fill(BIGCENTER_BACKGROUND);
@@ -1938,7 +1940,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
-
+                    Util.INSTANCE.validateGradientPoints(BIGCENTER_FOREGROUNDFRAME_START, BIGCENTER_FOREGROUNDFRAME_STOP);
                     final LinearGradientPaint BIGCENTER_FOREGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGCENTER_FOREGROUNDFRAME_START, BIGCENTER_FOREGROUNDFRAME_STOP, BIGCENTER_FOREGROUNDFRAME_FRACTIONS, BIGCENTER_FOREGROUNDFRAME_COLORS);
                     G2.setPaint(BIGCENTER_FOREGROUNDFRAME_GRADIENT);
                     G2.fill(BIGCENTER_FOREGROUNDFRAME);
@@ -1988,7 +1990,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
-
+                    Util.INSTANCE.validateGradientPoints(BIGCENTER_FOREGROUND_START, BIGCENTER_FOREGROUND_STOP);
                     final LinearGradientPaint BIGCENTER_FOREGROUND_GRADIENT = new LinearGradientPaint(BIGCENTER_FOREGROUND_START, BIGCENTER_FOREGROUND_STOP, BIGCENTER_FOREGROUND_FRACTIONS, BIGCENTER_FOREGROUND_COLORS);
                     G2.setPaint(BIGCENTER_FOREGROUND_GRADIENT);
                     G2.fill(BIGCENTER_FOREGROUND);
@@ -2007,6 +2009,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(129, 139, 140, 255),
                         new Color(166, 171, 175, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP);
                     final LinearGradientPaint CHROMEKNOB_BACKFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP, CHROMEKNOB_BACKFRAME_FRACTIONS, CHROMEKNOB_BACKFRAME_COLORS);
                     G2.setPaint(CHROMEKNOB_BACKFRAME_GRADIENT);
                     G2.fill(CHROMEKNOB_BACKFRAME);
@@ -2066,6 +2069,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(225, 235, 232, 255),
                         new Color(196, 207, 207, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP);
                     final LinearGradientPaint CHROMEKNOB_FOREFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP, CHROMEKNOB_FOREFRAME_FRACTIONS, CHROMEKNOB_FOREFRAME_COLORS);
                     G2.setPaint(CHROMEKNOB_FOREFRAME_GRADIENT);
                     G2.fill(CHROMEKNOB_FOREFRAME);
@@ -2081,6 +2085,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(237, 239, 237, 255),
                         new Color(148, 161, 161, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP);
                     final LinearGradientPaint CHROMEKNOB_FORE_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP, CHROMEKNOB_FORE_FRACTIONS, CHROMEKNOB_FORE_COLORS);
                     G2.setPaint(CHROMEKNOB_FORE_GRADIENT);
                     G2.fill(CHROMEKNOB_FORE);
@@ -2100,6 +2105,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(46, 49, 53, 255),
                         new Color(22, 23, 26, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(METALKNOB_FRAME_START, METALKNOB_FRAME_STOP);
                     final LinearGradientPaint METALKNOB_FRAME_GRADIENT = new LinearGradientPaint(METALKNOB_FRAME_START, METALKNOB_FRAME_STOP, METALKNOB_FRAME_FRACTIONS, METALKNOB_FRAME_COLORS);
                     G2.setPaint(METALKNOB_FRAME_GRADIENT);
                     G2.fill(METALKNOB_FRAME);
@@ -2136,6 +2142,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
+                    Util.INSTANCE.validateGradientPoints(METALKNOB_MAIN_START, METALKNOB_MAIN_STOP);
                     final LinearGradientPaint METALKNOB_MAIN_GRADIENT = new LinearGradientPaint(METALKNOB_MAIN_START, METALKNOB_MAIN_STOP, METALKNOB_MAIN_FRACTIONS, METALKNOB_MAIN_COLORS);
                     G2.setPaint(METALKNOB_MAIN_GRADIENT);
                     G2.fill(METALKNOB_MAIN);
@@ -2193,6 +2200,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(0, 0, 0, 255),
                         new Color(204, 204, 204, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(METALKNOB_INNERFRAME_START, METALKNOB_INNERFRAME_STOP);
                     final LinearGradientPaint METALKNOB_INNERFRAME_GRADIENT = new LinearGradientPaint(METALKNOB_INNERFRAME_START, METALKNOB_INNERFRAME_STOP, METALKNOB_INNERFRAME_FRACTIONS, METALKNOB_INNERFRAME_COLORS);
                     G2.setPaint(METALKNOB_INNERFRAME_GRADIENT);
                     G2.fill(METALKNOB_INNERFRAME);
@@ -2208,6 +2216,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(1, 6, 11, 255),
                         new Color(50, 52, 56, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(METALKNOB_INNERBACKGROUND_START, METALKNOB_INNERBACKGROUND_STOP);
                     final LinearGradientPaint METALKNOB_INNERBACKGROUND_GRADIENT = new LinearGradientPaint(METALKNOB_INNERBACKGROUND_START, METALKNOB_INNERBACKGROUND_STOP, METALKNOB_INNERBACKGROUND_FRACTIONS, METALKNOB_INNERBACKGROUND_COLORS);
                     G2.setPaint(METALKNOB_INNERBACKGROUND_GRADIENT);
                     G2.fill(METALKNOB_INNERBACKGROUND);
@@ -2270,7 +2279,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(63, 63, 63, 255),
                         new Color(40, 40, 40, 255)
                     };
-
+                    Util.INSTANCE.validateGradientPoints(LOWERCENTER_KNOB_FRAME_START, LOWERCENTER_KNOB_FRAME_STOP);
                     final LinearGradientPaint LOWERCENTER_KNOB_FRAME_GRADIENT = new LinearGradientPaint(LOWERCENTER_KNOB_FRAME_START, LOWERCENTER_KNOB_FRAME_STOP, LOWERCENTER_KNOB_FRAME_FRACTIONS, LOWERCENTER_KNOB_FRAME_COLORS);
                     G2.setPaint(LOWERCENTER_KNOB_FRAME_GRADIENT);
                     G2.fill(LOWERCENTER_KNOB_FRAME);
@@ -2312,7 +2321,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
-
+                    Util.INSTANCE.validateGradientPoints(LOWERCENTER_KNOB_MAIN_START, LOWERCENTER_KNOB_MAIN_STOP);
                     final LinearGradientPaint LOWERCENTER_KNOB_MAIN_GRADIENT = new LinearGradientPaint(LOWERCENTER_KNOB_MAIN_START, LOWERCENTER_KNOB_MAIN_STOP, LOWERCENTER_KNOB_MAIN_FRACTIONS, LOWERCENTER_KNOB_MAIN_COLORS);
                     G2.setPaint(LOWERCENTER_KNOB_MAIN_GRADIENT);
                     G2.fill(LOWERCENTER_KNOB_MAIN);
@@ -2375,6 +2384,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
+                    Util.INSTANCE.validateGradientPoints(BIGLOWERCENTER_BACKGROUNDFRAME_START, BIGLOWERCENTER_BACKGROUNDFRAME_STOP);
                     final LinearGradientPaint BIGLOWERCENTER_BACKGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGLOWERCENTER_BACKGROUNDFRAME_START, BIGLOWERCENTER_BACKGROUNDFRAME_STOP, BIGLOWERCENTER_BACKGROUNDFRAME_FRACTIONS, BIGLOWERCENTER_BACKGROUNDFRAME_COLORS);
                     G2.setPaint(BIGLOWERCENTER_BACKGROUNDFRAME_GRADIENT);
                     G2.fill(BIGLOWERCENTER_BACKGROUNDFRAME);
@@ -2411,6 +2421,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
+                    Util.INSTANCE.validateGradientPoints(BIGLOWERCENTER_BACKGROUND_START, BIGLOWERCENTER_BACKGROUND_STOP);
                     final LinearGradientPaint BIGLOWERCENTER_BACKGROUND_GRADIENT = new LinearGradientPaint(BIGLOWERCENTER_BACKGROUND_START, BIGLOWERCENTER_BACKGROUND_STOP, BIGLOWERCENTER_BACKGROUND_FRACTIONS, BIGLOWERCENTER_BACKGROUND_COLORS);
                     G2.setPaint(BIGLOWERCENTER_BACKGROUND_GRADIENT);
                     G2.fill(BIGLOWERCENTER_BACKGROUND);
@@ -2451,6 +2462,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
+                    Util.INSTANCE.validateGradientPoints(BIGLOWERCENTER_FOREGROUNDFRAME_START, BIGLOWERCENTER_FOREGROUNDFRAME_STOP);
                     final LinearGradientPaint BIGLOWERCENTER_FOREGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGLOWERCENTER_FOREGROUNDFRAME_START, BIGLOWERCENTER_FOREGROUNDFRAME_STOP, BIGLOWERCENTER_FOREGROUNDFRAME_FRACTIONS, BIGLOWERCENTER_FOREGROUNDFRAME_COLORS);
                     G2.setPaint(BIGLOWERCENTER_FOREGROUNDFRAME_GRADIENT);
                     G2.fill(BIGLOWERCENTER_FOREGROUNDFRAME);
@@ -2499,6 +2511,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
+                    Util.INSTANCE.validateGradientPoints(BIGLOWERCENTER_FOREGROUND_START, BIGLOWERCENTER_FOREGROUND_STOP);
                     final LinearGradientPaint BIGLOWERCENTER_FOREGROUND_GRADIENT = new LinearGradientPaint(BIGLOWERCENTER_FOREGROUND_START, BIGLOWERCENTER_FOREGROUND_STOP, BIGLOWERCENTER_FOREGROUND_FRACTIONS, BIGLOWERCENTER_FOREGROUND_COLORS);
                     G2.setPaint(BIGLOWERCENTER_FOREGROUND_GRADIENT);
                     G2.fill(BIGLOWERCENTER_FOREGROUND);
@@ -2522,6 +2535,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(129, 139, 140, 255),
                         new Color(166, 171, 175, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP);
                     final LinearGradientPaint CHROMEKNOB_BACKFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP, CHROMEKNOB_BACKFRAME_FRACTIONS, CHROMEKNOB_BACKFRAME_COLORS);
                     G2.setPaint(CHROMEKNOB_BACKFRAME_GRADIENT);
                     G2.fill(CHROMEKNOB_BACKFRAME);
@@ -2581,6 +2595,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(225, 235, 232, 255),
                         new Color(196, 207, 207, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP);
                     final LinearGradientPaint CHROMEKNOB_FOREFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP, CHROMEKNOB_FOREFRAME_FRACTIONS, CHROMEKNOB_FOREFRAME_COLORS);
                     G2.setPaint(CHROMEKNOB_FOREFRAME_GRADIENT);
                     G2.fill(CHROMEKNOB_FOREFRAME);
@@ -2596,6 +2611,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(237, 239, 237, 255),
                         new Color(148, 161, 161, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP);
                     final LinearGradientPaint CHROMEKNOB_FORE_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP, CHROMEKNOB_FORE_FRACTIONS, CHROMEKNOB_FORE_COLORS);
                     G2.setPaint(CHROMEKNOB_FORE_GRADIENT);
                     G2.fill(CHROMEKNOB_FORE);
@@ -2621,6 +2637,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(46, 49, 53, 255),
                         new Color(22, 23, 26, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(METALKNOBLC_FRAME_START, METALKNOBLC_FRAME_STOP);
                     final LinearGradientPaint METALKNOBLC_FRAME_GRADIENT = new LinearGradientPaint(METALKNOBLC_FRAME_START, METALKNOBLC_FRAME_STOP, METALKNOBLC_FRAME_FRACTIONS, METALKNOBLC_FRAME_COLORS);
                     G2.setPaint(METALKNOBLC_FRAME_GRADIENT);
                     G2.fill(METALKNOBLC_FRAME);
@@ -2657,6 +2674,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                             };
                             break;
                     }
+                    Util.INSTANCE.validateGradientPoints(METALKNOBLC_MAIN_START, METALKNOBLC_MAIN_STOP);
                     final LinearGradientPaint METALKNOBLC_MAIN_GRADIENT = new LinearGradientPaint(METALKNOBLC_MAIN_START, METALKNOBLC_MAIN_STOP, METALKNOBLC_MAIN_FRACTIONS, METALKNOBLC_MAIN_COLORS);
                     G2.setPaint(METALKNOBLC_MAIN_GRADIENT);
                     G2.fill(METALKNOBLC_MAIN);
@@ -2714,6 +2732,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(0, 0, 0, 255),
                         new Color(204, 204, 204, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(METALKNOBLC_INNERFRAME_START, METALKNOBLC_INNERFRAME_STOP);
                     final LinearGradientPaint METALKNOBLC_INNERFRAME_GRADIENT = new LinearGradientPaint(METALKNOBLC_INNERFRAME_START, METALKNOBLC_INNERFRAME_STOP, METALKNOBLC_INNERFRAME_FRACTIONS, METALKNOBLC_INNERFRAME_COLORS);
                     G2.setPaint(METALKNOBLC_INNERFRAME_GRADIENT);
                     G2.fill(METALKNOBLC_INNERFRAME);
@@ -2729,6 +2748,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
                         new Color(1, 6, 11, 255),
                         new Color(50, 52, 56, 255)
                     };
+                    Util.INSTANCE.validateGradientPoints(METALKNOBLC_INNERBACKGROUND_START, METALKNOBLC_INNERBACKGROUND_STOP);
                     final LinearGradientPaint METALKNOBLC_INNERBACKGROUND_GRADIENT = new LinearGradientPaint(METALKNOBLC_INNERBACKGROUND_START, METALKNOBLC_INNERBACKGROUND_STOP, METALKNOBLC_INNERBACKGROUND_FRACTIONS, METALKNOBLC_INNERBACKGROUND_COLORS);
                     G2.setPaint(METALKNOBLC_INNERBACKGROUND_GRADIENT);
                     G2.fill(METALKNOBLC_INNERBACKGROUND);
@@ -2844,6 +2864,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
             getThresholdColor().MEDIUM,
             getThresholdColor().DARK
         };
+        Util.INSTANCE.validateGradientPoints(THRESHOLD_START, THRESHOLD_STOP);
         final LinearGradientPaint THRESHOLD_GRADIENT = new LinearGradientPaint(THRESHOLD_START, THRESHOLD_STOP, THRESHOLD_FRACTIONS, THRESHOLD_COLORS);
         G2.setPaint(THRESHOLD_GRADIENT);
         G2.fill(THRESHOLD);

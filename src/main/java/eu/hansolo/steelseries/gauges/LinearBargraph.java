@@ -33,6 +33,8 @@ import eu.hansolo.steelseries.tools.Model;
 import eu.hansolo.steelseries.tools.NumberSystem;
 import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.Section;
+import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -576,6 +578,7 @@ public class LinearBargraph extends AbstractLinearBargraph {
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.1490196078f),
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.0470588235f)
         };
+        Util.INSTANCE.validateGradientPoints(VALUE_BACKGROUND_VERTICAL_START, VALUE_BACKGROUND_VERTICAL_STOP);
         final LinearGradientPaint VALUE_BACKGROUND_TRACK_GRADIENT = new LinearGradientPaint(VALUE_BACKGROUND_VERTICAL_START, VALUE_BACKGROUND_VERTICAL_STOP, VALUE_BACKGROUND_TRACK_FRACTIONS, VALUE_BACKGROUND_TRACK_COLORS);
         G2.setPaint(VALUE_BACKGROUND_TRACK_GRADIENT);
         G2.fill(VALUE_BACKGROUND_TRACK);
@@ -600,6 +603,7 @@ public class LinearBargraph extends AbstractLinearBargraph {
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.6980392157f),
             UTIL.setAlpha(getBackgroundColor().LABEL_COLOR, 0.4f)
         };
+        Util.INSTANCE.validateGradientPoints(VALUE_BORDER_START, VALUE_BORDER_STOP);
         final LinearGradientPaint VALUE_BORDER_GRADIENT = new LinearGradientPaint(VALUE_BORDER_START, VALUE_BORDER_STOP, VALUE_BORDER_FRACTIONS, VALUE_BORDER_COLORS);
         G2.setPaint(VALUE_BORDER_GRADIENT);
         G2.fill(VALUE_LEFT_BORDER);
@@ -866,7 +870,7 @@ public class LinearBargraph extends AbstractLinearBargraph {
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 

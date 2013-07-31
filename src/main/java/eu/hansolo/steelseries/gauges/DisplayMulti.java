@@ -31,6 +31,13 @@ import eu.hansolo.steelseries.tools.GlowImageFactory;
 import eu.hansolo.steelseries.tools.LcdColor;
 import eu.hansolo.steelseries.tools.NumberSystem;
 import eu.hansolo.steelseries.tools.Util;
+import org.pushingpixels.trident.Timeline;
+import org.pushingpixels.trident.ease.Linear;
+import org.pushingpixels.trident.ease.TimelineEase;
+
+import javax.swing.JComponent;
+import javax.swing.Timer;
+import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -54,12 +61,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import javax.swing.JComponent;
-import javax.swing.Timer;
-import javax.swing.border.Border;
-import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.ease.Linear;
-import org.pushingpixels.trident.ease.TimelineEase;
 
 
 /**
@@ -579,7 +580,7 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
             LCD_COLORS[3],
             LCD_COLORS[4]
         };
-
+        Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
         return new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
     }
 
@@ -795,7 +796,7 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
             new Color(0.5f, 0.5f, 0.5f, 1.0f),
             new Color(0.9f, 0.9f, 0.9f, 1.0f)
         };
-
+        Util.INSTANCE.validateGradientPoints(BACKGROUND_START, BACKGROUND_STOP);
         final LinearGradientPaint BACKGROUND_GRADIENT = new LinearGradientPaint(BACKGROUND_START, BACKGROUND_STOP, BACKGROUND_FRACTIONS, BACKGROUND_COLORS);
         //final double BACKGROUND_CORNER_RADIUS = WIDTH * 0.09375;
         final double BACKGROUND_CORNER_RADIUS = WIDTH > HEIGHT ? (HEIGHT * 0.095) : (WIDTH * 0.095);
@@ -829,6 +830,7 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
         if (lcdColor == LcdColor.CUSTOM) {
             G2.setPaint(customLcdBackground);
         } else {
+            Util.INSTANCE.validateGradientPoints(FOREGROUND_START, FOREGROUND_STOP);
             final LinearGradientPaint FOREGROUND_GRADIENT = new LinearGradientPaint(FOREGROUND_START, FOREGROUND_STOP, FOREGROUND_FRACTIONS, FOREGROUND_COLORS);
             G2.setPaint(FOREGROUND_GRADIENT);
         }

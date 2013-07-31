@@ -603,8 +603,12 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
                 UTIL.setAlpha(qualityOverlayLookup.getColorAt(factor), 0.5f)
             };
 
+            if (Util.INSTANCE.pointsEqual(0, overlayInsets.top, 0, INNER_BOUNDS.height - overlayInsets.bottom)) {
+                qualityOverlayGradient = new LinearGradientPaint(new Point2D.Double(0, overlayInsets.top), new Point2D.Double(0, INNER_BOUNDS.height - overlayInsets.bottom + 1), new float[]{0.0f, 0.5f, 1.0f}, overlayColors);
+            } else {
+                qualityOverlayGradient = new LinearGradientPaint(new Point2D.Double(0, overlayInsets.top), new Point2D.Double(0, INNER_BOUNDS.height - overlayInsets.bottom), new float[]{0.0f, 0.5f, 1.0f}, overlayColors);
+            }
             qualityOverlayLookup = new GradientWrapper(new Point2D.Double(lcdImage.getMinX() + overlayInsets.left, 0), new Point2D.Double(lcdImage.getMinX() + lcdImage.getWidth() - overlayInsets.right, 0), qualityOverlayFractions, qualityOverlayColors);
-            qualityOverlayGradient = new LinearGradientPaint(new Point2D.Double(0, overlayInsets.top), new Point2D.Double(0, INNER_BOUNDS.height - overlayInsets.bottom), new float[]{0.0f, 0.5f, 1.0f}, overlayColors);
             qualityOverlay.setRoundRect(overlayInsets.left, overlayInsets.top, (INNER_BOUNDS.width * overlayFactor) - overlayInsets.left - overlayInsets.right, INNER_BOUNDS.height - overlayInsets.top - overlayInsets.bottom, overlayCornerRadius, overlayCornerRadius);
         }
         firePropertyChange(LCD_VALUE_PROPERTY, OLD_VALUE, LCD_VALUE);

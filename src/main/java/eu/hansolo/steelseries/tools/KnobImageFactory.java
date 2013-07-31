@@ -91,7 +91,7 @@ public enum KnobImageFactory {
                     new Color(63, 63, 63, 255),
                     new Color(40, 40, 40, 255)
                 };
-
+                Util.INSTANCE.validateGradientPoints(POST_FRAME_START, POST_FRAME_STOP);
                 final LinearGradientPaint POST_FRAME_GRADIENT = new LinearGradientPaint(POST_FRAME_START, POST_FRAME_STOP, POST_FRAME_FRACTIONS, POST_FRAME_COLORS);
                 G2.setPaint(POST_FRAME_GRADIENT);
                 G2.fill(POST_FRAME);
@@ -133,6 +133,7 @@ public enum KnobImageFactory {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(POST_MAIN_START, POST_MAIN_STOP);
                 final LinearGradientPaint POST_MAIN_GRADIENT = new LinearGradientPaint(POST_MAIN_START, POST_MAIN_STOP, POST_MAIN_FRACTIONS, POST_MAIN_COLORS);
                 G2.setPaint(POST_MAIN_GRADIENT);
                 G2.fill(POST_MAIN);
@@ -189,6 +190,7 @@ public enum KnobImageFactory {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_BACKGROUNDFRAME_START, BIGCENTER_BACKGROUNDFRAME_STOP);
                 final LinearGradientPaint BIGCENTER_BACKGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGCENTER_BACKGROUNDFRAME_START, BIGCENTER_BACKGROUNDFRAME_STOP, BIGCENTER_BACKGROUNDFRAME_FRACTIONS, BIGCENTER_BACKGROUNDFRAME_COLORS);
                 G2.setPaint(BIGCENTER_BACKGROUNDFRAME_GRADIENT);
                 G2.fill(BIGCENTER_BACKGROUNDFRAME);
@@ -225,6 +227,7 @@ public enum KnobImageFactory {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_BACKGROUND_START, BIGCENTER_BACKGROUND_STOP);
                 final LinearGradientPaint BIGCENTER_BACKGROUND_GRADIENT = new LinearGradientPaint(BIGCENTER_BACKGROUND_START, BIGCENTER_BACKGROUND_STOP, BIGCENTER_BACKGROUND_FRACTIONS, BIGCENTER_BACKGROUND_COLORS);
                 G2.setPaint(BIGCENTER_BACKGROUND_GRADIENT);
                 G2.fill(BIGCENTER_BACKGROUND);
@@ -265,6 +268,7 @@ public enum KnobImageFactory {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_FOREGROUNDFRAME_START, BIGCENTER_FOREGROUNDFRAME_STOP);
                 final LinearGradientPaint BIGCENTER_FOREGROUNDFRAME_GRADIENT = new LinearGradientPaint(BIGCENTER_FOREGROUNDFRAME_START, BIGCENTER_FOREGROUNDFRAME_STOP, BIGCENTER_FOREGROUNDFRAME_FRACTIONS, BIGCENTER_FOREGROUNDFRAME_COLORS);
                 G2.setPaint(BIGCENTER_FOREGROUNDFRAME_GRADIENT);
                 G2.fill(BIGCENTER_FOREGROUNDFRAME);
@@ -313,6 +317,7 @@ public enum KnobImageFactory {
                         };
                         break;
                 }
+                Util.INSTANCE.validateGradientPoints(BIGCENTER_FOREGROUND_START, BIGCENTER_FOREGROUND_STOP);
                 final LinearGradientPaint BIGCENTER_FOREGROUND_GRADIENT = new LinearGradientPaint(BIGCENTER_FOREGROUND_START, BIGCENTER_FOREGROUND_STOP, BIGCENTER_FOREGROUND_FRACTIONS, BIGCENTER_FOREGROUND_COLORS);
                 G2.setPaint(BIGCENTER_FOREGROUND_GRADIENT);
                 G2.fill(BIGCENTER_FOREGROUND);
@@ -330,6 +335,7 @@ public enum KnobImageFactory {
                     new Color(129, 139, 140, 255),
                     new Color(166, 171, 175, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP);
                 final LinearGradientPaint CHROMEKNOB_BACKFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_BACKFRAME_START, CHROMEKNOB_BACKFRAME_STOP, CHROMEKNOB_BACKFRAME_FRACTIONS, CHROMEKNOB_BACKFRAME_COLORS);
                 G2.setPaint(CHROMEKNOB_BACKFRAME_GRADIENT);
                 G2.fill(CHROMEKNOB_BACKFRAME);
@@ -389,6 +395,7 @@ public enum KnobImageFactory {
                     new Color(225, 235, 232, 255),
                     new Color(196, 207, 207, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP);
                 final LinearGradientPaint CHROMEKNOB_FOREFRAME_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FOREFRAME_START, CHROMEKNOB_FOREFRAME_STOP, CHROMEKNOB_FOREFRAME_FRACTIONS, CHROMEKNOB_FOREFRAME_COLORS);
                 G2.setPaint(CHROMEKNOB_FOREFRAME_GRADIENT);
                 G2.fill(CHROMEKNOB_FOREFRAME);
@@ -404,6 +411,7 @@ public enum KnobImageFactory {
                     new Color(237, 239, 237, 255),
                     new Color(148, 161, 161, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP);
                 final LinearGradientPaint CHROMEKNOB_FORE_GRADIENT = new LinearGradientPaint(CHROMEKNOB_FORE_START, CHROMEKNOB_FORE_STOP, CHROMEKNOB_FORE_FRACTIONS, CHROMEKNOB_FORE_COLORS);
                 G2.setPaint(CHROMEKNOB_FORE_GRADIENT);
                 G2.fill(CHROMEKNOB_FORE);
@@ -423,6 +431,7 @@ public enum KnobImageFactory {
                     new Color(46, 49, 53, 255),
                     new Color(22, 23, 26, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(METALKNOB_FRAME_START, METALKNOB_FRAME_STOP);
                 final LinearGradientPaint METALKNOB_FRAME_GRADIENT = new LinearGradientPaint(METALKNOB_FRAME_START, METALKNOB_FRAME_STOP, METALKNOB_FRAME_FRACTIONS, METALKNOB_FRAME_COLORS);
                 G2.setPaint(METALKNOB_FRAME_GRADIENT);
                 G2.fill(METALKNOB_FRAME);
@@ -459,7 +468,7 @@ public enum KnobImageFactory {
                         };
                         break;
                 }
-
+                Util.INSTANCE.validateGradientPoints(METALKNOB_MAIN_START, METALKNOB_MAIN_STOP);
                 final LinearGradientPaint METALKNOB_MAIN_GRADIENT = new LinearGradientPaint(METALKNOB_MAIN_START, METALKNOB_MAIN_STOP, METALKNOB_MAIN_FRACTIONS, METALKNOB_MAIN_COLORS);
                 G2.setPaint(METALKNOB_MAIN_GRADIENT);
                 G2.fill(METALKNOB_MAIN);
@@ -517,6 +526,7 @@ public enum KnobImageFactory {
                     new Color(0, 0, 0, 255),
                     new Color(204, 204, 204, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(METALKNOB_INNERFRAME_START, METALKNOB_INNERFRAME_STOP);
                 final LinearGradientPaint METALKNOB_INNERFRAME_GRADIENT = new LinearGradientPaint(METALKNOB_INNERFRAME_START, METALKNOB_INNERFRAME_STOP, METALKNOB_INNERFRAME_FRACTIONS, METALKNOB_INNERFRAME_COLORS);
                 G2.setPaint(METALKNOB_INNERFRAME_GRADIENT);
                 G2.fill(METALKNOB_INNERFRAME);
@@ -532,6 +542,7 @@ public enum KnobImageFactory {
                     new Color(1, 6, 11, 255),
                     new Color(50, 52, 56, 255)
                 };
+                Util.INSTANCE.validateGradientPoints(METALKNOB_INNERBACKGROUND_START, METALKNOB_INNERBACKGROUND_STOP);
                 final LinearGradientPaint METALKNOB_INNERBACKGROUND_GRADIENT = new LinearGradientPaint(METALKNOB_INNERBACKGROUND_START, METALKNOB_INNERBACKGROUND_STOP, METALKNOB_INNERBACKGROUND_FRACTIONS, METALKNOB_INNERBACKGROUND_COLORS);
                 G2.setPaint(METALKNOB_INNERBACKGROUND_GRADIENT);
                 G2.fill(METALKNOB_INNERBACKGROUND);

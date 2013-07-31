@@ -47,6 +47,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -62,12 +63,12 @@ import javax.imageio.ImageIO;
 public enum Util {
 
     INSTANCE;
-    private final float INT_TO_FLOAT_CONST = 1f / 255f;
-    private final Pattern NUMBERS_ONLY = Pattern.compile("^[-+]?[0-9]+[.]?[0-9]*([eE][-+]?[0-9]+)?$");
-    private final Matcher MATCHES_NUMBERS = NUMBERS_ONLY.matcher("");
-    private Font digitalFont = null;
-    private final Font STANDARD_FONT = new Font("Verdana", 1, 24);
-    private final Rectangle2D TEXT_BOUNDARY = new Rectangle2D.Double(0, 0, 10, 10);
+    private final float       INT_TO_FLOAT_CONST = 1f / 255f;
+    private final Pattern     NUMBERS_ONLY       = Pattern.compile("^[-+]?[0-9]+[.]?[0-9]*([eE][-+]?[0-9]+)?$");
+    private final Matcher     MATCHES_NUMBERS    = NUMBERS_ONLY.matcher("");
+    private final Font        STANDARD_FONT      = new Font("Verdana", 1, 24);
+    private final Rectangle2D TEXT_BOUNDARY      = new Rectangle2D.Double(0, 0, 10, 10);
+    private Font              digitalFont        = null;
 
     /**
      * A class that contains some useful methods related to the PointOfInterest class and
@@ -78,7 +79,7 @@ public enum Util {
             digitalFont = Font.createFont(0, this.getClass().getResourceAsStream("/eu/hansolo/steelseries/resources/digital.ttf"));
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(digitalFont);
         } catch (FontFormatException exception) {
-        } catch (java.io.IOException exception) {
+        } catch (IOException exception) {
         }
     }
 
@@ -1053,6 +1054,28 @@ public enum Util {
         if (VALUE < 0) { formatedResult = '-' + formatedResult; }
 
         return formatedResult;
+    }
+
+    public boolean pointsEqual(final int X1, final int Y1, final int X2, final int Y2) {
+        return (X1 == X2 && Y1 == Y2);
+    }
+
+    public boolean pointsEqual(final float X1, final float Y1, final float X2, final float Y2) {
+        return (Float.compare(X1, X2) == 0f) && (Float.compare(Y1, Y2) == 0f);
+    }
+
+    public boolean pointsEquals(final double X1, final double Y1, final double X2, final double Y2) {
+        return (Double.compare(X1, X2) == 0d) && (Double.compare(Y1, Y2) == 0);
+    }
+
+    public boolean pointsEqual(final Point2D P1, final Point2D P2) {
+        return P1.equals(P2);
+    }
+
+    public void validateGradientPoints(final Point2D P1, final Point2D P2) {
+        if (pointsEqual(P1, P2)) {
+            P2.setLocation(P2.getX(), P2.getY() + 1);
+        }
     }
     // </editor-fold>
 }

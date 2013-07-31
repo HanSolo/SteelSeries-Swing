@@ -153,6 +153,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.LIGHT
                     };
                 }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
+                }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -203,6 +206,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.LIGHT
                     };
                 }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
+                }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -239,6 +245,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.MEDIUM,
                         CUSTOM_POINTER_COLOR.MEDIUM
                     };
+                }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
                 }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
@@ -293,6 +302,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.LIGHT
                     };
                 }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
+                }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -331,6 +343,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.MEDIUM
                     };
                 }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
+                }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -367,6 +382,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.MEDIUM,
                         CUSTOM_POINTER_COLOR.MEDIUM
                     };
+                }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
                 }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
@@ -412,6 +430,9 @@ public enum PointerImageFactory {
                     new Color(102, 102, 102, 255),
                     new Color(50, 50, 50, 255)
                 };
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
+                }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -463,6 +484,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.MEDIUM
                     };
                 }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
+                }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);
                 G2.fill(POINTER);
@@ -481,12 +505,20 @@ public enum PointerImageFactory {
                 POINTER.lineTo(0.5 * IMAGE_WIDTH, 0.16822429906542055 * IMAGE_HEIGHT);
                 POINTER.closePath();
                 if (POINTER_COLOR != ColorDef.CUSTOM) {
-                    POINTER_GRADIENT = new LinearGradientPaint(new Point2D.Double(0, POINTER.getBounds2D().getMinY()), new Point2D.Double(0, POINTER.getBounds2D().getMaxY()), new float[]{0.0f, 1.0f}, new Color[]{POINTER_COLOR.MEDIUM, POINTER_COLOR.DARK});
+                    if (Util.INSTANCE.pointsEquals(0d, POINTER.getBounds2D().getMinY(), 0d, POINTER.getBounds2D().getMaxY())) {
+                        POINTER_GRADIENT = new LinearGradientPaint(new Point2D.Double(0, POINTER.getBounds2D().getMinY()), new Point2D.Double(0, POINTER.getBounds2D().getMaxY() + 1), new float[]{0.0f, 1.0f}, new Color[]{POINTER_COLOR.MEDIUM, POINTER_COLOR.DARK});
+                    } else {
+                        POINTER_GRADIENT = new LinearGradientPaint(new Point2D.Double(0, POINTER.getBounds2D().getMinY()), new Point2D.Double(0, POINTER.getBounds2D().getMaxY()), new float[]{0.0f, 1.0f}, new Color[]{POINTER_COLOR.MEDIUM, POINTER_COLOR.DARK});
+                    }
                     G2.setPaint(POINTER_GRADIENT);
                     G2.fill(POINTER);
                     G2.setColor(POINTER_COLOR.VERY_DARK);
                 } else {
-                    POINTER_GRADIENT = new LinearGradientPaint(new Point2D.Double(0, POINTER.getBounds2D().getMinY()), new Point2D.Double(0, POINTER.getBounds2D().getMaxY()), new float[]{0.0f, 1.0f}, new Color[]{CUSTOM_POINTER_COLOR.MEDIUM, CUSTOM_POINTER_COLOR.DARK});
+                    if (Util.INSTANCE.pointsEquals(0d, POINTER.getBounds2D().getMinY(), 0d, POINTER.getBounds2D().getMaxY())) {
+                        POINTER_GRADIENT = new LinearGradientPaint(new Point2D.Double(0, POINTER.getBounds2D().getMinY()), new Point2D.Double(0, POINTER.getBounds2D().getMaxY() + 1), new float[]{0.0f, 1.0f}, new Color[]{CUSTOM_POINTER_COLOR.MEDIUM, CUSTOM_POINTER_COLOR.DARK});
+                    } else {
+                        POINTER_GRADIENT = new LinearGradientPaint(new Point2D.Double(0, POINTER.getBounds2D().getMinY()), new Point2D.Double(0, POINTER.getBounds2D().getMaxY()), new float[]{0f, 1f}, new Color[]{CUSTOM_POINTER_COLOR.MEDIUM, CUSTOM_POINTER_COLOR.DARK});
+                    }
                     G2.setPaint(POINTER_GRADIENT);
                     G2.fill(POINTER);
                     G2.setColor(CUSTOM_POINTER_COLOR.VERY_DARK);
@@ -584,6 +616,9 @@ public enum PointerImageFactory {
                         CUSTOM_POINTER_COLOR.MEDIUM,
                         CUSTOM_POINTER_COLOR.VERY_DARK
                     };
+                }
+                if (Util.INSTANCE.pointsEqual(POINTER_START, POINTER_STOP)) {
+                    POINTER_STOP.setLocation(POINTER_STOP.getX(), POINTER_STOP.getY() + 1);
                 }
                 POINTER_GRADIENT = new LinearGradientPaint(POINTER_START, POINTER_STOP, POINTER_FRACTIONS, POINTER_COLORS);
                 G2.setPaint(POINTER_GRADIENT);

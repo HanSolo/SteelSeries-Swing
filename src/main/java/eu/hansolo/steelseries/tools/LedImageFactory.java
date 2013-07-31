@@ -199,6 +199,9 @@ public enum LedImageFactory {
         };
 
         // Define light reflex gradients
+        if (Util.INSTANCE.pointsEqual(LED_LIGHTREFLEX_START, LED_LIGHTREFLEX_STOP)) {
+            LED_LIGHTREFLEX_STOP.setLocation(LED_LIGHTREFLEX_STOP.getX(), LED_LIGHTREFLEX.getY() + 1);
+        }
         final LinearGradientPaint LED_LIGHTREFLEX_GRADIENT = new LinearGradientPaint(LED_LIGHTREFLEX_START, LED_LIGHTREFLEX_STOP, LIGHT_REFLEX_FRACTIONS, LIGHTREFLEX_COLORS);
 
         // Draw the led in on state

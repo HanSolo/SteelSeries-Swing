@@ -221,9 +221,7 @@ public enum BackgroundImageFactory {
             } else if (BACKGROUND_COLOR == BackgroundColor.NOISY_PLASTIC) {
                 GAUGE_BACKGROUND_START.setLocation(0.0, GAUGE_BACKGROUND.getMinY());
                 GAUGE_BACKGROUND_STOP.setLocation(0.0, GAUGE_BACKGROUND.getMaxY());
-                if (GAUGE_BACKGROUND_START.equals(GAUGE_BACKGROUND_STOP)) {
-                    GAUGE_BACKGROUND_STOP.setLocation(0.0, GAUGE_BACKGROUND_START.getY() + 1);
-                }
+                Util.INSTANCE.validateGradientPoints(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP);
                 final float[] FRACTIONS = {
                     0.0f,
                     1.0f
@@ -234,6 +232,7 @@ public enum BackgroundImageFactory {
                 };
                 GAUGE_BACKGROUND_GRADIENT = new LinearGradientPaint(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP, FRACTIONS, COLORS);
             } else {
+                Util.INSTANCE.validateGradientPoints(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP);
                 GAUGE_BACKGROUND_GRADIENT = new LinearGradientPaint(GAUGE_BACKGROUND_START, GAUGE_BACKGROUND_STOP, GAUGE_BACKGROUND_FRACTIONS, GAUGE_BACKGROUND_COLORS);
             }
             G2.setPaint(GAUGE_BACKGROUND_GRADIENT);
@@ -277,7 +276,12 @@ public enum BackgroundImageFactory {
                 new Color(0f, 0f, 0f, 0.0f),
                 new Color(0f, 0f, 0f, 0.6f)
             };
-            final LinearGradientPaint SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getMaxX(), 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            final LinearGradientPaint SHADOW_OVERLAY_GRADIENT;
+            if (Util.INSTANCE.pointsEquals(GAUGE_BACKGROUND.getMinX(), 0, GAUGE_BACKGROUND.getMaxX(), 0)) {
+                SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getMaxX() + 1, 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            } else {
+                SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getMaxX(), 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            }
             G2.setPaint(SHADOW_OVERLAY_GRADIENT);
             G2.fill(GAUGE_BACKGROUND);
         }
@@ -481,8 +485,10 @@ public enum BackgroundImageFactory {
                     UTIL.lighter(TEXTURE_COLOR, 0.15f),
                     UTIL.darker(TEXTURE_COLOR, 0.15f)
                 };
+                Util.INSTANCE.validateGradientPoints(BACKGROUND_START, BACKGROUND_STOP);
                 gaugeBackgroundGradient = new LinearGradientPaint(BACKGROUND_START, BACKGROUND_STOP, FRACTIONS, COLORS);
             } else {
+                Util.INSTANCE.validateGradientPoints(BACKGROUND_START, BACKGROUND_STOP);
                 gaugeBackgroundGradient = new LinearGradientPaint(BACKGROUND_START, BACKGROUND_STOP, BACKGROUND_FRACTIONS, BACKGROUND_COLORS);
             }
             G2.setPaint(gaugeBackgroundGradient);
@@ -535,7 +541,12 @@ public enum BackgroundImageFactory {
                 new Color(0f, 0f, 0f, 0.0f),
                 new Color(0f, 0f, 0f, 0.5f)
             };
-            final LinearGradientPaint SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getMaxX(), 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            final LinearGradientPaint SHADOW_OVERLAY_GRADIENT;
+            if (Util.INSTANCE.pointsEquals(GAUGE_BACKGROUND.getMinX(), 0, GAUGE_BACKGROUND.getMaxX(), 0)) {
+                SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getMaxX() + 1, 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            } else {
+                SHADOW_OVERLAY_GRADIENT = new LinearGradientPaint(new Point2D.Double(GAUGE_BACKGROUND.getMinX(), 0), new Point2D.Double(GAUGE_BACKGROUND.getMaxX(), 0), SHADOW_OVERLAY_FRACTIONS, SHADOW_OVERLAY_COLORS);
+            }
             G2.setPaint(SHADOW_OVERLAY_GRADIENT);
             G2.fill(GAUGE_BACKGROUND);
         }

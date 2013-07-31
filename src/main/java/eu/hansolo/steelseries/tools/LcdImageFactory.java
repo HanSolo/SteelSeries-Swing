@@ -88,8 +88,8 @@ public enum LcdImageFactory {
         // Background rectangle
         final Point2D BACKGROUND_START = new Point2D.Double(0.0, BOUNDS.getMinY());
         final Point2D BACKGROUND_STOP = new Point2D.Double(0.0, BOUNDS.getMaxY());
-        if (BACKGROUND_START.equals(BACKGROUND_STOP)) {
-            BACKGROUND_STOP.setLocation(0.0, BACKGROUND_START.getY() + 1);
+        if (Util.INSTANCE.pointsEqual(BACKGROUND_START, BACKGROUND_STOP)) {
+            BACKGROUND_STOP.setLocation(0.0, BACKGROUND_STOP.getY() + 1);
         }
 
         final float[] BACKGROUND_FRACTIONS = {
@@ -115,8 +115,8 @@ public enum LcdImageFactory {
         // Foreground rectangle
         final Point2D FOREGROUND_START = new Point2D.Double(0.0, BOUNDS.getMinY() + 1.0);
         final Point2D FOREGROUND_STOP = new Point2D.Double(0.0, BOUNDS.getMaxY() - 1);
-        if (FOREGROUND_START.equals(FOREGROUND_STOP)) {
-            FOREGROUND_STOP.setLocation(0.0, FOREGROUND_START.getY() + 1);
+        if (Util.INSTANCE.pointsEqual(FOREGROUND_START, FOREGROUND_STOP)) {
+            FOREGROUND_STOP.setLocation(0.0, FOREGROUND_STOP.getY() + 1);
         }
 
         final float[] FOREGROUND_FRACTIONS = {

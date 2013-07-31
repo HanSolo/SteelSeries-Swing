@@ -33,6 +33,15 @@ import eu.hansolo.steelseries.tools.LcdColor;
 import eu.hansolo.steelseries.tools.NumberSystem;
 import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.Util;
+import org.pushingpixels.trident.Timeline;
+import org.pushingpixels.trident.TimelineScenario;
+import org.pushingpixels.trident.callback.TimelineCallback;
+import org.pushingpixels.trident.ease.Sine;
+import org.pushingpixels.trident.ease.Spline;
+import org.pushingpixels.trident.ease.TimelineEase;
+
+import javax.swing.Timer;
+import javax.swing.border.Border;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Container;
@@ -56,14 +65,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import javax.swing.Timer;
-import javax.swing.border.Border;
-import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.TimelineScenario;
-import org.pushingpixels.trident.callback.TimelineCallback;
-import org.pushingpixels.trident.ease.Sine;
-import org.pushingpixels.trident.ease.Spline;
-import org.pushingpixels.trident.ease.TimelineEase;
 
 
 /**
@@ -1064,7 +1065,7 @@ public abstract class AbstractLinear extends AbstractGauge implements Lcd, Actio
             FULLY_TRANSPARENT,
             FULLY_TRANSPARENT
         };
-
+        Util.INSTANCE.validateGradientPoints(TRACK_START_POINT, TRACK_STOP_POINT);
         final LinearGradientPaint TRACK_GRADIENT = new LinearGradientPaint(TRACK_START_POINT, TRACK_STOP_POINT, TRACK_FRACTIONS, TRACK_COLORS);
         G2.setPaint(TRACK_GRADIENT);
         G2.fill(TRACK);
@@ -1267,6 +1268,7 @@ public abstract class AbstractLinear extends AbstractGauge implements Lcd, Actio
             getThresholdColor().MEDIUM,
             getThresholdColor().DARK
         };
+        Util.INSTANCE.validateGradientPoints(THRESHOLD_START, THRESHOLD_STOP);
         final LinearGradientPaint THRESHOLD_GRADIENT = new LinearGradientPaint(THRESHOLD_START, THRESHOLD_STOP, THRESHOLD_FRACTIONS, THRESHOLD_COLORS);
         G2.setPaint(THRESHOLD_GRADIENT);
         G2.fill(THRESHOLD);
