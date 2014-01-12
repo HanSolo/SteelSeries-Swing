@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Gerrit Grunwald
+ * Copyright (c) 2012, Gerrit Grunwald, Klaus Rheinwald
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,7 @@ import java.util.List;
 
 /**
  * @author Gerrit Grunwald <han.solo at muenster.de>
+ * @author Klaus Rheinwald <klaus at rheinwald.info>
  */
 public enum TickmarkImageFactory {
     // <editor-fold defaultstate="collapsed" desc="Variable declarations">
@@ -212,8 +213,8 @@ public enum TickmarkImageFactory {
         }
 
         // Definitions
-        final Font STD_FONT = new Font("Verdana", 0, (int) (0.04 * WIDTH));
-        final Font SECTION_FONT = new Font("Verdana", 0, (int) (0.05 * WIDTH));
+        final Font STD_FONT = new Font("Verdana", 0, (int) (0.06 * WIDTH));
+        final Font SECTION_FONT = new Font("Verdana", 0, (int) (0.07 * WIDTH));
         final int TEXT_DISTANCE = (int) (TEXT_DISTANCE_FACTOR * WIDTH);
         double ticklabelRotationOffset = 0;
         final int MINOR_TICK_LENGTH = (int) (0.0133333333 * WIDTH);

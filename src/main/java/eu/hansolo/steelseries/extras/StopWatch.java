@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Gerrit Grunwald
+ * Copyright (c) 2012, Gerrit Grunwald, Klaus Rheinwald
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,15 +29,12 @@ package eu.hansolo.steelseries.extras;
 
 import eu.hansolo.steelseries.gauges.AbstractGauge;
 import eu.hansolo.steelseries.gauges.AbstractRadial;
-import eu.hansolo.steelseries.tools.BackgroundColor;
-import eu.hansolo.steelseries.tools.ColorDef;
+import eu.hansolo.steelseries.tools.LcdColor;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.LinearGradientPaint;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
@@ -45,7 +42,6 @@ import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -56,13 +52,12 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.border.Border;
 
 
 /**
  * @author Gerrit Grunwald <han.solo at muenster.de>
+ * @author Klaus Rheinwald <klaus at rheinwald.info>
  */
 public class StopWatch extends AbstractRadial implements ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Variable declaration">
@@ -70,52 +65,73 @@ public class StopWatch extends AbstractRadial implements ActionListener {
     private final Timer CLOCK_TIMER;
     private double minutePointerAngle = 0;
     private double secondPointerAngle = 0;
-    private final Rectangle INNER_BOUNDS;
     // Background
     private final Point2D MAIN_CENTER = new Point2D.Double();
     private final Point2D SMALL_CENTER = new Point2D.Double();
+    private final Rectangle2D LCD = new Rectangle2D.Double();
     // Images used to combine layers for background and foreground
-    private BufferedImage bImage;
-    private BufferedImage fImage;
+    private BufferedImage backgroundImage;
+    private BufferedImage foregroundImage;
     private BufferedImage smallTickmarkImage;
     private BufferedImage mainPointerImage;
     private BufferedImage mainPointerShadowImage;
     private BufferedImage smallPointerImage;
     private BufferedImage smallPointerShadowImage;
+    private BufferedImage lcdThresholdImage;
     private BufferedImage disabledImage;
     private long start = 0;
-    private long currentMilliSeconds = 0;
     private long minutes = 0;
     private long seconds = 0;
     private long milliSeconds = 0;
     private boolean running = false;
     private boolean flatNeedle = false;
     private final Color SHADOW_COLOR = new Color(0.0f, 0.0f, 0.0f, 0.65f);
-    // Alignment related
-    private int horizontalAlignment;
-    private int verticalAlignment;
+    private final FontRenderContext RENDER_CONTEXT = new FontRenderContext(null, true, true);
+    private TextLayout unitLayout;
+    private final Rectangle2D UNIT_BOUNDARY = new Rectangle2D.Double();
+    private double unitStringWidth;
+    private TextLayout valueLayout;
+    private final Rectangle2D VALUE_BOUNDARY = new Rectangle2D.Double();
+    private TextLayout infoLayout;
+    private final Rectangle2D INFO_BOUNDARY = new Rectangle2D.Double();
     // </editor-fold>
+    private long time;
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public StopWatch() {
         super();
+        setLcdUnitString("s");
         CLOCK_TIMER = new Timer(100, this);
-        INNER_BOUNDS = new Rectangle(200, 200);
-        init(INNER_BOUNDS.width, INNER_BOUNDS.height);
-        setPointerColor(ColorDef.BLACK);
-        setBackgroundColor(BackgroundColor.LIGHT_GRAY);
-        horizontalAlignment = SwingConstants.CENTER;
-		verticalAlignment = SwingConstants.CENTER;
+        init(getInnerBounds().width, getInnerBounds().height);
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Initialization">
     @Override
     public AbstractGauge init(final int WIDTH, final int HEIGHT) {
-        if (WIDTH <= 1 || HEIGHT <= 1) {
+        final int GAUGE_WIDTH = isFrameVisible() ? WIDTH : getGaugeBounds().width;
+        final int GAUGE_HEIGHT = isFrameVisible() ? HEIGHT : getGaugeBounds().height;
+
+        if (GAUGE_WIDTH <= 1 || GAUGE_HEIGHT <= 1) {
             return this;
         }
 
+        if (isLcdVisible()) {
+            if (isDigitalFont()) {
+                setLcdValueFont(getModel().getDigitalBaseFont().deriveFont(0.55f * GAUGE_WIDTH * 0.15f));
+            } else {
+                setLcdValueFont(getModel().getStandardBaseFont().deriveFont(0.5f * GAUGE_WIDTH * 0.15f));
+            }
+
+            if (isCustomLcdUnitFontEnabled()) {
+                setLcdUnitFont(getCustomLcdUnitFont().deriveFont(0.25f * GAUGE_WIDTH * 0.15f));
+            } else {
+                setLcdUnitFont(getModel().getStandardBaseFont().deriveFont(0.25f * GAUGE_WIDTH * 0.15f));
+            }
+
+            setLcdInfoFont(getModel().getStandardInfoFont().deriveFont(0.15f * GAUGE_WIDTH * 0.15f));
+        }
+        
         if (!isFrameVisible()) {
             setFramelessOffset(-getInnerBounds().width * 0.0841121495, -getInnerBounds().width * 0.0841121495);
         } else {
@@ -123,26 +139,41 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         }
 
         // Create Background Image
-        if (bImage != null) {
-            bImage.flush();
+        if (backgroundImage != null) {
+            backgroundImage.flush();
         }
-        bImage = UTIL.createImage(WIDTH, WIDTH, Transparency.TRANSLUCENT);
+        backgroundImage = UTIL.createImage(GAUGE_WIDTH, GAUGE_WIDTH, Transparency.TRANSLUCENT);
 
         // Create Foreground Image
-        if (fImage != null) {
-            fImage.flush();
+        if (foregroundImage != null) {
+            foregroundImage.flush();
         }
-        fImage = UTIL.createImage(WIDTH, WIDTH, Transparency.TRANSLUCENT);
 
+        foregroundImage = UTIL.createImage(GAUGE_WIDTH, GAUGE_WIDTH, Transparency.TRANSLUCENT);
+        
+        if (isForegroundVisible()) {
+            switch (getFrameType()) {
+                case SQUARE:
+                    FOREGROUND_FACTORY.createLinearForeground(GAUGE_WIDTH, GAUGE_WIDTH, false, backgroundImage);
+                    break;
+
+                case ROUND:
+
+                default:
+                    FOREGROUND_FACTORY.createRadialForeground(GAUGE_WIDTH, false, getForegroundType(), foregroundImage);
+                    break;
+            }
+        }
+        
         if (isFrameVisible()) {
             switch (getFrameType()) {
                 case SQUARE:
-                    FRAME_FACTORY.createLinearFrame(WIDTH, WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), bImage);
+                    FRAME_FACTORY.createLinearFrame(GAUGE_WIDTH, GAUGE_WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), backgroundImage);
                     break;
                 case ROUND:
 
                 default:
-                    FRAME_FACTORY.createRadialFrame(WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), bImage);
+                    FRAME_FACTORY.createRadialFrame(GAUGE_WIDTH, getFrameDesign(), getCustomFrameDesign(), getFrameEffect(), backgroundImage);
                     break;
             }
         }
@@ -150,53 +181,66 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         if (isBackgroundVisible()) {
             switch (getFrameType()) {
                 case SQUARE:
-                    BACKGROUND_FACTORY.createLinearBackground(WIDTH, WIDTH, getBackgroundColor(), getCustomBackground(), getModel().getTextureColor(), bImage);
+                    BACKGROUND_FACTORY.createLinearBackground(WIDTH, WIDTH, getBackgroundColor(), getCustomBackground(), getModel().getTextureColor(), backgroundImage);
                     break;
                 case ROUND:
 
                 default:
-                    BACKGROUND_FACTORY.createRadialBackground(WIDTH, getBackgroundColor(), getCustomBackground(), getModel().getTextureColor(), bImage);
+                    BACKGROUND_FACTORY.createRadialBackground(WIDTH, getBackgroundColor(), getCustomBackground(), getModel().getTextureColor(), backgroundImage);
                     break;
             }
         }
 
-        create_TICKMARKS_Image(WIDTH, 60f, 0.075, 0.14, bImage);
+        if (isLcdVisible()) {
+            createLcdImage(new Rectangle2D.Double(((getGaugeBounds().width - GAUGE_WIDTH * 0.4) / 2.0), (getGaugeBounds().height * 0.55), (GAUGE_WIDTH * 0.4), (GAUGE_WIDTH * 0.1)), getLcdColor(), getCustomLcdBackground(), backgroundImage);
+            LCD.setRect(((getGaugeBounds().width - GAUGE_WIDTH * 0.4) / 2.0), (getGaugeBounds().height * 0.555), GAUGE_WIDTH * 0.4, GAUGE_WIDTH * 0.1);
+        }
+
+        create_TICKMARKS_Image(GAUGE_WIDTH, 60f, 0.075, 0.14, backgroundImage);
 
         if (smallTickmarkImage != null) {
             smallTickmarkImage.flush();
         }
-        smallTickmarkImage = create_TICKMARKS_Image((int) (0.285 * WIDTH), 30f, 0.095, 0.17, null);
+        smallTickmarkImage = create_TICKMARKS_Image((int) (0.285 * GAUGE_WIDTH), 30f, 0.095, 0.17, null);
 
         if (mainPointerImage != null) {
             mainPointerImage.flush();
         }
-        mainPointerImage = create_MAIN_POINTER_Image(WIDTH);
+        mainPointerImage = create_MAIN_POINTER_Image(GAUGE_WIDTH);
 
         if (mainPointerShadowImage != null) {
             mainPointerShadowImage.flush();
         }
-        mainPointerShadowImage = create_MAIN_POINTER_SHADOW_Image(WIDTH);
+        if (getModel().isPointerShadowVisible()) {
+            mainPointerShadowImage = create_MAIN_POINTER_SHADOW_Image(GAUGE_WIDTH);
+        } else {
+            mainPointerShadowImage = null;
+        }
 
         if (smallPointerImage != null) {
             smallPointerImage.flush();
         }
-        smallPointerImage = create_SMALL_POINTER_Image(WIDTH);
+        smallPointerImage = create_SMALL_POINTER_Image(GAUGE_WIDTH);
 
         if (smallPointerShadowImage != null) {
             smallPointerShadowImage.flush();
         }
-        smallPointerShadowImage = create_SMALL_POINTER_SHADOW_Image(WIDTH);
+        if (getModel().isPointerShadowVisible()) {
+            smallPointerShadowImage = create_SMALL_POINTER_SHADOW_Image(GAUGE_WIDTH);
+        } else {
+            smallPointerShadowImage = null;
+        }
 
         if (isForegroundVisible()) {
             switch (getFrameType()) {
                 case SQUARE:
-                    FOREGROUND_FACTORY.createLinearForeground(WIDTH, WIDTH, false, bImage);
+                    FOREGROUND_FACTORY.createLinearForeground(GAUGE_WIDTH, GAUGE_WIDTH, false, backgroundImage);
                     break;
 
                 case ROUND:
 
                 default:
-                    FOREGROUND_FACTORY.createRadialForeground(WIDTH, false, getForegroundType(), fImage);
+                    FOREGROUND_FACTORY.createRadialForeground(GAUGE_WIDTH, false, getForegroundType(), foregroundImage);
                     break;
             }
         }
@@ -204,7 +248,7 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         if (disabledImage != null) {
             disabledImage.flush();
         }
-        disabledImage = DISABLED_FACTORY.createRadialDisabled(WIDTH);
+        disabledImage = create_DISABLED_Image(GAUGE_WIDTH);
 
         return this;
     }
@@ -215,9 +259,9 @@ public class StopWatch extends AbstractRadial implements ActionListener {
     protected void paintComponent(Graphics g) {
         final Graphics2D G2 = (Graphics2D) g.create();
 
-        MAIN_CENTER.setLocation(INNER_BOUNDS.getCenterX(), INNER_BOUNDS.getCenterX());
-        SMALL_CENTER.setLocation(INNER_BOUNDS.getCenterX(), INNER_BOUNDS.width * 0.3130841121);
-
+        MAIN_CENTER.setLocation(getGaugeBounds().getCenterX(), getGaugeBounds().getCenterY());
+        SMALL_CENTER.setLocation(getGaugeBounds().getCenterX(), getGaugeBounds().height * 0.3130841121);
+        
         G2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         G2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         G2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
@@ -229,9 +273,9 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         final AffineTransform OLD_TRANSFORM = G2.getTransform();
 
         // Draw combined background image
-        G2.drawImage(bImage, 0, 0, null);
+        G2.drawImage(backgroundImage, 0, 0, null);
 
-        G2.drawImage(smallTickmarkImage, ((INNER_BOUNDS.width - smallTickmarkImage.getWidth()) / 2), (int) (SMALL_CENTER.getY() - smallTickmarkImage.getHeight() / 2.0), null);
+        G2.drawImage(smallTickmarkImage, ((getGaugeBounds().width - smallTickmarkImage.getWidth()) / 2), (int) (SMALL_CENTER.getY() - smallTickmarkImage.getHeight() / 2.0), null);
 
         // Draw the small pointer
         G2.rotate(Math.toRadians(minutePointerAngle + (2 * Math.sin(Math.toRadians(minutePointerAngle)))), SMALL_CENTER.getX(), SMALL_CENTER.getY());
@@ -240,6 +284,41 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         G2.rotate(Math.toRadians(minutePointerAngle), SMALL_CENTER.getX(), SMALL_CENTER.getY());
         G2.drawImage(smallPointerImage, 0, 0, null);
         G2.setTransform(OLD_TRANSFORM);
+
+        // Draw LCD display
+        if (isLcdVisible()) {
+            if (getLcdColor() == LcdColor.CUSTOM) {
+                G2.setColor(getCustomLcdForeground());
+            } else {
+                G2.setColor(getLcdColor().TEXT_COLOR);
+            }
+            G2.setFont(getLcdUnitFont());
+            if (isLcdUnitStringVisible()) {
+                unitLayout = new TextLayout(getLcdUnitString(), G2.getFont(), RENDER_CONTEXT);
+                UNIT_BOUNDARY.setFrame(unitLayout.getBounds());
+                G2.drawString(getLcdUnitString(), (float) (LCD.getX() + (LCD.getWidth() - UNIT_BOUNDARY.getWidth()) - LCD.getWidth() * 0.03), (float) (LCD.getY() + LCD.getHeight() * 0.76));
+                unitStringWidth = UNIT_BOUNDARY.getWidth();
+            } else {
+                unitStringWidth = 0;
+            }
+            
+            String lcdText = String.format( time < 0 ? "-%d:%02d.%1d" : "%d:%02d.%1d", Math.abs(minutes), Math.abs(seconds), Math.abs(milliSeconds/100));
+            int digitalFontNo_1Offset = 0;
+            if (isDigitalFont() && lcdText.startsWith("1")) {
+                digitalFontNo_1Offset = (int) (LCD.getHeight() * 0.27);
+            }
+            G2.setFont(getLcdValueFont());
+            valueLayout = new TextLayout(lcdText, G2.getFont(), RENDER_CONTEXT);
+            VALUE_BOUNDARY.setFrame(valueLayout.getBounds());
+            G2.drawString(lcdText, (float) (LCD.getX() + (LCD.getWidth() - unitStringWidth - VALUE_BOUNDARY.getWidth()) - LCD.getWidth() * 0.09) - digitalFontNo_1Offset, (float) (LCD.getY() + LCD.getHeight() * 0.76));
+            // Draw lcd info string
+            if (!getLcdInfoString().isEmpty()) {
+                G2.setFont(getLcdInfoFont());
+                infoLayout = new TextLayout(getLcdInfoString(), G2.getFont(), RENDER_CONTEXT);
+                INFO_BOUNDARY.setFrame(infoLayout.getBounds());
+                G2.drawString(getLcdInfoString(), LCD.getBounds().x + 5f, LCD.getBounds().y + (float) INFO_BOUNDARY.getHeight() + 5f);
+            }
+        }
 
         // Draw the main pointer
         G2.rotate(Math.toRadians(secondPointerAngle + (2 * Math.sin(Math.toRadians(secondPointerAngle)))), MAIN_CENTER.getX(), MAIN_CENTER.getY());
@@ -250,7 +329,7 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         G2.setTransform(OLD_TRANSFORM);
 
         // Draw combined foreground image
-        G2.drawImage(fImage, 0, 0, null);
+        G2.drawImage(foregroundImage, 0, 0, null);
 
         if (!isEnabled()) {
             G2.drawImage(disabledImage, 0, 0, null);
@@ -282,7 +361,7 @@ public class StopWatch extends AbstractRadial implements ActionListener {
             if (!CLOCK_TIMER.isRunning()) {
                 CLOCK_TIMER.start();
                 start = System.currentTimeMillis();
-                repaint(INNER_BOUNDS);
+                repaint(getGaugeBounds());
             }
         } else {
             if (CLOCK_TIMER.isRunning()) {
@@ -311,15 +390,56 @@ public class StopWatch extends AbstractRadial implements ActionListener {
     public void reset() {
         setRunning(false);
         start = 0;
-        repaint(INNER_BOUNDS);
+        repaint(getGaugeBounds());
     }
 
     /**
-     * Returns a string that contains MIN:SEC:MILLISEC of the measured time
-     * @return a string that contains MIN:SEC:MILLISEC of the measured time
+     * Returns a string that contains MIN:SEC.MILLISEC of the measured time
+     * @return a string that contains MIN:SEC.MILLISEC of the measured time
      */
     public String getMeasuredTime() {
-        return (minutes + ":" + seconds + ":" + milliSeconds);
+        return String.format( time < 0 ? "-%d:%02d.%01d" : "%d:%02d.%01d", Math.abs(minutes), Math.abs(seconds), Math.abs(milliSeconds));
+    }
+
+    /**
+     * Get the measured time im millisecs
+     * @return the measured time im millisecs
+     */
+    public long getMeasuredTimeMillis() {
+        return ((minutes * 60 + seconds) * 1000) + milliSeconds;
+    }
+
+    /**
+     * Set the measured time in seconds
+     * @param seconds
+     */
+    public void setMeasuredTime(double seconds) {
+        setMeasuredTimeMillis(Math.round(seconds * 1000));    
+    }
+
+    /**
+     * Set the measured time in seconds
+     * @param seconds
+     */
+    public void setMeasuredTime(int seconds) {
+        setMeasuredTimeMillis(seconds * 1000L);    
+    }
+
+    /**
+     * Set the measured time in millis
+     * @param millis
+     */
+    public void setMeasuredTimeMillis(long millis) {
+        secondPointerAngle = (millis * ANGLE_STEP / 1000) % 360;
+        minutePointerAngle = (millis * ANGLE_STEP / 1000 / 30) % 360;
+
+        this.time = millis;
+        
+        minutes = millis / (1000 * 60);
+        seconds =  (millis / 1000) % 60;
+        milliSeconds = millis % 1000;
+
+        repaint(getGaugeBounds());
     }
 
     public boolean isFlatNeedle() {
@@ -329,23 +449,9 @@ public class StopWatch extends AbstractRadial implements ActionListener {
     public void setFlatNeedle(final boolean FLAT_NEEDLE) {
         flatNeedle = FLAT_NEEDLE;
         init(getWidth(), getWidth());
-        repaint(INNER_BOUNDS);
+        repaint(getGaugeBounds());
     }
 
-    @Override
-    public Point2D getCenter() {
-        return new Point2D.Double(bImage.getWidth() / 2.0 + getInnerBounds().x, bImage.getHeight() / 2.0 + getInnerBounds().y);
-    }
-
-    @Override
-    public Rectangle2D getBounds2D() {
-        return new Rectangle2D.Double(bImage.getMinX(), bImage.getMinY(), bImage.getWidth(), bImage.getHeight());
-    }
-
-    @Override
-    public Rectangle getLcdBounds() {
-        return new Rectangle();
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Image related">
@@ -716,199 +822,18 @@ public class StopWatch extends AbstractRadial implements ActionListener {
 
     // <editor-fold defaultstate="collapsed" desc="Size related">
     @Override
-    public Dimension getMinimumSize() {
-        Dimension dim = super.getMinimumSize();
-        if (dim.width < 50 || dim.height < 50) {
-            dim = new Dimension(50, 50);
-        }
-        return dim;
+    public Point2D getCenter() {
+        return new Point2D.Double(getInnerBounds().getCenterX() + getInnerBounds().x, getInnerBounds().getCenterX() + getInnerBounds().y);
     }
 
     @Override
-    public void setMinimumSize(final Dimension DIM) {
-        int  width = DIM.width < 50 ? 50 : DIM.width;
-        int height = DIM.height < 50 ? 50 : DIM.height;
-        final int SIZE = width <= height ? width : height;
-        super.setMinimumSize(new Dimension(SIZE, SIZE));
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-        invalidate();
-        repaint();
+    public Rectangle2D getBounds2D() {
+        return getInnerBounds();
     }
 
     @Override
-    public Dimension getMaximumSize() {
-        Dimension dim = super.getMaximumSize();
-        if (dim.width > 1080 || dim.height > 1080) {
-            dim = new Dimension(1080, 1080);
-        }
-        return dim;
-    }
-
-    @Override
-    public void setMaximumSize(final Dimension DIM) {
-        int  width = DIM.width > 1080 ? 1080 : DIM.width;
-        int height = DIM.height > 1080 ? 1080 : DIM.height;
-        final int SIZE = width <= height ? width : height;
-        super.setMaximumSize(new Dimension(SIZE, SIZE));
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-        invalidate();
-        repaint();
-    }
-
-    @Override
-    public void setPreferredSize(final Dimension DIM) {
-        final int SIZE = DIM.width <= DIM.height ? DIM.width : DIM.height;
-        super.setPreferredSize(new Dimension(SIZE, SIZE));
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-        invalidate();
-        repaint();
-    }
-
-    @Override
-    public void setSize(final int WIDTH, final int HEIGHT) {
-        final int SIZE = WIDTH <= HEIGHT ? WIDTH : HEIGHT;
-        super.setSize(SIZE, SIZE);
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-    }
-
-    @Override
-    public void setSize(final Dimension DIM) {
-        final int SIZE = DIM.width <= DIM.height ? DIM.width : DIM.height;
-        super.setSize(new Dimension(SIZE, SIZE));
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-    }
-
-    @Override
-    public void setBounds(final Rectangle BOUNDS) {
-        if (BOUNDS.width <= BOUNDS.height) {
-            // vertical
-            int yNew;
-            switch(verticalAlignment) {
-                case SwingConstants.TOP:
-                    yNew = BOUNDS.y;
-                    break;
-                case SwingConstants.BOTTOM:
-                    yNew = BOUNDS.y + (BOUNDS.height - BOUNDS.width);
-                    break;
-                case SwingConstants.CENTER:
-                default:
-                    yNew = BOUNDS.y + ((BOUNDS.height - BOUNDS.width) / 2);
-                    break;
-            }
-            super.setBounds(BOUNDS.x, yNew, BOUNDS.width, BOUNDS.width);
-        } else {
-            // horizontal
-            int xNew;
-            switch(horizontalAlignment) {
-                case SwingConstants.LEFT:
-                    xNew = BOUNDS.x;
-                    break;
-                case SwingConstants.RIGHT:
-                    xNew = BOUNDS.x + (BOUNDS.width - BOUNDS.height);
-                    break;
-                case SwingConstants.CENTER:
-                default:
-                    xNew = BOUNDS.x + ((BOUNDS.width - BOUNDS.height) / 2);
-                    break;
-            }
-            super.setBounds(xNew, BOUNDS.y, BOUNDS.height, BOUNDS.height);
-        }
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-    }
-
-    @Override
-    public void setBounds(final int X, final int Y, final int WIDTH, final int HEIGHT) {
-        if (WIDTH <= HEIGHT) {
-            // vertical
-            int yNew;
-            switch(verticalAlignment) {
-                case SwingConstants.TOP:
-                    yNew = Y;
-                    break;
-                case SwingConstants.BOTTOM:
-                    yNew = Y + (HEIGHT - WIDTH);
-                    break;
-                case SwingConstants.CENTER:
-                default:
-                    yNew = Y + ((HEIGHT - WIDTH) / 2);
-                    break;
-            }
-            super.setBounds(X, yNew, WIDTH, WIDTH);
-        } else {
-            // horizontal
-            int xNew;
-            switch(horizontalAlignment) {
-                case SwingConstants.LEFT:
-                    xNew = X;
-                    break;
-                case SwingConstants.RIGHT:
-                    xNew = X + (WIDTH - HEIGHT);
-                    break;
-                case SwingConstants.CENTER:
-                default:
-                    xNew = X + ((WIDTH - HEIGHT) / 2);
-                    break;
-            }
-            super.setBounds(xNew, Y, HEIGHT, HEIGHT);
-        }
-        calcInnerBounds();
-        init(getGaugeBounds().width, getGaugeBounds().height);
-        setInitialized(true);
-    }
-
-    @Override
-    public void setBorder(Border BORDER) {
-        super.setBorder(BORDER);
-        calcInnerBounds();
-        init(getInnerBounds().width, getInnerBounds().height);
-    }
-
-    /**
-     * Returns the alignment of the radial gauge along the X axis.
-     * @return the alignment of the radial gauge along the X axis.
-     */
-    @Override
-    public int getHorizontalAlignment() {
-        return horizontalAlignment;
-    }
-
-    /**
-     * Sets the alignment of the radial gauge along the X axis.
-     * @param HORIZONTAL_ALIGNMENT (SwingConstants.CENTER is default)
-     */
-    @Override
-    public void setHorizontalAlignment(final int HORIZONTAL_ALIGNMENT) {
-        horizontalAlignment = HORIZONTAL_ALIGNMENT;
-    }
-
-    /**
-     * Returns the alignment of the radial gauge along the Y axis.
-     * @return the alignment of the radial gauge along the Y axis.
-     */
-    @Override
-    public int getVerticalAlignment() {
-        return verticalAlignment;
-    }
-
-    /**
-     * Sets the alignment of the radial gauge along the Y axis.
-     * @param VERTICAL_ALIGNMENT (SwingConstants.CENTER is default)
-     */
-    @Override
-    public void setVerticalAlignment(final int VERTICAL_ALIGNMENT) {
-        verticalAlignment = VERTICAL_ALIGNMENT;
+    public Rectangle getLcdBounds() {
+        return new Rectangle();
     }
     // </editor-fold>
 
@@ -924,35 +849,27 @@ public class StopWatch extends AbstractRadial implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent EVENT) {
         if (EVENT.getSource().equals(CLOCK_TIMER)) {
-            currentMilliSeconds = (System.currentTimeMillis() - start);
-            secondPointerAngle = (currentMilliSeconds * ANGLE_STEP / 1000);
-            minutePointerAngle = (secondPointerAngle % 1000) / 30;
-
-            minutes = (currentMilliSeconds) % 60000;
-            seconds = (currentMilliSeconds) % 60;
-            milliSeconds = (currentMilliSeconds) % 1000;
-
-            repaint(INNER_BOUNDS);
+            setMeasuredTimeMillis(System.currentTimeMillis() - start);
         }
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ComponentListener">
-    @Override
-    public void componentResized(ComponentEvent event) {
-        final int SIZE = getWidth() < getHeight() ? getWidth() : getHeight();
-        setPreferredSize(new java.awt.Dimension(SIZE, SIZE));
-
-        if (SIZE < getMinimumSize().width || SIZE < getMinimumSize().height) {
-            setPreferredSize(getMinimumSize());
-        }
-        calcInnerBounds();
-
-        init(INNER_BOUNDS.width, INNER_BOUNDS.height);
-
-        //revalidate();
-        //repaint();
-    }
+//    @Override
+//    public void componentResized(ComponentEvent event) {
+//        final int SIZE = getWidth() < getHeight() ? getWidth() : getHeight();
+//        setPreferredSize(new java.awt.Dimension(SIZE, SIZE));
+//
+//        if (SIZE < getMinimumSize().width || SIZE < getMinimumSize().height) {
+//            setPreferredSize(getMinimumSize());
+//        }
+//        calcInnerBounds();
+//
+//        init(INNER_BOUNDS.width, INNER_BOUNDS.height);
+//
+//        revalidate();
+//        repaint();
+//    }
     // </editor-fold>
 
     @Override
