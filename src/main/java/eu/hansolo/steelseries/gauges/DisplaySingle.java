@@ -149,6 +149,7 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
     private String lcdText;
     private float lcdTextX;
     private Timer TEXT_SCROLLER;
+    private long animationDuration;
     private final transient ComponentListener COMPONENT_LISTENER = new ComponentAdapter() {
 
         @Override
@@ -176,6 +177,7 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
         }
     };
     // </editor-fold>
+
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public DisplaySingle() {
@@ -230,6 +232,7 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
         lcdNnumericValues = true;
         lcdText = "";
         lcdTextX = 0f;
+        animationDuration = 2000;
         TEXT_SCROLLER = new Timer(60, this);
         init(INNER_BOUNDS.width, INNER_BOUNDS.height);
         addComponentListener(COMPONENT_LISTENER);
@@ -702,7 +705,7 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
             timeline = new Timeline(this);
             timeline.addPropertyToInterpolate("lcdValue", this.lcdValue, LCD_VALUE);
             timeline.setEase(EASING);
-            timeline.setDuration((long) (2000));
+            timeline.setDuration(animationDuration);
             timeline.play();
         }
     }
@@ -1093,6 +1096,14 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
         glowing = GLOWING;
         init(getInnerBounds().width, getInnerBounds().height);
         repaint();
+    }
+
+    /**
+     * Sets the animation duration for setLcdValueAnimated() call
+     * @param animationDuration time in ms
+     */
+    public void setAnimationDuration(long animationDuration) {
+        this.animationDuration = animationDuration;
     }
 
     public boolean isBargraphVisible() {
