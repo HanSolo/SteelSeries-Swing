@@ -30,6 +30,7 @@ package eu.hansolo.steelseries.gauges;
 import eu.hansolo.steelseries.tools.ColorDef;
 import eu.hansolo.steelseries.tools.ConicalGradientPaint;
 import eu.hansolo.steelseries.tools.CustomColorDef;
+import eu.hansolo.steelseries.tools.CustomGaugeType;
 import eu.hansolo.steelseries.tools.Direction;
 import eu.hansolo.steelseries.tools.ForegroundType;
 import eu.hansolo.steelseries.tools.FrameType;
@@ -43,16 +44,7 @@ import eu.hansolo.steelseries.tools.PointerType;
 import eu.hansolo.steelseries.tools.PostPosition;
 import eu.hansolo.steelseries.tools.TicklabelOrientation;
 import eu.hansolo.steelseries.tools.Util;
-import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.TimelineScenario;
-import org.pushingpixels.trident.callback.TimelineCallback;
-import org.pushingpixels.trident.ease.Sine;
-import org.pushingpixels.trident.ease.Spline;
-import org.pushingpixels.trident.ease.TimelineEase;
 
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.border.Border;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Container;
@@ -80,6 +72,17 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.border.Border;
+
+import org.pushingpixels.trident.Timeline;
+import org.pushingpixels.trident.TimelineScenario;
+import org.pushingpixels.trident.callback.TimelineCallback;
+import org.pushingpixels.trident.ease.Sine;
+import org.pushingpixels.trident.ease.Spline;
+import org.pushingpixels.trident.ease.TimelineEase;
 
 
 /**
@@ -152,22 +155,44 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Returns the enum that defines the type of the gauge
-     * FG_TYPE1    a quarter gauge (90 deg)
-     * FG_TYPE2    a two quarter gauge (180 deg)
-     * FG_TYPE3    a three quarter gauge (270 deg)
+     * TYPE1    a quarter gauge (90 deg)
+     * TYPE2    a two quarter gauge (180 deg)
+     * TYPE3    a three quarter gauge (270 deg)
      * TYPE4    a four quarter gauge (300 deg)
+     * CUSTOM   see {@link #getCustomGaugeType() getCustomGaugeType}
      * @return the type of the gauge (90, 180, 270 or 300 deg)
      */
     public GaugeType getGaugeType() {
         return getModel().getGaugeType();
     }
+    
+    /**
+     * Returns the custom type of the radial gauge.
+     * @return the custom type of the radial gauge.
+     */
+    public CustomGaugeType getCustomGaugeType() {
+        return getModel().getCustomGaugeType();
+    }
+    
+    /**
+     * Sets the custom radial type of the gauge.
+     * Set the gauge type to {@link GaugeType#CUSTOM CUSTOM}.
+     * @param CUSTOM_GAUGE_TYPE
+     */
+    public void setCustomGaugeType(CustomGaugeType CUSTOM_GAUGE_TYPE)
+    {
+        getModel().setCustomGaugeType(CUSTOM_GAUGE_TYPE);
+        init(getInnerBounds().width, getInnerBounds().height);
+        repaint(getInnerBounds());
+    }
 
     /**
      * Sets the type of the gauge
-     * FG_TYPE1    a quarter gauge (90 deg)
-     * FG_TYPE2    a two quarter gauge (180 deg)
-     * FG_TYPE3    a three quarter gauge (270 deg)
+     * TYPE1    a quarter gauge (90 deg)
+     * TYPE2    a two quarter gauge (180 deg)
+     * TYPE3    a three quarter gauge (270 deg)
      * TYPE4    a four quarter gauge (300 deg)
+     * CUSTOM   set the {@link #setCustomGaugeType(CustomGaugeType) custom gauge type}.
      * @param GAUGE_TYPE
      */
     public void setGaugeType(final GaugeType GAUGE_TYPE) {

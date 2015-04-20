@@ -193,7 +193,7 @@ public class Radial extends AbstractRadial {
         }
 
         if (getPostsVisible()) {
-            createPostsImage(GAUGE_WIDTH, fImage, getGaugeType().POST_POSITIONS);
+            createPostsImage(GAUGE_WIDTH, fImage, getModel().getPostPosition());
         } else {
             createPostsImage(GAUGE_WIDTH, fImage, new PostPosition[]{PostPosition.CENTER});
         }
@@ -230,6 +230,7 @@ public class Radial extends AbstractRadial {
                                                        getModel().getMinorTickSpacing(),
                                                        getModel().getMajorTickSpacing(),
                                                        getGaugeType(),
+                                                       getCustomGaugeType(),
                                                        getMinorTickmarkType(),
                                                        getMajorTickmarkType(),
                                                        isTickmarksVisible(),
@@ -258,15 +259,15 @@ public class Radial extends AbstractRadial {
 
         if (isLcdVisible()) {
             if (isLcdBackgroundVisible()) {
-            createLcdImage(new Rectangle2D.Double(((getGaugeBounds().width - GAUGE_WIDTH * getGaugeType().LCD_FACTORS.getX()) / 2.0),
-                             (getGaugeBounds().height * getGaugeType().LCD_FACTORS.getY()),
-                             (GAUGE_WIDTH * getGaugeType().LCD_FACTORS.getWidth()),
-                             (GAUGE_WIDTH * getGaugeType().LCD_FACTORS.getHeight())),
+            createLcdImage(new Rectangle2D.Double(((getGaugeBounds().width - GAUGE_WIDTH * getModel().getLcdFactors().getX()) / 2.0),
+                             (getGaugeBounds().height * getModel().getLcdFactors().getY()),
+                             (GAUGE_WIDTH * getModel().getLcdFactors().getWidth()),
+                             (GAUGE_WIDTH * getModel().getLcdFactors().getHeight())),
                              getLcdColor(),
                              getCustomLcdBackground(),
                              bImage);
             }
-            LCD.setRect(((getGaugeBounds().width - GAUGE_WIDTH * getGaugeType().LCD_FACTORS.getX()) / 2.0), (getGaugeBounds().height * getGaugeType().LCD_FACTORS.getY()), GAUGE_WIDTH * getGaugeType().LCD_FACTORS.getWidth(), GAUGE_WIDTH * getGaugeType().LCD_FACTORS.getHeight());
+            LCD.setRect(((getGaugeBounds().width - GAUGE_WIDTH * getModel().getLcdFactors().getX()) / 2.0), (getGaugeBounds().height * getModel().getLcdFactors().getY()), GAUGE_WIDTH * getModel().getLcdFactors().getWidth(), GAUGE_WIDTH * getModel().getLcdFactors().getHeight());
             lcdArea = new Area(LCD);
 
             // Create the lcd threshold indicator image
@@ -629,9 +630,9 @@ public class Radial extends AbstractRadial {
         if (bImage != null) {
             final double ANGLE_STEP;
             if (!isLogScale()) {
-                ANGLE_STEP = Math.toDegrees(getGaugeType().ANGLE_RANGE) / (getMaxValue() - getMinValue());
+                ANGLE_STEP = Math.toDegrees(getModel().getAngleRange()) / (getMaxValue() - getMinValue());
             } else {
-                ANGLE_STEP = Math.toDegrees(getGaugeType().ANGLE_RANGE) / UTIL.logOfBase(BASE, (getMaxValue() - getMinValue()));
+                ANGLE_STEP = Math.toDegrees(getModel().getAngleRange()) / UTIL.logOfBase(BASE, (getMaxValue() - getMinValue()));
             }
 
             if (bImage != null && !getAreas().isEmpty()) {
@@ -646,9 +647,9 @@ public class Radial extends AbstractRadial {
                 final Rectangle2D AREA_FRAME = new Rectangle2D.Double(bImage.getMinX() + FREE_AREA, bImage.getMinY() + FREE_AREA, 2 * RADIUS, 2 * RADIUS);
                 for (Section area : getAreas()) {
                     if (!isLogScale()) {
-                        area.setFilledArea(new Arc2D.Double(AREA_FRAME, getGaugeType().ORIGIN_CORRECTION - (area.getStart() * ANGLE_STEP) + (getMinValue() * ANGLE_STEP), -(area.getStop() - area.getStart()) * ANGLE_STEP, Arc2D.PIE));
+                        area.setFilledArea(new Arc2D.Double(AREA_FRAME, getModel().getOriginCorrection() - (area.getStart() * ANGLE_STEP) + (getMinValue() * ANGLE_STEP), -(area.getStop() - area.getStart()) * ANGLE_STEP, Arc2D.PIE));
                     } else {
-                        area.setFilledArea(new Arc2D.Double(AREA_FRAME, getGaugeType().ORIGIN_CORRECTION - (UTIL.logOfBase(BASE, area.getStart()) * ANGLE_STEP) + (UTIL.logOfBase(BASE, getMinValue()) * ANGLE_STEP), -UTIL.logOfBase(BASE, area.getStop() - area.getStart()) * ANGLE_STEP, Arc2D.PIE));
+                        area.setFilledArea(new Arc2D.Double(AREA_FRAME, getModel().getOriginCorrection() - (UTIL.logOfBase(BASE, area.getStart()) * ANGLE_STEP) + (UTIL.logOfBase(BASE, getMinValue()) * ANGLE_STEP), -UTIL.logOfBase(BASE, area.getStop() - area.getStart()) * ANGLE_STEP, Arc2D.PIE));
                     }
                 }
             }
@@ -676,9 +677,9 @@ public class Radial extends AbstractRadial {
         if (bImage != null) {
             final double ANGLE_STEP;
             if (!isLogScale()) {
-                ANGLE_STEP = getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue());
+                ANGLE_STEP = getModel().getApexAngle() / (getMaxValue() - getMinValue());
             } else {
-                ANGLE_STEP = getGaugeType().APEX_ANGLE / UTIL.logOfBase(BASE, getMaxValue() - getMinValue());
+                ANGLE_STEP = getModel().getApexAngle() / UTIL.logOfBase(BASE, getMaxValue() - getMinValue());
             }
 
             final double OUTER_RADIUS = bImage.getWidth() * 0.38f;
@@ -692,10 +693,10 @@ public class Radial extends AbstractRadial {
                 final double ANGLE_EXTEND;
 
                 if (!isLogScale()) {
-                    ANGLE_START = getGaugeType().ORIGIN_CORRECTION - (section.getStart() * ANGLE_STEP) + (getMinValue() * ANGLE_STEP);
+                    ANGLE_START = getModel().getOriginCorrection() - (section.getStart() * ANGLE_STEP) + (getMinValue() * ANGLE_STEP);
                     ANGLE_EXTEND = -(section.getStop() - section.getStart()) * ANGLE_STEP;
                 } else {
-                    ANGLE_START = getGaugeType().ORIGIN_CORRECTION - (UTIL.logOfBase(BASE, section.getStart())) * ANGLE_STEP + (UTIL.logOfBase(BASE, getMinValue())) * ANGLE_STEP;
+                    ANGLE_START = getModel().getOriginCorrection() - (UTIL.logOfBase(BASE, section.getStart())) * ANGLE_STEP + (UTIL.logOfBase(BASE, getMinValue())) * ANGLE_STEP;
                     ANGLE_EXTEND = -UTIL.logOfBase(BASE, section.getStop() - section.getStart()) * ANGLE_STEP;
                 }
 

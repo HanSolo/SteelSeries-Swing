@@ -29,19 +29,8 @@ package eu.hansolo.steelseries.tools;
 
 import java.awt.geom.Rectangle2D;
 
-
-/**
- *
- * @author Gerrit Grunwald <han.solo at muenster.de>
- */
-public enum GaugeType {
-
-    TYPE1(0, (1.5 * Math.PI), (0.5 * Math.PI), (Math.PI * 0.5), (Math.PI / 2.0), 180, 90, 0, new Rectangle2D.Double(0.55, 0.55, 0.55, 0.15), PostPosition.CENTER, PostPosition.MAX_CENTER_TOP, PostPosition.MIN_LEFT),
-    TYPE2(0, (1.5 * Math.PI), (0.5 * Math.PI), (Math.PI * 0.5), Math.PI, 180, 180, 0, new Rectangle2D.Double(0.55, 0.55, 0.55, 0.15), PostPosition.CENTER, PostPosition.MIN_LEFT, PostPosition.MAX_RIGHT),
-    TYPE3(0, Math.PI, 0, Math.PI, (1.5 * Math.PI), 270, 270, -90, new Rectangle2D.Double(0.4, 0.55, 0.4, 0.15), PostPosition.CENTER, PostPosition.MAX_CENTER_BOTTOM, PostPosition.MAX_RIGHT),
-    TYPE4((Math.toRadians(60)), (Math.PI + Math.toRadians(30)), 0, Math.PI - Math.toRadians(30), Math.toRadians(300), 240, 300, -60, new Rectangle2D.Double(0.4, 0.55, 0.4, 0.15), PostPosition.CENTER, PostPosition.MIN_BOTTOM, PostPosition.MAX_BOTTOM),
-    TYPE5(0, (1.75 * Math.PI), (0.75 * Math.PI), (Math.PI * 0.5), (Math.PI * 0.5), 180, 90, 0, new Rectangle2D.Double(0.55, 0.55, 0.55, 0.15), PostPosition.LOWER_CENTER, PostPosition.SMALL_GAUGE_MIN_LEFT, PostPosition.SMALL_GAUGE_MAX_RIGHT),
-    CUSTOM(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, null);
+public class CustomGaugeType
+{
     final public double FREE_AREA_ANGLE;
     final public double ROTATION_OFFSET;
     final public double TICKMARK_OFFSET;
@@ -52,11 +41,10 @@ public enum GaugeType {
     final public double BARGRAPH_OFFSET;
     final public PostPosition[] POST_POSITIONS;
     final public Rectangle2D LCD_FACTORS;
-
-    private GaugeType(final double FREE_AREA_ANGLE, final double ROTATION_OFFSET, final double TICKMARK_OFFSET, final double TICKLABEL_ORIENTATION_CHANGE_ANGLE,
-                      final double ANGLE_RANGE, final double ORIGIN_CORRECTION, final double APEX_ANGLE,
-                      final double BARGRAPH_OFFSET, final Rectangle2D LCD_FACTORS,
-                      final PostPosition... POST_POSITIONS) {
+    
+    public CustomGaugeType(double FREE_AREA_ANGLE, double ROTATION_OFFSET, double TICKMARK_OFFSET, double TICKLABEL_ORIENTATION_CHANGE_ANGLE, double ANGLE_RANGE, double ORIGIN_CORRECTION, double APEX_ANGLE, double BARGRAPH_OFFSET, Rectangle2D LCD_FACTORS, PostPosition... POST_POSITIONS)
+    {
+        super();
         this.FREE_AREA_ANGLE = FREE_AREA_ANGLE;
         this.ROTATION_OFFSET = ROTATION_OFFSET;
         this.TICKMARK_OFFSET = TICKMARK_OFFSET;
@@ -65,7 +53,37 @@ public enum GaugeType {
         this.ORIGIN_CORRECTION = ORIGIN_CORRECTION;
         this.APEX_ANGLE = APEX_ANGLE;
         this.BARGRAPH_OFFSET = BARGRAPH_OFFSET;
-        this.POST_POSITIONS = POST_POSITIONS;
         this.LCD_FACTORS = LCD_FACTORS;
+        this.POST_POSITIONS = POST_POSITIONS;
+    }
+    
+    /**
+     * Create a custom gauge type with the given range starting at the given offset.
+     * 
+     * @param RANGE the range in degree.
+     * @param OFFSET the offset in degree.
+     * @param POST_POSITIONS
+     */
+    public CustomGaugeType(double RANGE, double OFFSET, PostPosition... POST_POSITIONS)
+    {
+        this.FREE_AREA_ANGLE = 2 * Math.PI - Math.toRadians(RANGE);
+        this.ROTATION_OFFSET = Math.toRadians(OFFSET);
+        this.TICKMARK_OFFSET = 0;
+        this.TICKLABEL_ORIENTATION_CHANGE_ANGLE = Math.PI / 2;
+        this.ANGLE_RANGE = Math.toRadians(RANGE);
+        //Compute the origin correction
+        final double offset = OFFSET % 360;
+        if (offset <= 45 || offset >= 270)
+        {
+            this.ORIGIN_CORRECTION = (-OFFSET + 90) % 360;
+        }
+        else
+        {
+            this.ORIGIN_CORRECTION = (-OFFSET - 270) % 360;
+        }
+        this.APEX_ANGLE = RANGE;
+        this.BARGRAPH_OFFSET = 0;
+        this.LCD_FACTORS = new Rectangle2D.Double(0.4, 0.55, 0.4, 0.15);
+        this.POST_POSITIONS = POST_POSITIONS;
     }
 }

@@ -35,6 +35,7 @@ import eu.hansolo.steelseries.tools.NumberSystem;
 import eu.hansolo.steelseries.tools.Orientation;
 import eu.hansolo.steelseries.tools.Section;
 import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -100,8 +101,8 @@ public class RadialBargraph extends AbstractRadialBargraph {
         sectionGradients = new java.util.HashMap<Section, RadialGradientPaint>(4);
         sectionAngles = new java.util.HashMap<Section, Point2D>(4);
 
-        ledTrackStartAngle = getGaugeType().ORIGIN_CORRECTION - (0 * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue())));
-        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue()));
+        ledTrackStartAngle = getModel().getOriginCorrection() - (0 * (getModel().getApexAngle() / (getMaxValue() - getMinValue())));
+        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getModel().getApexAngle() / (getMaxValue() - getMinValue()));
         calcBargraphTrack();
         prepareBargraph(getInnerBounds().width);
         setLcdVisible(true);
@@ -121,8 +122,8 @@ public class RadialBargraph extends AbstractRadialBargraph {
         sectionGradients = new java.util.HashMap<Section, RadialGradientPaint>(4);
         sectionAngles = new java.util.HashMap<Section, Point2D>(4);
 
-        ledTrackStartAngle = getGaugeType().ORIGIN_CORRECTION - (0 * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue())));
-        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue()));
+        ledTrackStartAngle = getModel().getOriginCorrection() - (0 * (getModel().getApexAngle() / (getMaxValue() - getMinValue())));
+        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getModel().getApexAngle() / (getMaxValue() - getMinValue()));
         calcBargraphTrack();
         prepareBargraph(getGaugeBounds().width);
     }
@@ -161,8 +162,8 @@ public class RadialBargraph extends AbstractRadialBargraph {
 
             setLcdInfoFont(getModel().getStandardInfoFont().deriveFont(0.15f * GAUGE_WIDTH * 0.15f));
         }
-        ledTrackStartAngle = getGaugeType().ORIGIN_CORRECTION - (0 * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue())));
-        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue()));
+        ledTrackStartAngle = getModel().getOriginCorrection() - (0 * (getModel().getApexAngle() / (getMaxValue() - getMinValue())));
+        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getModel().getApexAngle() / (getMaxValue() - getMinValue()));
 
         calcBargraphTrack();
         prepareBargraph(getGaugeBounds().width);
@@ -210,7 +211,7 @@ public class RadialBargraph extends AbstractRadialBargraph {
             setGlowPulsating(false);
         }
 
-        create_BARGRAPH_TRACK_Image(GAUGE_WIDTH, ledTrackStartAngle, ledTrackAngleExtend, getGaugeType().APEX_ANGLE, getGaugeType().BARGRAPH_OFFSET, bImage);
+        create_BARGRAPH_TRACK_Image(GAUGE_WIDTH, ledTrackStartAngle, ledTrackAngleExtend, getModel().getApexAngle(), getModel().getBargraphOffset(), bImage);
 
         create_TITLE_Image(GAUGE_WIDTH, getTitle(), getUnitString(), bImage);
 
@@ -235,6 +236,7 @@ public class RadialBargraph extends AbstractRadialBargraph {
                                                        getModel().getMinorTickSpacing(),
                                                        getModel().getMajorTickSpacing(),
                                                        getGaugeType(),
+                                                       getCustomGaugeType(),
                                                        getMinorTickmarkType(),
                                                        getMajorTickmarkType(),
                                                        false,
@@ -383,7 +385,7 @@ public class RadialBargraph extends AbstractRadialBargraph {
 
         if (!getModel().isSingleLedBargraphEnabled()) {
             for (double angle = 0; Double.compare(angle, ACTIVE_LED_ANGLE) <= 0; angle += 5.0) {
-                G2.rotate(Math.toRadians(angle + getGaugeType().BARGRAPH_OFFSET), CENTER.getX(), CENTER.getY());
+                G2.rotate(Math.toRadians(angle + getModel().getBargraphOffset()), CENTER.getX(), CENTER.getY());
                 // If sections visible, color the bargraph with the given section colors
                 G2.setPaint(ledGradient);
                 if (isSectionsVisible()) {
@@ -401,7 +403,7 @@ public class RadialBargraph extends AbstractRadialBargraph {
                 G2.setTransform(OLD_TRANSFORM);
             }
         } else {   // Draw only one led instead of all active leds
-            final double ANGLE = Math.toRadians(((getValue() - getMinValue()) / (getMaxValue() - getMinValue())) * getGaugeType().APEX_ANGLE);
+            final double ANGLE = Math.toRadians(((getValue() - getMinValue()) / (getMaxValue() - getMinValue())) * getModel().getApexAngle());
             G2.rotate(ANGLE, CENTER.getX(), CENTER.getY());
             if (isSectionsVisible()) {
                 for (Section section : getSections()) {
@@ -419,7 +421,7 @@ public class RadialBargraph extends AbstractRadialBargraph {
 
         // Draw peak value if enabled
         if (isPeakValueEnabled() && isPeakValueVisible()) {
-            G2.rotate(Math.toRadians(((getPeakValue() - getMinValue()) / (getMaxValue() - getMinValue())) * getGaugeType().APEX_ANGLE + getGaugeType().BARGRAPH_OFFSET), CENTER.getX(), CENTER.getY());
+            G2.rotate(Math.toRadians(((getPeakValue() - getMinValue()) / (getMaxValue() - getMinValue())) * getModel().getApexAngle() + getModel().getBargraphOffset()), CENTER.getX(), CENTER.getY());
             G2.fill(led);
             G2.setTransform(OLD_TRANSFORM);
         }
@@ -495,12 +497,12 @@ public class RadialBargraph extends AbstractRadialBargraph {
     }
 
     private void calcBargraphTrack() {
-        ledTrackStartAngle = getGaugeType().ORIGIN_CORRECTION;
-        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue()));
+        ledTrackStartAngle = getModel().getOriginCorrection();
+        ledTrackAngleExtend = -(getMaxValue() - getMinValue()) * (getModel().getApexAngle() / (getMaxValue() - getMinValue()));
     }
 
     private double getAngleForValue(double value) {
-        return ((value - getMinValue()) / (getMaxValue() - getMinValue())) * getGaugeType().APEX_ANGLE;
+        return ((value - getMinValue()) / (getMaxValue() - getMinValue())) * getModel().getApexAngle();
     }
 
     @Override

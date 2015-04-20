@@ -39,6 +39,7 @@ import eu.hansolo.steelseries.tools.Scaler;
 import eu.hansolo.steelseries.tools.Section;
 import eu.hansolo.steelseries.tools.Shadow;
 import eu.hansolo.steelseries.tools.Util;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -207,6 +208,7 @@ public final class Radial2Top extends AbstractRadial {
                                                        getModel().getMinorTickSpacing(),
                                                        getModel().getMajorTickSpacing(),
                                                        getGaugeType(),
+                                                       getCustomGaugeType(),
                                                        getMinorTickmarkType(),
                                                        getMajorTickmarkType(),
                                                        isTickmarksVisible(),

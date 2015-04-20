@@ -38,6 +38,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.EventListenerList;
 
@@ -125,6 +126,7 @@ public class Model implements Cloneable {
     private ArrayList<Section> tickmarkSections;
     private boolean tickmarkSectionsVisible;
     private GaugeType gaugeType;
+    private CustomGaugeType customGaugeType;
     private double angleStep;
     private double logAngleStep;
     private boolean niceScale;
@@ -1686,6 +1688,7 @@ public class Model implements Cloneable {
      * TYPE3 : a three quarter gauge (range 270°)
      * TYPE4 : a 300° gauge
      * TYPE5 : a quarter gauge that is rotated by 90°
+     * CUSTOM : see {@link #getCustomGaugeType() getCustomGaugeType}
      * @return the type of the radial gauge
      */
     public GaugeType getGaugeType() {
@@ -1703,11 +1706,33 @@ public class Model implements Cloneable {
     }
 
     /**
+     * Returns the custom type of the radial gauge.
+     * @return the custom type of the radial gauge.
+     */
+    public CustomGaugeType getCustomGaugeType()
+    {
+        return customGaugeType;
+    }
+
+    /**
+     * Sets the custom radial type of the gauge.
+     * Set the gauge type to {@link GaugeType#CUSTOM CUSTOM}.
+     * @param CUSTOM_GAUGE_TYPE
+     */
+    public void setCustomGaugeType(CustomGaugeType CUSTOM_GAUGE_TYPE)
+    {
+        this.customGaugeType = CUSTOM_GAUGE_TYPE;
+        gaugeType = GaugeType.CUSTOM;
+        calcAngleStep();
+        fireStateChanged();
+    }
+
+    /**
      * Returns the range in rad where no tickmarks will be placed in a dial of a radial gauge
      * @return the range in rad where no tickmarks will be placed in a dial of a radial gauge
      */
     public double getFreeAreaAngle() {
-        return gaugeType.FREE_AREA_ANGLE;
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.FREE_AREA_ANGLE : gaugeType.FREE_AREA_ANGLE;
     }
 
     /**
@@ -1731,7 +1756,7 @@ public class Model implements Cloneable {
      * @return the angle in rad that will be used to define the start position of the gauge pointer
      */
     public double getRotationOffset() {
-        return gaugeType.ROTATION_OFFSET;
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.ROTATION_OFFSET : gaugeType.ROTATION_OFFSET;
     }
 
     /**
@@ -1739,9 +1764,9 @@ public class Model implements Cloneable {
      * @return the angle in degree that will be used to define the start position of the gauge dial
      */
     public double getTickmarkOffset() {
-        return gaugeType.TICKMARK_OFFSET;
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.TICKMARK_OFFSET : gaugeType.TICKMARK_OFFSET;
     }
-
+    
     /**
      * Sets the minimum and maximum value of the gauge dial
      * @param MIN_VALUE
@@ -2826,8 +2851,9 @@ public class Model implements Cloneable {
      * Calculates the stepsize in rad for the given gaugetype and range
      */
     private void calcAngleStep() {
-        angleStep = gaugeType.ANGLE_RANGE / range;
-        logAngleStep = gaugeType.ANGLE_RANGE / (Util.INSTANCE.logOfBase(BASE, range));
+        final double angleRange = getAngleRange();
+        angleStep = angleRange / range;
+        logAngleStep = angleRange / (Util.INSTANCE.logOfBase(BASE, range));
     }
 
     /**
@@ -2892,16 +2918,68 @@ public class Model implements Cloneable {
 
     private void createRadialShapeOfMeasureValuesArea() {
         if (bounds.width > 1 && bounds.height > 1 && Double.compare(getMinMeasuredValue(), getMaxMeasuredValue()) != 0) {
-            final double ANGLE_STEP = Math.toDegrees(getGaugeType().ANGLE_RANGE) / (getMaxValue() - getMinValue());
+            final double ANGLE_STEP = Math.toDegrees(getAngleRange()) / (getMaxValue() - getMinValue());
             final double RADIUS = bounds.width * 0.35f - bounds.height * 0.04f;
             final double FREE_AREA = bounds.width / 2.0 - RADIUS;
             ((Arc2D) radialShapeOfMeasuredValues).setFrame(new Rectangle2D.Double(bounds.x + FREE_AREA, bounds.y + FREE_AREA, 2 * RADIUS, 2 * RADIUS));
-            ((Arc2D) radialShapeOfMeasuredValues).setAngleStart(getGaugeType().ORIGIN_CORRECTION - (getMinMeasuredValue() * ANGLE_STEP) + (getMinValue() * ANGLE_STEP));
+            ((Arc2D) radialShapeOfMeasuredValues).setAngleStart(getOriginCorrection() - (getMinMeasuredValue() * ANGLE_STEP) + (getMinValue() * ANGLE_STEP));
             ((Arc2D) radialShapeOfMeasuredValues).setAngleExtent(-(getMaxMeasuredValue() - getMinMeasuredValue()) * ANGLE_STEP);
             ((Arc2D) radialShapeOfMeasuredValues).setArcType(Arc2D.PIE);
         }
     }
 
+    /**
+     * Returns the gauge type angle range.
+     * @return the gauge type angle range.
+     */
+    public double getAngleRange()
+    {
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.ANGLE_RANGE : gaugeType.ANGLE_RANGE;
+    }
+    
+    /**
+     * Returns the gauge type origin correction.
+     * @return the gauge type origin correction.
+     */
+    public double getOriginCorrection()
+    {
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.ORIGIN_CORRECTION : gaugeType.ORIGIN_CORRECTION;
+    }
+    
+    /**
+     * Returns the gauge type apex angle.
+     * @return the gauge type apex angle.
+     */
+    public double getApexAngle()
+    {
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.APEX_ANGLE : gaugeType.APEX_ANGLE;
+    }
+    
+    /**
+     * Returns the gauge type bargraph offset.
+     * @return the gauge type bargraph offset.
+     */
+    public double getBargraphOffset()
+    {
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.BARGRAPH_OFFSET : gaugeType.BARGRAPH_OFFSET;
+    }
+    
+    /**
+     * Returns the gauge type post position.
+     * @return the gauge type post position.
+     */
+    public PostPosition[] getPostPosition() {
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.POST_POSITIONS : gaugeType.POST_POSITIONS;
+    }
+    
+    /**
+     * Returns the gauge type lcd factors.
+     * @return the gauge type lcd factors.
+     */
+    public Rectangle2D getLcdFactors() {
+        return gaugeType == GaugeType.CUSTOM ? customGaugeType.LCD_FACTORS : gaugeType.LCD_FACTORS;
+    }
+    
     /**
      * Resets the model by calling the init() method
      */
