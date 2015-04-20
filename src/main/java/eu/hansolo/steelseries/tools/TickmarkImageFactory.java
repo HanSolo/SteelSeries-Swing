@@ -67,6 +67,7 @@ public enum TickmarkImageFactory {
     private double minorTickSpacingBufferRad = 10;
     private double majorTickSpacingBufferRad = 10;
     private GaugeType gaugeTypeBufferRad = GaugeType.TYPE4;
+    private CustomGaugeType customGaugeTypeBufferRad = null;
     private TickmarkType minorTickmarkTypeBufferRad = TickmarkType.LINE;
     private TickmarkType majorTickmarkTypeBufferRad = TickmarkType.LINE;
     private boolean ticksVisibleBufferRad = true;
@@ -126,6 +127,7 @@ public enum TickmarkImageFactory {
                                                           final double MINOR_TICK_SPACING,
                                                           final double MAJOR_TICK_SPACING,
                                                           final GaugeType GAUGE_TYPE,
+                                                          final CustomGaugeType CUSTOM_GAUGE_TYPE,
                                                           final TickmarkType MINOR_TICKMARK_TYPE,
                                                           final TickmarkType MAJOR_TICKMARK_TYPE,
                                                           final boolean TICKS_VISIBLE,
@@ -162,6 +164,7 @@ public enum TickmarkImageFactory {
             && Double.compare(MINOR_TICK_SPACING, minorTickSpacingBufferRad) == 0
             && Double.compare(MAJOR_TICK_SPACING, majorTickSpacingBufferRad) == 0
             && GAUGE_TYPE == gaugeTypeBufferRad
+            && CUSTOM_GAUGE_TYPE == customGaugeTypeBufferRad
             && MINOR_TICKMARK_TYPE == minorTickmarkTypeBufferRad
             && MAJOR_TICKMARK_TYPE == majorTickmarkTypeBufferRad
             && TICKS_VISIBLE == ticksVisibleBufferRad
@@ -230,9 +233,10 @@ public enum TickmarkImageFactory {
         final Line2D TICK_LINE = new Line2D.Double(0, 0, 1, 1);
         final Ellipse2D TICK_CIRCLE = new Ellipse2D.Double(0, 0, 1, 1);
         final GeneralPath TICK_TRIANGLE = new GeneralPath();
-        final double ROTATION_OFFSET = GAUGE_TYPE.ROTATION_OFFSET; // Depends on GaugeType
+        final double ROTATION_OFFSET = GAUGE_TYPE == GaugeType.CUSTOM ? CUSTOM_GAUGE_TYPE.ROTATION_OFFSET : GAUGE_TYPE.ROTATION_OFFSET; // Depends on GaugeType
         final float RADIUS = WIDTH * RADIUS_FACTOR;
-        final double ANGLE_STEP = (GAUGE_TYPE.ANGLE_RANGE / ((MAX_VALUE - MIN_VALUE) / MINOR_TICK_SPACING));
+        final double angleRange = GAUGE_TYPE == GaugeType.CUSTOM ? CUSTOM_GAUGE_TYPE.ANGLE_RANGE : GAUGE_TYPE.ANGLE_RANGE;
+        final double ANGLE_STEP = (angleRange / ((MAX_VALUE - MIN_VALUE) / MINOR_TICK_SPACING));
         double sinValue;
         double cosValue;
         double valueCounter = MIN_VALUE;
@@ -269,7 +273,7 @@ public enum TickmarkImageFactory {
                 OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
                 TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
                 drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MAJOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MAJOR_TICK_LENGTH, MAJOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
-                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(MIN_VALUE), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - GAUGE_TYPE.ROTATION_OFFSET));
+                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(MIN_VALUE), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - ROTATION_OFFSET));
 
                 // Max Value
                 alpha = -(MAX_VALUE - MIN_VALUE) * ANGLE_STEP;
@@ -280,7 +284,7 @@ public enum TickmarkImageFactory {
                 OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
                 TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
                 drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MAJOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MAJOR_TICK_LENGTH, MAJOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
-                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(MAX_VALUE), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - GAUGE_TYPE.ROTATION_OFFSET));
+                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(MAX_VALUE), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - ROTATION_OFFSET));
 
                 for (Section section : sections) {
                     // Section start
@@ -292,7 +296,7 @@ public enum TickmarkImageFactory {
                     OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
                     TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
                     drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MAJOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MAJOR_TICK_LENGTH, MAJOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
-                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(section.getStart()), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - GAUGE_TYPE.ROTATION_OFFSET));
+                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(section.getStart()), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - ROTATION_OFFSET));
 
                     // Section stop
                     alpha = -(section.getStop() - MIN_VALUE) * ANGLE_STEP;
@@ -303,167 +307,172 @@ public enum TickmarkImageFactory {
                     OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
                     TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
                     drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MAJOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MAJOR_TICK_LENGTH, MAJOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
-                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(section.getStop()), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - GAUGE_TYPE.ROTATION_OFFSET));
+                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(section.getStop()), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - ROTATION_OFFSET));
                 }
 
-        } else if(!LOG_SCALE) {
-            for (double alpha = 0, counter = MIN_VALUE; Double.compare(counter, MAX_VALUE) <= 0; alpha -= ANGLE_STEP, counter += MINOR_TICK_SPACING) {
-                // Set the color
-                if (tickmarkSections != null && !tickmarkSections.isEmpty()) {
-                    if (TICKMARK_SECTIONS_VISIBLE) {
-                        for (Section section : tickmarkSections) {
-                            if (Double.compare(valueCounter, section.getStart()) >= 0 && Double.compare(valueCounter, section.getStop()) <= 0) {
-                                G2.setColor(Util.INSTANCE.setAlpha(section.getColor(), 1.0f));
-                                break;
-                            } else if (TICKMARK_COLOR_FROM_THEME) {
+        }
+        else
+        {
+            final double tickLabelOrientationChangeAngle = GAUGE_TYPE == GaugeType.CUSTOM ? CUSTOM_GAUGE_TYPE.TICKLABEL_ORIENTATION_CHANGE_ANGLE : GAUGE_TYPE.TICKLABEL_ORIENTATION_CHANGE_ANGLE;
+            if(!LOG_SCALE) {
+                for (double alpha = 0, counter = MIN_VALUE; Double.compare(counter, MAX_VALUE) <= 0; alpha -= ANGLE_STEP, counter += MINOR_TICK_SPACING) {
+                    // Set the color
+                    if (tickmarkSections != null && !tickmarkSections.isEmpty()) {
+                        if (TICKMARK_SECTIONS_VISIBLE) {
+                            for (Section section : tickmarkSections) {
+                                if (Double.compare(valueCounter, section.getStart()) >= 0 && Double.compare(valueCounter, section.getStop()) <= 0) {
+                                    G2.setColor(Util.INSTANCE.setAlpha(section.getColor(), 1.0f));
+                                    break;
+                                } else if (TICKMARK_COLOR_FROM_THEME) {
+                                    G2.setColor(BACKGROUND_COLOR.LABEL_COLOR);
+                                } else {
+                                    G2.setColor(TICKMARK_COLOR);
+                                }
+                            }
+                        } else {
+                            if (TICKMARK_COLOR_FROM_THEME) {
                                 G2.setColor(BACKGROUND_COLOR.LABEL_COLOR);
                             } else {
                                 G2.setColor(TICKMARK_COLOR);
                             }
                         }
+                    }
+
+                    sinValue = Math.sin(alpha);
+                    cosValue = Math.cos(alpha);
+                    majorTickCounter++;
+
+                    // Draw tickmark every major tickmark spacing
+                    if (majorTickCounter == NO_OF_MINOR_TICKS) {
+                        G2.setStroke(MAJOR_TICKMARK_STROKE);
+                        INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MAJOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MAJOR_TICK_LENGTH) * cosValue);
+                        OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
+                        TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
+
+                        // Draw the major tickmarks
+                        if (TICKS_VISIBLE && MAJOR_TICKS_VISIBLE) {
+                            drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MAJOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MAJOR_TICK_LENGTH, MAJOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
+                        }
+
+                        // Draw the standard tickmark labels
+                        if (TICKLABELS_VISIBLE) {
+                            switch(TICKLABEL_ORIENTATION)
+                            {
+                                case NORMAL:
+                                    if (Double.compare(alpha, -tickLabelOrientationChangeAngle) > 0) {
+                                        G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (-Math.PI / 2 - alpha)));
+                                    } else {
+                                        G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI / 2 - alpha)));
+                                    }
+                                    break;
+                                case HORIZONTAL:
+                                    double orientationOffset;
+                                    if (Orientation.WEST == ORIENTATION) {
+                                        orientationOffset = Math.PI / 2;
+                                    } else if (Orientation.EAST == ORIENTATION) {
+                                        orientationOffset = -Math.PI / 2;
+                                    } else if (Orientation.SOUTH == ORIENTATION) {
+                                        orientationOffset = Math.PI;
+                                    } else {
+                                        orientationOffset = 0;
+                                    }
+                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - ROTATION_OFFSET + orientationOffset));
+                                    break;
+                                case TANGENT:
+
+                                default:
+                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI - alpha + ticklabelRotationOffset)));
+                                    break;
+                            }
+                        }
+
+                        valueCounter += MAJOR_TICK_SPACING;
+                        majorTickCounter = 0;
+                        continue;
+                    }
+
+                    // Draw tickmark every minor tickmark spacing
+                    {
+                        INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MINOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MINOR_TICK_LENGTH) * cosValue);
+                        OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
+                        G2.setStroke(MINOR_TICKMARK_STROKE);
+                        if (NO_OF_MINOR_TICKS % 2 == 0 && majorTickCounter == (NO_OF_MINOR_TICKS / 2)) {
+                            G2.setStroke(MEDIUM_TICKMARK_STROKE);
+                            INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MEDIUM_TICK_LENGTH) * sinValue,
+                                                    CENTER.getY() + (RADIUS - MEDIUM_TICK_LENGTH) * cosValue);
+                            OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
+
+                        }
+
+                        // Draw the minor tickmarks
+                        if (TICKS_VISIBLE && MINOR_TICKS_VISIBLE) {
+                            drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MINOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MINOR_TICK_LENGTH, MINOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
+                        }
+                    }
+                }
+            } else {
+                // ****************************** LOGARITHMIC SCALING ******************************************************
+                final double LOG_ANGLE_STEP = Math.abs(angleRange / UTIL.logOfBase(BASE, (MAX_VALUE - MIN_VALUE)));
+                int exponent = 0;
+                double angle;
+                double valueStep = 1.0;
+                for (double value = 1 ; Double.compare(value, MAX_VALUE) <= 0; value += valueStep) {
+                    if (TICKMARK_COLOR_FROM_THEME) {
+                        G2.setColor(BACKGROUND_COLOR.LABEL_COLOR);
                     } else {
-                        if (TICKMARK_COLOR_FROM_THEME) {
-                            G2.setColor(BACKGROUND_COLOR.LABEL_COLOR);
-                        } else {
-                            G2.setColor(TICKMARK_COLOR);
-                        }
-                    }
-                }
-
-                sinValue = Math.sin(alpha);
-                cosValue = Math.cos(alpha);
-                majorTickCounter++;
-
-                // Draw tickmark every major tickmark spacing
-                if (majorTickCounter == NO_OF_MINOR_TICKS) {
-                    G2.setStroke(MAJOR_TICKMARK_STROKE);
-                    INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MAJOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MAJOR_TICK_LENGTH) * cosValue);
-                    OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
-                    TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
-
-                    // Draw the major tickmarks
-                    if (TICKS_VISIBLE && MAJOR_TICKS_VISIBLE) {
-                        drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MAJOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MAJOR_TICK_LENGTH, MAJOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
+                        G2.setColor(TICKMARK_COLOR);
                     }
 
-                    // Draw the standard tickmark labels
-                    if (TICKLABELS_VISIBLE) {
-                        switch(TICKLABEL_ORIENTATION)
-                        {
-                            case NORMAL:
-                                if (Double.compare(alpha, -GAUGE_TYPE.TICKLABEL_ORIENTATION_CHANGE_ANGLE) > 0) {
-                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (-Math.PI / 2 - alpha)));
-                                } else {
-                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI / 2 - alpha)));
-                                }
-                                break;
-                            case HORIZONTAL:
-                                double orientationOffset;
-                                if (Orientation.WEST == ORIENTATION) {
-                                    orientationOffset = Math.PI / 2;
-                                } else if (Orientation.EAST == ORIENTATION) {
-                                    orientationOffset = -Math.PI / 2;
-                                } else if (Orientation.SOUTH == ORIENTATION) {
-                                    orientationOffset = Math.PI;
-                                } else {
-                                    orientationOffset = 0;
-                                }
-                                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - GAUGE_TYPE.ROTATION_OFFSET + orientationOffset));
-                                break;
-                            case TANGENT:
+                    angle = UTIL.logOfBase(BASE, Math.abs(value)) * LOG_ANGLE_STEP;
+                    sinValue = Math.sin(-angle);
+                    cosValue = Math.cos(-angle);
 
-                            default:
-                                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(valueCounter), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI - alpha + ticklabelRotationOffset)));
-                                break;
-                        }
-                    }
-
-                    valueCounter += MAJOR_TICK_SPACING;
-                    majorTickCounter = 0;
-                    continue;
-                }
-
-                // Draw tickmark every minor tickmark spacing
-                {
                     INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MINOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MINOR_TICK_LENGTH) * cosValue);
                     OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
                     G2.setStroke(MINOR_TICKMARK_STROKE);
-                    if (NO_OF_MINOR_TICKS % 2 == 0 && majorTickCounter == (NO_OF_MINOR_TICKS / 2)) {
-                        G2.setStroke(MEDIUM_TICKMARK_STROKE);
-                        INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MEDIUM_TICK_LENGTH) * sinValue,
-                                                CENTER.getY() + (RADIUS - MEDIUM_TICK_LENGTH) * cosValue);
+
+                    if (Double.compare(value, Math.pow(BASE, exponent + 1)) == 0) {
+                        exponent++;
+                        valueStep = Math.pow(BASE, exponent);
+                        INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MAJOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MAJOR_TICK_LENGTH) * cosValue);
                         OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
+                        TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
+                        if (TICKLABELS_VISIBLE) {
+                            switch(TICKLABEL_ORIENTATION)
+                            {
+                                case NORMAL:
+                                    if (Double.compare(value, -tickLabelOrientationChangeAngle) > 0) {
+                                        G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (-Math.PI / 2 + angle)));
+                                    } else {
+                                        G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI / 2 + angle)));
+                                    }
+                                    break;
+                                case HORIZONTAL:
+                                    double orientationOffset;
+                                    if (Orientation.WEST == ORIENTATION) {
+                                        orientationOffset = Math.PI / 2;
+                                    } else if (Orientation.EAST == ORIENTATION) {
+                                        orientationOffset = -Math.PI / 2;
+                                    } else if (Orientation.SOUTH == ORIENTATION) {
+                                        orientationOffset = Math.PI;
+                                    } else {
+                                        orientationOffset = 0;
+                                    }
+                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - ROTATION_OFFSET + orientationOffset));
+                                    break;
+                                case TANGENT:
 
-                    }
-
-                    // Draw the minor tickmarks
-                    if (TICKS_VISIBLE && MINOR_TICKS_VISIBLE) {
-                        drawRadialTicks(G2, INNER_POINT, OUTER_POINT, CENTER, RADIUS, MINOR_TICKMARK_TYPE, TICK_LINE, TICK_CIRCLE, TICK_TRIANGLE, MINOR_TICK_LENGTH, MINOR_DIAMETER, OUTER_POINT_LEFT, OUTER_POINT_RIGHT, alpha);
-                    }
-                }
-            }
-        } else {
-            // ****************************** LOGARITHMIC SCALING ******************************************************
-            final double LOG_ANGLE_STEP = Math.abs(GAUGE_TYPE.ANGLE_RANGE / UTIL.logOfBase(BASE, (MAX_VALUE - MIN_VALUE)));
-            int exponent = 0;
-            double angle;
-            double valueStep = 1.0;
-            for (double value = 1 ; Double.compare(value, MAX_VALUE) <= 0; value += valueStep) {
-                if (TICKMARK_COLOR_FROM_THEME) {
-                    G2.setColor(BACKGROUND_COLOR.LABEL_COLOR);
-                } else {
-                    G2.setColor(TICKMARK_COLOR);
-                }
-
-                angle = UTIL.logOfBase(BASE, Math.abs(value)) * LOG_ANGLE_STEP;
-                sinValue = Math.sin(-angle);
-                cosValue = Math.cos(-angle);
-
-                INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MINOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MINOR_TICK_LENGTH) * cosValue);
-                OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
-                G2.setStroke(MINOR_TICKMARK_STROKE);
-
-                if (Double.compare(value, Math.pow(BASE, exponent + 1)) == 0) {
-                    exponent++;
-                    valueStep = Math.pow(BASE, exponent);
-                    INNER_POINT.setLocation(CENTER.getX() + (RADIUS - MAJOR_TICK_LENGTH) * sinValue, CENTER.getY() + (RADIUS - MAJOR_TICK_LENGTH) * cosValue);
-                    OUTER_POINT.setLocation(CENTER.getX() + RADIUS * sinValue, CENTER.getY() + RADIUS * cosValue);
-                    TEXT_POINT.setLocation(CENTER.getX() + (RADIUS - TEXT_DISTANCE) * sinValue, CENTER.getY() + (RADIUS - TEXT_DISTANCE) * cosValue);
-                    if (TICKLABELS_VISIBLE) {
-                        switch(TICKLABEL_ORIENTATION)
-                        {
-                            case NORMAL:
-                                if (Double.compare(value, -GAUGE_TYPE.TICKLABEL_ORIENTATION_CHANGE_ANGLE) > 0) {
-                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (-Math.PI / 2 + angle)));
-                                } else {
-                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI / 2 + angle)));
-                                }
-                                break;
-                            case HORIZONTAL:
-                                double orientationOffset;
-                                if (Orientation.WEST == ORIENTATION) {
-                                    orientationOffset = Math.PI / 2;
-                                } else if (Orientation.EAST == ORIENTATION) {
-                                    orientationOffset = -Math.PI / 2;
-                                } else if (Orientation.SOUTH == ORIENTATION) {
-                                    orientationOffset = Math.PI;
-                                } else {
-                                    orientationOffset = 0;
-                                }
-                                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), Math.PI - GAUGE_TYPE.ROTATION_OFFSET + orientationOffset));
-                                break;
-                            case TANGENT:
-
-                            default:
-                                G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI + angle + ticklabelRotationOffset)));
-                                break;
+                                default:
+                                    G2.fill(UTIL.rotateTextAroundCenter(G2, numberFormat.format(value), (int) TEXT_POINT.getX(), (int) TEXT_POINT.getY(), (Math.PI + angle + ticklabelRotationOffset)));
+                                    break;
+                            }
                         }
+                        G2.setStroke(MAJOR_TICKMARK_STROKE);
                     }
-                    G2.setStroke(MAJOR_TICKMARK_STROKE);
-                }
-                if (TICKS_VISIBLE && MAJOR_TICKS_VISIBLE && MINOR_TICKS_VISIBLE) {
-                    TICK_LINE.setLine(INNER_POINT, OUTER_POINT);
-                    G2.draw(TICK_LINE);
+                    if (TICKS_VISIBLE && MAJOR_TICKS_VISIBLE && MINOR_TICKS_VISIBLE) {
+                        TICK_LINE.setLine(INNER_POINT, OUTER_POINT);
+                        G2.draw(TICK_LINE);
+                    }
                 }
             }
         }
@@ -484,6 +493,7 @@ public enum TickmarkImageFactory {
         minorTickSpacingBufferRad = MINOR_TICK_SPACING;
         majorTickSpacingBufferRad = MAJOR_TICK_SPACING;
         gaugeTypeBufferRad = GAUGE_TYPE;
+        customGaugeTypeBufferRad = CUSTOM_GAUGE_TYPE;
         minorTickmarkTypeBufferRad = MINOR_TICKMARK_TYPE;
         majorTickmarkTypeBufferRad = MAJOR_TICKMARK_TYPE;
         ticksVisibleBufferRad = TICKS_VISIBLE;

@@ -263,6 +263,7 @@ public final class Radial1Square extends AbstractRadial {
                                                        getModel().getMinorTickSpacing(),
                                                        getModel().getMajorTickSpacing(),
                                                        getGaugeType(),
+                                                       getCustomGaugeType(),
                                                        getMinorTickmarkType(),
                                                        getMajorTickmarkType(),
                                                        isTickmarksVisible(),

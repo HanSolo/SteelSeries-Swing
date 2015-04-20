@@ -194,6 +194,7 @@ public final class Radial1Vertical extends AbstractRadial {
                                                                         getModel().getMinorTickSpacing(),
                                                                         getModel().getMajorTickSpacing(),
                                                                         getGaugeType(),
+                                                                        getCustomGaugeType(),
                                                                         getMinorTickmarkType(),
                                                                         getMajorTickmarkType(),
                                                                         isTickmarksVisible(),
@@ -412,9 +413,9 @@ public final class Radial1Vertical extends AbstractRadial {
         // Draw threshold indicator
         if (isThresholdVisible()) {
             if (!isLogScale()) {
-                G2.rotate(getGaugeType().ROTATION_OFFSET + (getThreshold() - getMinValue()) * getAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
+                G2.rotate(getRotationOffset() + (getThreshold() - getMinValue()) * getAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
             } else {
-                G2.rotate(getGaugeType().ROTATION_OFFSET + UTIL.logOfBase(BASE, getThreshold() - getMinValue()) * getLogAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
+                G2.rotate(getRotationOffset() + UTIL.logOfBase(BASE, getThreshold() - getMinValue()) * getLogAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
             }
             G2.drawImage(thresholdImage, 0, 0, null);
             G2.setTransform(FORMER_TRANSFORM);
@@ -423,9 +424,9 @@ public final class Radial1Vertical extends AbstractRadial {
         // Draw min measured value indicator
         if (isMinMeasuredValueVisible()) {
             if (!isLogScale()) {
-                G2.rotate(getGaugeType().ROTATION_OFFSET + (getMinMeasuredValue() - getMinValue()) * getAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
+                G2.rotate(getRotationOffset() + (getMinMeasuredValue() - getMinValue()) * getAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
             } else {
-                G2.rotate(getGaugeType().ROTATION_OFFSET + UTIL.logOfBase(BASE, getMinMeasuredValue() - getMinValue()) * getLogAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
+                G2.rotate(getRotationOffset() + UTIL.logOfBase(BASE, getMinMeasuredValue() - getMinValue()) * getLogAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
             }
             G2.drawImage(minMeasuredImage, 0, 0, null);
             G2.setTransform(FORMER_TRANSFORM);
@@ -434,9 +435,9 @@ public final class Radial1Vertical extends AbstractRadial {
         // Draw max measured value indicator
         if (isMaxMeasuredValueVisible()) {
             if (!isLogScale()) {
-                G2.rotate(getGaugeType().ROTATION_OFFSET + (getMaxMeasuredValue() - getMinValue()) * getAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
+                G2.rotate(getRotationOffset() + (getMaxMeasuredValue() - getMinValue()) * getAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
             } else {
-                G2.rotate(getGaugeType().ROTATION_OFFSET + UTIL.logOfBase(BASE, getMaxMeasuredValue() - getMinValue()) * getLogAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
+                G2.rotate(getRotationOffset() + UTIL.logOfBase(BASE, getMaxMeasuredValue() - getMinValue()) * getLogAngleStep(), CENTER.getX(), getGaugeBounds().width * 0.7336448598);
             }
             G2.drawImage(maxMeasuredImage, 0, 0, null);
             G2.setTransform(FORMER_TRANSFORM);
@@ -458,9 +459,9 @@ public final class Radial1Vertical extends AbstractRadial {
 
         // Draw the pointer
         if (!isLogScale()) {
-            angle = getGaugeType().ROTATION_OFFSET + (getValue() - getMinValue()) * getAngleStep();
+            angle = getRotationOffset() + (getValue() - getMinValue()) * getAngleStep();
         } else {
-            angle = getGaugeType().ROTATION_OFFSET + UTIL.logOfBase(BASE, getValue() - getMinValue()) * getLogAngleStep();
+            angle = getRotationOffset() + UTIL.logOfBase(BASE, getValue() - getMinValue()) * getLogAngleStep();
         }
         //G2.rotate(ANGLE + (Math.cos(Math.toRadians(ANGLE - ROTATION_OFFSET - 91.5))), CENTER.getX(), backgroundImage.getHeight() * 0.7336448598);
         G2.rotate(angle, CENTER.getX(), getGaugeBounds().height * 0.7336448598 + 2);
@@ -584,9 +585,9 @@ public final class Radial1Vertical extends AbstractRadial {
 
         if (bImage != null) {
             if (!isLogScale()) {
-                ANGLE_STEP = Math.toDegrees(getGaugeType().ANGLE_RANGE) / (getMaxValue() - getMinValue());
+                ANGLE_STEP = Math.toDegrees(getModel().getAngleRange()) / (getMaxValue() - getMinValue());
             } else {
-                ANGLE_STEP = Math.toDegrees(getGaugeType().ANGLE_RANGE) / UTIL.logOfBase(BASE, getMaxValue() - getMinValue());
+                ANGLE_STEP = Math.toDegrees(getModel().getAngleRange()) / UTIL.logOfBase(BASE, getMaxValue() - getMinValue());
             }
 
             if (bImage != null && !getAreas().isEmpty()) {
@@ -662,9 +663,9 @@ public final class Radial1Vertical extends AbstractRadial {
 
             final double ANGLE_STEP;
             if (!isLogScale()) {
-                ANGLE_STEP = getGaugeType().APEX_ANGLE / (getMaxValue() - getMinValue());
+                ANGLE_STEP = getModel().getApexAngle() / (getMaxValue() - getMinValue());
             } else {
-                ANGLE_STEP = getGaugeType().APEX_ANGLE / UTIL.logOfBase(BASE, getMaxValue() - getMinValue());
+                ANGLE_STEP = getModel().getApexAngle() / UTIL.logOfBase(BASE, getMaxValue() - getMinValue());
             }
 
             final double OUTER_RADIUS = bImage.getWidth() * 0.44f;
