@@ -428,7 +428,8 @@ public enum BackgroundImageFactory {
             INNER_FRAME_CORNER_RADIUS = IMAGE_WIDTH * 0.02857143;
         }
 
-        final RoundRectangle2D INNER_FRAME = new RoundRectangle2D.Double(FRAME_MAIN.getX() + 16, FRAME_MAIN.getY() + 16, FRAME_MAIN.getWidth() - 32, FRAME_MAIN.getHeight() - 32, INNER_FRAME_CORNER_RADIUS, INNER_FRAME_CORNER_RADIUS);
+        final int INNER_FRAME_INSET = 16;
+        final RoundRectangle2D INNER_FRAME = new RoundRectangle2D.Double(FRAME_MAIN.getX() + INNER_FRAME_INSET, FRAME_MAIN.getY() + INNER_FRAME_INSET, FRAME_MAIN.getWidth() - (2*INNER_FRAME_INSET), FRAME_MAIN.getHeight() - (2*INNER_FRAME_INSET), INNER_FRAME_CORNER_RADIUS, INNER_FRAME_CORNER_RADIUS);
 
         final double BACKGROUND_CORNER_RADIUS = INNER_FRAME_CORNER_RADIUS - 1;
 
