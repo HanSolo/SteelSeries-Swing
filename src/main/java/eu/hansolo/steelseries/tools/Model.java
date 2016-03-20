@@ -183,6 +183,7 @@ public class Model implements Cloneable {
     private Font lcdInfoFont;
     private int lcdDecimals;
     private Paint rangeOfMeasuredValuesPaint;
+    private String lcdFormat;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Initialization">
@@ -2693,6 +2694,22 @@ public class Model implements Cloneable {
         fireStateChanged();
     }
 
+    /**
+    * Returns lcd format
+    * @return lcd format
+    */
+    public String getLcdFormat() {
+        return lcdFormat;
+    }
+    
+    /**
+     * Sets the lcd format. When it is set it will be used instead of setLcdDecimals. See @link java.text.DecimalFormat.
+    */    
+    public void setLcdFormat(final String format) {
+        this.lcdFormat = format;
+        fireStateChanged();    
+    }        
+    
     /**
      * Returns true if the calculation method will try to calculate
      * nice values for min and max values of the scale.

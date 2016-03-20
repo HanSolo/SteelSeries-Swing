@@ -70,6 +70,10 @@ public interface Lcd {
     public int getLcdDecimals();
 
     public void setLcdDecimals(final int DECIMALS);
+    
+    public void setLcdFormat(final String format);
+    
+    public String getLcdFormat();        
 
     public String getLcdUnitString();
 
