@@ -499,9 +499,9 @@ public enum BackgroundImageFactory {
         // Create inner shadow on background shape
         final BufferedImage CLP;
         if (CUSTOM_BACKGROUND != null && BACKGROUND_COLOR == BackgroundColor.CUSTOM) {
-            CLP = Shadow.INSTANCE.createInnerShadow((java.awt.Shape) GAUGE_BACKGROUND, CUSTOM_BACKGROUND, 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, CUSTOM_BACKGROUND, 0, 0.65f, Color.BLACK, 20, 315);
         } else {
-            CLP = Shadow.INSTANCE.createInnerShadow((java.awt.Shape) GAUGE_BACKGROUND, gaugeBackgroundGradient, 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, gaugeBackgroundGradient, 0, 0.65f, Color.BLACK, 20, 315);
         }
         G2.drawImage(CLP, GAUGE_BACKGROUND.getBounds().x, GAUGE_BACKGROUND.getBounds().y, null);
 

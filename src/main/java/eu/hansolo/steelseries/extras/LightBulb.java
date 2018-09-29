@@ -42,7 +42,6 @@ import java.awt.LinearGradientPaint;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -55,14 +54,17 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 /**
  * @author Gerrit Grunwald <han.solo at muenster.de>
  */
 public class LightBulb extends JComponent {
-    public static final String STATE_PROPERTY = "state";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 498067895661840560L;
+	public static final String STATE_PROPERTY = "state";
     private boolean on;
     private float alpha;
     private int direction;
@@ -107,7 +109,7 @@ public class LightBulb extends JComponent {
         onImage = createImage(INNER_BOUNDS.width, INNER_BOUNDS.height, Transparency.TRANSLUCENT);
         bulbImage = createImage(INNER_BOUNDS.width, INNER_BOUNDS.height, Transparency.TRANSLUCENT);
         alpha = 1.0f;
-        direction = SwingUtilities.NORTH;
+        direction = SwingConstants.NORTH;
         glowColor = new Color(1.0f, 1.0f, 0.0f);
         horizontalAlignment = SwingConstants.CENTER;
 		verticalAlignment = SwingConstants.CENTER;
@@ -147,13 +149,13 @@ public class LightBulb extends JComponent {
 
         // Take direction into account
         switch (direction) {
-            case SwingUtilities.SOUTH:
+            case SwingConstants.SOUTH:
                 G2.rotate(Math.PI, CENTER.getX(), CENTER.getY());
                 break;
-            case SwingUtilities.EAST:
+            case SwingConstants.EAST:
                 G2.rotate(-Math.PI / 2, CENTER.getX(), CENTER.getY());
                 break;
-            case SwingUtilities.WEST:
+            case SwingConstants.WEST:
                 G2.rotate(Math.PI / 2, CENTER.getX(), CENTER.getY());
                 break;
         }
@@ -238,18 +240,18 @@ public class LightBulb extends JComponent {
      */
     public void setDirection(final int DIRECTION) {
         switch (DIRECTION) {
-            case SwingUtilities.SOUTH:
-                direction = SwingUtilities.SOUTH;
+            case SwingConstants.SOUTH:
+                direction = SwingConstants.SOUTH;
                 break;
-            case SwingUtilities.EAST:
-                direction = SwingUtilities.EAST;
+            case SwingConstants.EAST:
+                direction = SwingConstants.EAST;
                 break;
-            case SwingUtilities.WEST:
-                direction = SwingUtilities.WEST;
+            case SwingConstants.WEST:
+                direction = SwingConstants.WEST;
                 break;
-            case SwingUtilities.NORTH:
+            case SwingConstants.NORTH:
             default:
-                direction = SwingUtilities.NORTH;
+                direction = SwingConstants.NORTH;
                 break;
         }
         repaint(getInnerBounds());
@@ -533,7 +535,7 @@ public class LightBulb extends JComponent {
         G2.setPaint(new Color(0.8f, 0.8f, 0.8f, 1f));
         G2.setStroke(new BasicStroke((0.010101010101010102f * IMAGE_WIDTH), 0, 1));
         G2.draw(GLAS);
-        G2.drawImage(Shadow.INSTANCE.createInnerShadow((Shape) GLAS, GLAS_PAINT, 0, 0.35f, new Color(0, 0, 0, 50), (int) 10.0, 45), GLAS.getBounds().x, GLAS.getBounds().y, null);
+        G2.drawImage(Shadow.INSTANCE.createInnerShadow(GLAS, GLAS_PAINT, 0, 0.35f, new Color(0, 0, 0, 50), (int) 10.0, 45), GLAS.getBounds().x, GLAS.getBounds().y, null);
 
         G2.dispose();
         return IMAGE;

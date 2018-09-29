@@ -1353,7 +1353,7 @@ public enum SymbolImageFactory {
             if (clipImageSymbol != null) {
                 clipImageSymbol.flush();
             }
-            clipImageSymbol = SHADOW.createSoftClipImage((java.awt.Shape) SYMBOL, FILL_COLOR);
+            clipImageSymbol = SHADOW.createSoftClipImage(SYMBOL, FILL_COLOR);
             final double OFFSET = 0.12 * IMAGE_WIDTH;
             G2.translate(-OFFSET, -OFFSET);
             G2.drawImage(Shadow.INSTANCE.createDropShadow(clipImageSymbol, 0, 0.65f, (int) OFFSET, 315, GLOW_COLOR), SYMBOL.getBounds().x, SYMBOL.getBounds().y, null);

@@ -60,7 +60,11 @@ import javax.swing.Timer;
  * @author Gerrit Grunwald <han.solo at muenster.de>
  */
 public class TrafficLight2 extends JComponent implements ActionListener {
-    public static final String RED_PROPERTY = "red";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7303419647578270474L;
+	public static final String RED_PROPERTY = "red";
     public static final String YELLOW_PROPERTY = "yellow";
     public static final String GREEN_PROPERTY = "green";
     private boolean blink;

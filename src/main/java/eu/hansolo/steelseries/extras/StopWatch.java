@@ -37,7 +37,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.LinearGradientPaint;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
@@ -65,7 +64,11 @@ import javax.swing.border.Border;
  * @author Gerrit Grunwald <han.solo at muenster.de>
  */
 public class StopWatch extends AbstractRadial implements ActionListener {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3494063826300745254L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private static final double ANGLE_STEP = 6;
     private final Timer CLOCK_TIMER;
     private double minutePointerAngle = 0;
@@ -395,7 +398,8 @@ public class StopWatch extends AbstractRadial implements ActionListener {
         Line2D tick;
         int counter = 0;
         int numberCounter = 0;
-        int tickCounter = 0;
+        @SuppressWarnings("unused")
+		int tickCounter = 0;
 
         G2.setFont(STD_FONT);
 

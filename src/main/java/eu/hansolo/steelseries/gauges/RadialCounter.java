@@ -59,7 +59,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public final class RadialCounter extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5611895409903185654L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private boolean rotateTickmarks;
     private double oldValue;
     private double rotationAngle;

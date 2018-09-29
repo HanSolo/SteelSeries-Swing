@@ -70,7 +70,11 @@ import java.awt.image.BufferedImage;
 public final class DisplayMulti extends JComponent implements Lcd, ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Variable declaration">
 
-    private final Util UTIL = Util.INSTANCE;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5802621064921945352L;
+	private final Util UTIL = Util.INSTANCE;
     private LcdColor lcdColor = LcdColor.WHITE_LCD;
     private Paint customLcdBackground = Color.BLACK;
     private Color customLcdForeground = Color.WHITE;
@@ -392,7 +396,7 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
             timeline = new Timeline(this);
             timeline.addPropertyToInterpolate("lcdValue", this.lcdValue, LCD_VALUE);
             timeline.setEase(EASING);
-            timeline.setDuration((long) (2000));
+            timeline.setDuration((2000));
             timeline.play();
         }
     }

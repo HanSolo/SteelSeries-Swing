@@ -57,7 +57,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public class Horizon extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8225606951565049287L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private double roll;
     private double oldRoll;
     private double pitch;

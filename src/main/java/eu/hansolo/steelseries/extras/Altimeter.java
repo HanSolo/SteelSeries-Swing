@@ -59,7 +59,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public final class Altimeter extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2169493192647689327L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private double value100 = 0;
     private double oldValue = 0;
     private double value1000 = 0;
@@ -449,7 +453,8 @@ public final class Altimeter extends AbstractRadial {
         Point2D textPoint = null;
         Line2D tick;
         int counter = 0;
-        int tickCounter = 0;
+        @SuppressWarnings("unused")
+		int tickCounter = 0;
 
         G2.setFont(STD_FONT);
 

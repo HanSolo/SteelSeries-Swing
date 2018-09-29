@@ -59,7 +59,11 @@ import java.awt.image.BufferedImage;
  * @author Gerrit Grunwald <han.solo at muenster.de>
  */
 public class RadialBargraph extends AbstractRadialBargraph {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7405708327167542227L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private static final int BASE = 10;
     private double ledTrackStartAngle;
     private double ledTrackAngleExtend;

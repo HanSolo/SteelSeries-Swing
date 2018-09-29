@@ -57,7 +57,11 @@ import org.pushingpixels.trident.Timeline;
  * @author hansolo
  */
 public final class Radar extends AbstractRadial implements ActionListener {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7075962765164521870L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private final Poi MY_LOCATION = new Poi("Home", 0, 0);
     private double range = 100000;
     private static final int INITIAL_WIDTH = 200;
@@ -350,7 +354,7 @@ public final class Radar extends AbstractRadial implements ActionListener {
                     timeline = new Timeline(this);
                     timeline.addPropertyToInterpolate("rotationAngle", this.rotationAngle, 2 * Math.PI);
                     timeline.setEase(new org.pushingpixels.trident.ease.Linear());
-                    timeline.setDuration((long) (5000));
+                    timeline.setDuration((5000));
                     timeline.playLoop(Timeline.RepeatBehavior.LOOP);
                 } else if (timeline.getState() == Timeline.TimelineState.SUSPENDED) {
                     timeline.resume();

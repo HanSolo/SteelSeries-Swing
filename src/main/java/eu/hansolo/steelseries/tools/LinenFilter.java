@@ -128,7 +128,8 @@ public class LinenFilter implements BufferedImageOp {
         return destination;
     }
 
-    private int random(int x) {
+    @SuppressWarnings("unused")
+	private int random(int x) {
         x += (int) (255 * (2 * randomNumbers.nextFloat() - 1) * amount);
         if (x < 0) {
             x = 0;

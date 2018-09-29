@@ -76,7 +76,11 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
 {
     // <editor-fold defaultstate="collapsed" desc="Variable declaration">
 
-    private final Util UTIL = Util.INSTANCE;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8455433466775606694L;
+	private final Util UTIL = Util.INSTANCE;
     private LcdColor lcdColor = LcdColor.WHITE_LCD;
     private Paint customLcdBackground = Color.BLACK;
     private Color customLcdForeground = Color.WHITE;

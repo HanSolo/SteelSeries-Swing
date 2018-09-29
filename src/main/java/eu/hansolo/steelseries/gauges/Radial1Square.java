@@ -75,7 +75,11 @@ import java.util.Random;
  * @author hansolo
  */
 public final class Radial1Square extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4395918996569697529L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private static final int BASE = 10;
     private static final double TICKMARK_ROTATION_OFFSET = 0.5 * Math.PI;
     private final double ROTATION_OFFSET; // Offset for the pointer
@@ -453,7 +457,8 @@ public final class Radial1Square extends AbstractRadial {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Visualization">
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     protected void paintComponent(Graphics g) {
         if (!isInitialized()) {
             return;
@@ -714,7 +719,8 @@ public final class Radial1Square extends AbstractRadial {
      * the related int values are defined in javax.swing.SwingUtilities
      * @param ORIENTATION
      */
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     public void setOrientation(final Orientation ORIENTATION) {
         super.setOrientation(ORIENTATION);
 
@@ -982,7 +988,8 @@ public final class Radial1Square extends AbstractRadial {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Image related">
-    private BufferedImage create_FRAME_Image(final int WIDTH, BufferedImage image) {
+    @SuppressWarnings("incomplete-switch")
+	private BufferedImage create_FRAME_Image(final int WIDTH, BufferedImage image) {
         if (WIDTH <= 0) {
             return null;
         }
@@ -1733,9 +1740,9 @@ public final class Radial1Square extends AbstractRadial {
         // Create inner shadow on background shape
         final BufferedImage CLP;
         if (getCustomBackground() != null && getBackgroundColor() == BackgroundColor.CUSTOM) {
-            CLP = Shadow.INSTANCE.createInnerShadow((Shape) GAUGE_BACKGROUND, getCustomBackground(), 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, getCustomBackground(), 0, 0.65f, Color.BLACK, 20, 315);
         } else {
-            CLP = Shadow.INSTANCE.createInnerShadow((Shape) GAUGE_BACKGROUND, backgroundPaint, 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, backgroundPaint, 0, 0.65f, Color.BLACK, 20, 315);
         }
         G2.drawImage(CLP, GAUGE_BACKGROUND.getBounds().x, GAUGE_BACKGROUND.getBounds().y, null);
 
@@ -2292,7 +2299,8 @@ public final class Radial1Square extends AbstractRadial {
         return IMAGE;
     }
 
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     protected BufferedImage create_POINTER_SHADOW_Image(final int WIDTH, final PointerType POINTER_TYPE) {
         if (WIDTH <= 0) {
             return null;

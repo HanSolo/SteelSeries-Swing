@@ -57,7 +57,11 @@ import java.awt.image.BufferedImage;
  * @author hansolo
  */
 public class Linear extends AbstractLinear {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2589850252714738203L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private BufferedImage bImage;
     private BufferedImage fImage;
     private BufferedImage glowImageOff;
@@ -181,7 +185,8 @@ public class Linear extends AbstractLinear {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Initialization">
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     public final AbstractGauge init(final int WIDTH, final int HEIGHT) {
         if (WIDTH <= 1 || HEIGHT <= 1) {
             return this;

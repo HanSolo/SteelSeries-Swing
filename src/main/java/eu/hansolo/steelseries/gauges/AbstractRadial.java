@@ -92,7 +92,11 @@ import org.pushingpixels.trident.ease.TimelineEase;
 public abstract class AbstractRadial extends AbstractGauge implements Lcd {
     // <editor-fold defaultstate="collapsed" desc="Variable declarations">
 
-    protected static final float ANGLE_CONST = 1f / 360f;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4106484928504641859L;
+	protected static final float ANGLE_CONST = 1f / 360f;
     private final Rectangle INNER_BOUNDS;
     private final Rectangle GAUGE_BOUNDS;
     private final Rectangle FRAMELESS_BOUNDS;
@@ -1746,7 +1750,8 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
      * @param image
      * @return the post image that is used
      */
-    protected BufferedImage createPostsImage(final int WIDTH, BufferedImage image, final PostPosition... POSITIONS) {
+    @SuppressWarnings("incomplete-switch")
+	protected BufferedImage createPostsImage(final int WIDTH, BufferedImage image, final PostPosition... POSITIONS) {
         if (WIDTH <= 0) {
             return UTIL.createImage(1, 1, Transparency.TRANSLUCENT);
         }

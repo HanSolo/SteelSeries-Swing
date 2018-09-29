@@ -47,7 +47,12 @@ import java.awt.image.BufferedImage;
 public abstract class AbstractLinearBargraph extends AbstractLinear {
     // <editor-fold defaultstate="collapsed" desc="Constructor">
 
-    public AbstractLinearBargraph() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8257269719091841939L;
+
+	public AbstractLinearBargraph() {
         super();
     }
     // </editor-fold>
