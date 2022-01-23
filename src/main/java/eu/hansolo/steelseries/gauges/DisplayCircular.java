@@ -52,7 +52,11 @@ import java.awt.Transparency;
  * @author hansolo
  */
 public final class DisplayCircular extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2833036345137502627L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private BufferedImage bImage;
     private BufferedImage fImage;
     private BufferedImage lcdThresholdImage;

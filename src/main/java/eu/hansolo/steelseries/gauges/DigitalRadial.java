@@ -50,7 +50,11 @@ import java.awt.Transparency;
 
 
 public class DigitalRadial extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4850887803176761707L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private int noOfActiveLeds = 0;
     // One image to reduce memory consumption
     private BufferedImage bImage;

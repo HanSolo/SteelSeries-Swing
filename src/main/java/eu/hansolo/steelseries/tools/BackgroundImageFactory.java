@@ -428,7 +428,8 @@ public enum BackgroundImageFactory {
             INNER_FRAME_CORNER_RADIUS = IMAGE_WIDTH * 0.02857143;
         }
 
-        final RoundRectangle2D INNER_FRAME = new RoundRectangle2D.Double(FRAME_MAIN.getX() + 16, FRAME_MAIN.getY() + 16, FRAME_MAIN.getWidth() - 32, FRAME_MAIN.getHeight() - 32, INNER_FRAME_CORNER_RADIUS, INNER_FRAME_CORNER_RADIUS);
+        final int INNER_FRAME_INSET = 1;
+        final RoundRectangle2D INNER_FRAME = new RoundRectangle2D.Double(FRAME_MAIN.getX() + INNER_FRAME_INSET, FRAME_MAIN.getY() + INNER_FRAME_INSET, FRAME_MAIN.getWidth() - (2*INNER_FRAME_INSET), FRAME_MAIN.getHeight() - (2*INNER_FRAME_INSET), INNER_FRAME_CORNER_RADIUS, INNER_FRAME_CORNER_RADIUS);
 
         final double BACKGROUND_CORNER_RADIUS = INNER_FRAME_CORNER_RADIUS - 1;
 
@@ -498,9 +499,9 @@ public enum BackgroundImageFactory {
         // Create inner shadow on background shape
         final BufferedImage CLP;
         if (CUSTOM_BACKGROUND != null && BACKGROUND_COLOR == BackgroundColor.CUSTOM) {
-            CLP = Shadow.INSTANCE.createInnerShadow((java.awt.Shape) GAUGE_BACKGROUND, CUSTOM_BACKGROUND, 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, CUSTOM_BACKGROUND, 0, 0.65f, Color.BLACK, 20, 315);
         } else {
-            CLP = Shadow.INSTANCE.createInnerShadow((java.awt.Shape) GAUGE_BACKGROUND, gaugeBackgroundGradient, 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, gaugeBackgroundGradient, 0, 0.65f, Color.BLACK, 20, 315);
         }
         G2.drawImage(CLP, GAUGE_BACKGROUND.getBounds().x, GAUGE_BACKGROUND.getBounds().y, null);
 

@@ -72,7 +72,11 @@ import java.awt.image.BufferedImage;
  * @author hansolo
  */
 public abstract class AbstractLinear extends AbstractGauge implements Lcd, ActionListener {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6292341796715266376L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private final Rectangle INNER_BOUNDS;
     // Bar related
     private boolean startingFromZero;

@@ -65,7 +65,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public class WindDirection extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8463061401875274000L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private double visibleValue = 0;
     private double angleStep;
     //private Font font = new Font("Verdana", 0, 30);
@@ -621,7 +625,8 @@ public class WindDirection extends AbstractRadial {
         final int MAJOR_DIAMETER = (int) (0.03 * WIDTH);
 
         int counter = 0;
-        int tickCounter = 0;
+        @SuppressWarnings("unused")
+		int tickCounter = 0;
         float valueCounter = 90;
         boolean countUp = false;
         float valueStep = 1;

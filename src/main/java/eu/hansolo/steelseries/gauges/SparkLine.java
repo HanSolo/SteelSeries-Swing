@@ -69,7 +69,11 @@ import javax.swing.JComponent;
 public class SparkLine extends JComponent {
     // <editor-fold defaultstate="collapsed" desc="Variable declarations">
 
-    private static final Util UTIL = Util.INSTANCE;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1836163232024000149L;
+	private static final Util UTIL = Util.INSTANCE;
     private static final DecimalFormat DF = new DecimalFormat("0.00");
     private final Rectangle INNER_BOUNDS = new Rectangle(0, 0, 128, 48);
     private boolean recreateImages;
@@ -242,7 +246,7 @@ public class SparkLine extends JComponent {
         disabledShape = new java.awt.geom.RoundRectangle2D.Double(0, 0, WIDTH, HEIGHT, CORNER_RADIUS, CORNER_RADIUS);
 
         // Calculation and creation of sparkline itself
-        pixelResolution = INNER_BOUNDS.getWidth() / (double) timeFrame;
+        pixelResolution = INNER_BOUNDS.getWidth() / timeFrame;
         //offset = (int)(0.015 * WIDTH) < 4 ? 4 : (int)(0.015 * WIDTH);
         offset = (int) (0.06 * WIDTH) < 8 ? 8 : (int) (0.06 * WIDTH);
 
@@ -957,7 +961,7 @@ public class SparkLine extends JComponent {
         //offset = (double) HEIGHT * OFFSET_FACTOR;
 
         // Calculate the scaling in x- and y-direction
-        scaleY = rangeY / ((double) HEIGHT - (offset * 2));
+        scaleY = rangeY / (HEIGHT - (offset * 2));
 
         // Fill the pointlist with smoothing if possible
         pointList.clear();

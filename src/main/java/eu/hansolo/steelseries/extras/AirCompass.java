@@ -55,7 +55,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public class AirCompass extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2794091708418541786L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private boolean rotateTickmarks;
     private double value;
     private double rotationAngle;

@@ -57,7 +57,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public final class Level extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9204466966990487876L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private double visibleValue = 90;
     private int stepValue = 0;
     private boolean textOrientationFixed = false;
@@ -455,7 +459,8 @@ public final class Level extends AbstractRadial {
         Point2D textPoint = null;
         Line2D tick;
         int counter = 0;
-        int tickCounter = 0;
+        @SuppressWarnings("unused")
+		int tickCounter = 0;
         float valueCounter = 90;
         boolean countUp = false;
         float valueStep = 1;

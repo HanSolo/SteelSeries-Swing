@@ -65,7 +65,11 @@ import javax.swing.border.Border;
  * @author hansolo
  */
 public class Led extends JComponent implements ActionListener {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1929575828813210818L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private static final    Util                       UTIL  = Util.INSTANCE;
     private static final    Map<String, BufferedImage> CACHE = new HashMap<String, BufferedImage>();
     private final           Rectangle                  INNER_BOUNDS;

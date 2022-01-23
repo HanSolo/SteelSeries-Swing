@@ -64,7 +64,11 @@ import java.awt.image.BufferedImage;
  * @author hansolo
  */
 public final class Radial1Vertical extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3259430687103523798L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private static final int BASE = 10;
     private final Point2D CENTER;
     private final Point2D TRACK_OFFSET;
@@ -1326,7 +1330,8 @@ public final class Radial1Vertical extends AbstractRadial {
         return IMAGE;
     }
 
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     protected BufferedImage create_POINTER_SHADOW_Image(final int WIDTH, final PointerType POINTER_TYPE) {
         if (WIDTH <= 0) {
             return null;

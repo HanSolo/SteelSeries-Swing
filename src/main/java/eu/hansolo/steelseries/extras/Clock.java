@@ -59,7 +59,11 @@ import javax.swing.border.Border;
  * @author hansolo
  */
 public final class Clock extends AbstractRadial implements java.awt.event.ActionListener {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7303261945403732507L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private static final double ANGLE_STEP = 6;
     private final javax.swing.Timer CLOCK_TIMER;
     private boolean automatic = false;

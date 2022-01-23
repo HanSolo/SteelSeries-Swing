@@ -132,7 +132,7 @@ public final class ContourGradientPaint implements Paint {
 
         }
 
-        return (ArrayList<Color>) tmpColorLookup;
+        return tmpColorLookup;
     }
 
     @Override

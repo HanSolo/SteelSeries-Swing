@@ -52,7 +52,11 @@ import javax.swing.border.Border;
  * @author Gerrit Grunwald <han.solo at muenster.de>
  */
 public class Battery extends JComponent {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8292212485822349453L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private static final Util UTIL = Util.INSTANCE;
     private final java.awt.Rectangle INNER_BOUNDS;
     private int value = 0;

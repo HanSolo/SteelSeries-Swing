@@ -49,10 +49,15 @@ import java.awt.image.BufferedImage;
  * @author hansolo
  */
 public final class DisplayRectangular extends AbstractLinear {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2452192666622316837L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private BufferedImage frameImage;
     private BufferedImage backgroundImage;
-    private BufferedImage titleImage;
+    @SuppressWarnings("unused")
+	private BufferedImage titleImage;
     private BufferedImage lcdImage;
     private BufferedImage foregroundImage;
     private BufferedImage disabledImage;

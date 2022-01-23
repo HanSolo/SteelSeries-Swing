@@ -59,7 +59,11 @@ import java.util.HashMap;
  * @author hansolo
  */
 public class LinearBargraph extends AbstractLinearBargraph {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -399051655305026966L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private BufferedImage bImage;
     private BufferedImage fImage;
     private BufferedImage glowImageOff;
@@ -183,7 +187,8 @@ public class LinearBargraph extends AbstractLinearBargraph {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Initialization">
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     public final AbstractGauge init(final int WIDTH, final int HEIGHT) {
         if (WIDTH <= 1 || HEIGHT <= 1) {
             return this;

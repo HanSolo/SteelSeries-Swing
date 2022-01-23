@@ -51,7 +51,11 @@ import java.awt.image.BufferedImage;
 public abstract class AbstractRadialBargraph extends AbstractRadial {
     // <editor-fold defaultstate="collapsed" desc="Variable declarations">
 
-    private final float[] LED_FRACTIONS = {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4843455855935786704L;
+	private final float[] LED_FRACTIONS = {
         0.0f,
         1.0f
     };

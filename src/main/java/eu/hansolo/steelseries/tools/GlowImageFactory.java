@@ -33,7 +33,6 @@ import java.awt.LinearGradientPaint;
 import java.awt.Paint;
 import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
@@ -152,7 +151,7 @@ public enum GlowImageFactory {
             final Paint GLOWRING_ON_GRADIENT = new RadialGradientPaint(GLOWRING_ON_CENTER, (float)(0.4158878504672897 * IMAGE_WIDTH), GLOWRING_ON_FRACTIONS, GLOWRING_ON_COLORS);
             G2.setPaint(GLOWRING_ON_GRADIENT);
             final BufferedImage CLIP_IMAGE_GLOWRING_ON;
-            CLIP_IMAGE_GLOWRING_ON = Shadow.INSTANCE.createSoftClipImage((Shape) GLOWRING, GLOWRING_ON_GRADIENT);
+            CLIP_IMAGE_GLOWRING_ON = Shadow.INSTANCE.createSoftClipImage(GLOWRING, GLOWRING_ON_GRADIENT);
             G2.translate(-16, -16);
             G2.drawImage(Shadow.INSTANCE.createDropShadow(CLIP_IMAGE_GLOWRING_ON, 0, 1.0f, 15, 315, GLOW_COLOR), GLOWRING.getBounds().x + 1, GLOWRING.getBounds().y + 1, null);
             G2.translate(16, 16);

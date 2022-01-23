@@ -73,7 +73,11 @@ import java.util.Random;
  * @author hansolo
  */
 public final class Radial2Top extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5318053257887276848L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private static final int BASE = 10;
     private final double FREE_AREA_ANGLE = Math.toRadians(0); // area where no tickmarks will be painted
     private final double ROTATION_OFFSET = (1.5 * Math.PI) + (FREE_AREA_ANGLE / 2.0); // Offset for the pointer
@@ -572,7 +576,8 @@ public final class Radial2Top extends AbstractRadial {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Image related">
-    private BufferedImage create_FRAME_Image(final int WIDTH, BufferedImage image) {
+    @SuppressWarnings("incomplete-switch")
+	private BufferedImage create_FRAME_Image(final int WIDTH, BufferedImage image) {
         if (WIDTH <= 0) {
             return null;
         }
@@ -1308,9 +1313,9 @@ public final class Radial2Top extends AbstractRadial {
         // Create inner shadow on background shape
         final BufferedImage CLP;
         if (getCustomBackground() != null && getBackgroundColor() == BackgroundColor.CUSTOM) {
-            CLP = Shadow.INSTANCE.createInnerShadow((Shape) GAUGE_BACKGROUND, getCustomBackground(), 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, getCustomBackground(), 0, 0.65f, Color.BLACK, 20, 315);
         } else {
-            CLP = Shadow.INSTANCE.createInnerShadow((Shape) GAUGE_BACKGROUND, backgroundPaint, 0, 0.65f, Color.BLACK, 20, 315);
+            CLP = Shadow.INSTANCE.createInnerShadow(GAUGE_BACKGROUND, backgroundPaint, 0, 0.65f, Color.BLACK, 20, 315);
         }
         G2.drawImage(CLP, GAUGE_BACKGROUND.getBounds().x, GAUGE_BACKGROUND.getBounds().y, null);
 

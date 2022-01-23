@@ -54,7 +54,11 @@ import org.pushingpixels.trident.ease.Spline;
  * @author hansolo
  */
 public final class Compass extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declaration">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3787669310768264371L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declaration">
     private static final double MIN_VALUE = 0;
     private static final double MAX_VALUE = 360;
     private double value = 0;

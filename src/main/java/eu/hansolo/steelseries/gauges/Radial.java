@@ -62,7 +62,11 @@ import java.awt.image.BufferedImage;
  * @author Gerrit Grunwald <han.solo at muenster.de>
  */
 public class Radial extends AbstractRadial {
-    // <editor-fold defaultstate="collapsed" desc="Variable declarations">
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4392925441789853035L;
+	// <editor-fold defaultstate="collapsed" desc="Variable declarations">
     private static final int BASE = 10;
     private BufferedImage bImage;
     private BufferedImage fImage;
@@ -492,7 +496,7 @@ public class Radial extends AbstractRadial {
                 G2.setFont(getLcdInfoFont());
                 infoLayout = new TextLayout(getLcdInfoString(), G2.getFont(), RENDER_CONTEXT);
                 INFO_BOUNDARY.setFrame(infoLayout.getBounds());
-                G2.drawString(getLcdInfoString(), (float) LCD.getBounds().x + 5f, LCD.getBounds().y + (float) INFO_BOUNDARY.getHeight() + 5f);
+                G2.drawString(getLcdInfoString(), LCD.getBounds().x + 5f, LCD.getBounds().y + (float) INFO_BOUNDARY.getHeight() + 5f);
             }
             // Draw lcd threshold indicator
             if (getLcdNumberSystem() == NumberSystem.DEC && isLcdThresholdVisible() && getLcdValue() >= getLcdThreshold()) {

@@ -49,7 +49,11 @@ import java.awt.image.BufferedImage;
 public class Indicator extends AbstractRadial {
     // <editor-fold defaultstate="collapsed" desc="Variable declarations">
 
-    private static final SymbolImageFactory SYMBOL_FACTORY = SymbolImageFactory.INSTANCE;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6455092216341285078L;
+	private static final SymbolImageFactory SYMBOL_FACTORY = SymbolImageFactory.INSTANCE;
     // Images used to combine layers for background and foreground
     private BufferedImage bImage;
     private BufferedImage symbolOnImage;
