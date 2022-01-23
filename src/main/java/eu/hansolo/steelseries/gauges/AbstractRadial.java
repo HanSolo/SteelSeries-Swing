@@ -70,6 +70,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -122,6 +124,7 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
     // Alignment related
     private int horizontalAlignment;
     private int verticalAlignment;
+    private NumberFormat nf = null;
 
     // </editor-fold>
 
@@ -829,6 +832,30 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
         getModel().setLcdDecimals(DECIMALS);
         repaint(getInnerBounds());
     }
+    
+    @Override
+    public String getLcdFormat() {
+        return getModel().getLcdFormat();
+    }    
+    
+    @Override
+    public void setLcdFormat(String format) {
+        if (format == null) {
+            nf = null;
+        } else {
+            if (format.isEmpty() == true) {
+                nf = null;
+            } else {
+                if (getModel().getLcdFormat() != null && getModel().getLcdFormat().compareTo(format) == 0) {
+                    return;
+                } else {
+                    nf = new DecimalFormat(format,new java.text.DecimalFormatSymbols(java.util.Locale.US));
+                    getModel().setLcdFormat(format);
+                }
+            }
+        }
+        repaint(getInnerBounds());
+    }     
 
     @Override
     public LcdColor getLcdColor() {
@@ -885,25 +912,29 @@ public abstract class AbstractRadial extends AbstractGauge implements Lcd {
 
     @Override
     public String formatLcdValue(final double VALUE) {
-        final StringBuilder DEC_BUFFER = new StringBuilder(16);
-        DEC_BUFFER.append("0");
-
-        if (getModel().getLcdDecimals() > 0) {
-            DEC_BUFFER.append(".");
-        }
-
-        for (int i = 0; i < getModel().getLcdDecimals(); i++) {
+        if (nf != null) {
+            return nf.format(VALUE);        
+        } else {        
+            final StringBuilder DEC_BUFFER = new StringBuilder(16);
             DEC_BUFFER.append("0");
+
+            if (getModel().getLcdDecimals() > 0) {
+                DEC_BUFFER.append(".");
+            }
+
+            for (int i = 0; i < getModel().getLcdDecimals(); i++) {
+                DEC_BUFFER.append("0");
+            }
+
+            if (getModel().isLcdScientificFormatEnabled()) {
+                DEC_BUFFER.append("E0");
+            }
+
+            DEC_BUFFER.trimToSize();
+            final java.text.DecimalFormat DEC_FORMAT = new java.text.DecimalFormat(DEC_BUFFER.toString(), new java.text.DecimalFormatSymbols(java.util.Locale.US));
+
+            return DEC_FORMAT.format(VALUE);
         }
-
-        if (getModel().isLcdScientificFormatEnabled()) {
-            DEC_BUFFER.append("E0");
-        }
-
-        DEC_BUFFER.trimToSize();
-        final java.text.DecimalFormat DEC_FORMAT = new java.text.DecimalFormat(DEC_BUFFER.toString(), new java.text.DecimalFormatSymbols(java.util.Locale.US));
-
-        return DEC_FORMAT.format(VALUE);
     }
 
     @Override

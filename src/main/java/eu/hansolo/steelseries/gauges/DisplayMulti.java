@@ -61,6 +61,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 
 /**
@@ -119,6 +121,8 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
     private Color glowColor;
     private boolean glowing;
     private BufferedImage glowImageOn;
+    private NumberFormat nf = null;
+    private String lcdFormat = null;
     private final transient ComponentListener COMPONENT_LISTENER = new ComponentAdapter() {
 
         @Override
@@ -461,6 +465,30 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
     }
 
     @Override
+    public String getLcdFormat() {
+        return lcdFormat;
+    }    
+    
+    @Override
+    public void setLcdFormat(String format) {
+        if (format == null) {
+            nf = null;
+        } else {
+            if (format.isEmpty() == true) {
+                nf = null;
+            } else {
+                if (lcdFormat != null && lcdFormat.compareTo(format) == 0) {
+                    return;
+                } else {
+                    nf = new DecimalFormat(format,new java.text.DecimalFormatSymbols(java.util.Locale.US));
+                    this.lcdFormat = format;
+                }
+            }
+        }
+        repaint(getInnerBounds());
+    }         
+    
+    @Override
     public String getLcdUnitString() {
         return this.lcdUnitString;
     }
@@ -604,25 +632,29 @@ public final class DisplayMulti extends JComponent implements Lcd, ActionListene
 
     @Override
     public String formatLcdValue(final double VALUE) {
-        final StringBuilder DEC_BUFFER = new StringBuilder(16);
-        DEC_BUFFER.append("0");
-
-        if (this.lcdDecimals > 0) {
-            DEC_BUFFER.append(".");
-        }
-
-        for (int i = 0; i < this.lcdDecimals; i++) {
+        if (nf != null) {
+            return nf.format(VALUE);        
+        } else {                 
+            final StringBuilder DEC_BUFFER = new StringBuilder(16);
             DEC_BUFFER.append("0");
+
+            if (this.lcdDecimals > 0) {
+                DEC_BUFFER.append(".");
+            }
+
+            for (int i = 0; i < this.lcdDecimals; i++) {
+                DEC_BUFFER.append("0");
+            }
+
+            if (lcdScientificFormat) {
+                DEC_BUFFER.append("E0");
+            }
+            DEC_BUFFER.trimToSize();
+
+            final java.text.DecimalFormat DEC_FORMAT = new java.text.DecimalFormat(DEC_BUFFER.toString(), new java.text.DecimalFormatSymbols(java.util.Locale.US));
+
+            return DEC_FORMAT.format(VALUE);
         }
-
-        if (lcdScientificFormat) {
-            DEC_BUFFER.append("E0");
-        }
-        DEC_BUFFER.trimToSize();
-
-        final java.text.DecimalFormat DEC_FORMAT = new java.text.DecimalFormat(DEC_BUFFER.toString(), new java.text.DecimalFormatSymbols(java.util.Locale.US));
-
-        return DEC_FORMAT.format(VALUE);
     }
 
     @Override
