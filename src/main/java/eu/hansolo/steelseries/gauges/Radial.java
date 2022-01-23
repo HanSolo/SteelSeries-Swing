@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Gerrit Grunwald
+ * Copyright (c) 2012, Gerrit Grunwald, Klaus Rheinwald
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,7 @@ import java.awt.image.BufferedImage;
 /**
  *
  * @author Gerrit Grunwald <han.solo at muenster.de>
+ * @author Klaus Rheinwald <klaus at rheinwald.info>
  */
 public class Radial extends AbstractRadial {
     // <editor-fold defaultstate="collapsed" desc="Variable declarations">
@@ -479,7 +480,7 @@ public class Radial extends AbstractRadial {
                 default:
                     int digitalFontNo_1Offset = 0;
                     if (isDigitalFont() && Double.toString(getLcdValue()).startsWith("1")) {
-                        digitalFontNo_1Offset = (int) (LCD.getHeight() * 0.2166666667);
+                        digitalFontNo_1Offset = (int) (LCD.getHeight() * 0.24);
                     }
                     valueLayout = new TextLayout(formatLcdValue(getLcdValue()), G2.getFont(), RENDER_CONTEXT);
                     VALUE_BOUNDARY.setFrame(valueLayout.getBounds());

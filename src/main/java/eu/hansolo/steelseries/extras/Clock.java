@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Gerrit Grunwald
+ * Copyright (c) 2012, Gerrit Grunwald, Klaus Rheinwald
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,8 @@ import javax.swing.border.Border;
 
 /**
  *
- * @author hansolo
+ * @author Gerrit Grunwald <han.solo at muenster.de>
+ * @author Klaus Rheinwald <klaus at rheinwald.info>
  */
 public final class Clock extends AbstractRadial implements java.awt.event.ActionListener {
     // <editor-fold defaultstate="collapsed" desc="Variable declaration">
@@ -1076,6 +1077,8 @@ public final class Clock extends AbstractRadial implements java.awt.event.Action
         calcInnerBounds();
         init(getGaugeBounds().width, getGaugeBounds().height);
         setInitialized(true);
+        invalidate();
+        repaint();
     }
 
     @Override

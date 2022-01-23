@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Gerrit Grunwald
+ * Copyright (c) 2012, Gerrit Grunwald, Klaus Rheinwald
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,8 @@ import org.pushingpixels.trident.ease.Spline;
 
 /**
  *
- * @author hansolo
+ * @author Gerrit Grunwald <han.solo at muenster.de>
+ * @author Klaus Rheinwald <klaus at rheinwald.info>
  */
 public final class Altimeter extends AbstractRadial {
     // <editor-fold defaultstate="collapsed" desc="Variable declaration">
@@ -251,27 +252,13 @@ public final class Altimeter extends AbstractRadial {
                 unitStringWidth = 0;
             }
             G2.setFont(getLcdValueFont());
-            switch (getModel().getNumberSystem()) {
-                case HEX:
-                    valueLayout = new TextLayout(Integer.toHexString((int) getLcdValue()).toUpperCase(), G2.getFont(), RENDER_CONTEXT);
-                    VALUE_BOUNDARY.setFrame(valueLayout.getBounds());
-                    G2.drawString(Integer.toHexString((int) getLcdValue()).toUpperCase(), (float) (LCD.getX() + (LCD.getWidth() - unitStringWidth - VALUE_BOUNDARY.getWidth()) - LCD.getWidth() * 0.09), (float) (LCD.getY() + LCD.getHeight() * 0.76));
-                    break;
-
-                case OCT:
-                    valueLayout = new TextLayout(Integer.toOctalString((int) getLcdValue()), G2.getFont(), RENDER_CONTEXT);
-                    VALUE_BOUNDARY.setFrame(valueLayout.getBounds());
-                    G2.drawString(Integer.toOctalString((int) getLcdValue()), (float) (LCD.getX() + (LCD.getWidth() - unitStringWidth - VALUE_BOUNDARY.getWidth()) - LCD.getWidth() * 0.09), (float) (LCD.getY() + LCD.getHeight() * 0.76));
-                    break;
-
-                case DEC:
-
-                default:
-                    valueLayout = new TextLayout(formatLcdValue(getLcdValue()), G2.getFont(), RENDER_CONTEXT);
-                    VALUE_BOUNDARY.setFrame(valueLayout.getBounds());
-                    G2.drawString(formatLcdValue(getLcdValue()), (float) (LCD.getX() + (LCD.getWidth() - unitStringWidth - VALUE_BOUNDARY.getWidth()) - LCD.getWidth() * 0.09), (float) (LCD.getY() + LCD.getHeight() * 0.76));
-                    break;
+            int digitalFontNo_1Offset = 0;
+            if (isDigitalFont() && formatLcdValue(getLcdValue()).startsWith("1")) {
+                digitalFontNo_1Offset = (int) (LCD.getHeight() * 0.24);
             }
+            valueLayout = new TextLayout(formatLcdValue(getLcdValue()), G2.getFont(), RENDER_CONTEXT);
+            VALUE_BOUNDARY.setFrame(valueLayout.getBounds());
+            G2.drawString(formatLcdValue(getLcdValue()), (float) (LCD.getX() + (LCD.getWidth() - unitStringWidth - VALUE_BOUNDARY.getWidth()) - LCD.getWidth() * 0.09) - digitalFontNo_1Offset, (float) (LCD.getY() + LCD.getHeight() * 0.76));
             // Draw lcd info string
             if (!getLcdInfoString().isEmpty()) {
                 G2.setFont(getLcdInfoFont());
