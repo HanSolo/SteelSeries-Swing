@@ -375,7 +375,11 @@ public final class DisplaySingle extends JComponent implements Lcd, ActionListen
         final int INSET = (int) (qualityOverlay.getHeight() * 0.0909090909);
         overlayInsets.set(INSET, INSET, INSET, INSET);
         qualityOverlayLookup = new GradientWrapper(new Point2D.Double(overlayInsets.left, 0), new Point2D.Double(lcdImage.getMinX() + lcdImage.getWidth() - overlayInsets.right, 0), qualityOverlayFractions, qualityOverlayColors);
-        qualityOverlayGradient = new LinearGradientPaint(new Point2D.Double(0, overlayInsets.top), new Point2D.Double(0, HEIGHT - overlayInsets.bottom), new float[]{0.0f, 0.5f, 1.0f}, overlayColors);
+        if (Util.INSTANCE.pointsEquals(0,  overlayInsets.top, 0, HEIGHT - overlayInsets.bottom)) {
+            qualityOverlayGradient = new LinearGradientPaint(new Point2D.Double(0, overlayInsets.top), new Point2D.Double(0, HEIGHT - overlayInsets.bottom + 1), new float[]{0.0f, 0.5f, 1.0f}, overlayColors);
+        } else {
+            qualityOverlayGradient = new LinearGradientPaint(new Point2D.Double(0, overlayInsets.top), new Point2D.Double(0, HEIGHT - overlayInsets.bottom), new float[]{0.0f, 0.5f, 1.0f}, overlayColors);
+        }
         qualityOverlay.setRoundRect(overlayInsets.left, overlayInsets.top, (INNER_BOUNDS.width * overlayFactor) - overlayInsets.left - overlayInsets.right, INNER_BOUNDS.height - overlayInsets.top - overlayInsets.bottom, overlayCornerRadius, overlayCornerRadius);
 
         // Prepare bargraph
